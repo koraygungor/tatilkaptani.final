@@ -67,6 +67,7 @@ nav a:hover {
 #loggedInUser span {
     margin-right: 10px;
     font-weight: bold;
+    color: #e0f2f1; /* Kullanıcı adı rengi */
 }
 
 #loggedInUser button {
@@ -89,7 +90,7 @@ main {
 }
 
 .hero-section {
-    background-color: rgba(255, 255, 255, 0.7); /* Beyaz, şeffaf */
+    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
     padding: 3rem 4rem;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -116,7 +117,7 @@ main {
 
 /* Sohbet Kapsayıcı Stilleri */
 .chat-container {
-    background-color: rgba(255, 255, 255, 0.85); /* Beyaz, daha az şeffaf */
+    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -124,27 +125,27 @@ main {
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    max-height: 70vh;
+    height: calc(100vh - 250px); /* Ekran yüksekliğine göre ayarlandı, footer/header için boşluk */
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
-    opacity: 0; /* Başlangıçta gizli */
-    transform: translateY(20px);
+    /* opacity: 0; */ /* Başlangıçta gizli tutmaya gerek yok, aktif class ile yönetilecek */
+    /* transform: translateY(20px); */
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-.chat-container.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* .chat-container.visible { /* Aktif class showSection ile yönetiliyor */
+/* opacity: 1; */
+/* transform: translateY(0); */
+/* } */
 
 .chat-messages {
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Sohbet kutusu içinde kaydırma çubuğu */
     border: 1px solid #e0e0e0;
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
-    background-color: #fafafa;
+    background-color: rgba(250, 250, 250, 0.7); /* Mesaj alanı arka planı şeffaflığı */
 }
 
 .message {
@@ -163,7 +164,7 @@ main {
 }
 
 .message span {
-    background-color: #e0f2f7;
+    background-color: rgba(224, 242, 247, 0.7); /* Mesaj balonu şeffaflığı */
     padding: 8px 12px;
     border-radius: 15px;
     display: inline-block;
@@ -172,12 +173,16 @@ main {
 }
 
 .message.user span {
-    background-color: #d1e7fd;
+    background-color: rgba(209, 231, 253, 0.7); /* Kullanıcı mesaj balonu şeffaflığı */
 }
 
 .chat-input {
     display: flex;
     gap: 10px;
+    margin-top: auto; /* Input alanını alta sabitler */
+    padding-top: 10px; /* Üstten boşluk */
+    background-color: rgba(255, 255, 255, 0.5); /* Şeffaf arka plan */
+    border-top: 1px solid rgba(204, 204, 204, 0.5); /* Üst kenarlık */
 }
 
 .chat-input input[type="text"] {
@@ -188,6 +193,7 @@ main {
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s ease;
+    background-color: rgba(249, 253, 249, 0.7); /* Input arka planı şeffaflığı */
 }
 
 .chat-input input[type="text"]:focus {
@@ -219,19 +225,19 @@ footer {
 }
 
 /* Reklam Alanı Stilleri */
-.ad-area {
-    position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    z-index: 1000;
-}
+/* .ad-area { /* Eski sabit reklam alanı stilini kaldır */
+/* position: fixed; */
+/* right: 20px; */
+/* top: 50%; */
+/* transform: translateY(-50%); */
+/* display: flex; */
+/* flex-direction: column; */
+/* gap: 15px; */
+/* z-index: 1000; */
+/* } */
 
-.ad-item {
-    background-color: rgba(255, 255, 255, 0.7);
+.ad-item { /* Bu stilin kullanımını kontrol et, public/index.js'deki loadAds ile daha az kullanılabilir */
+    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -270,7 +276,7 @@ footer {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: rgba(254, 254, 254, 0.8); /* Modal arka planı daha şeffaf */
     margin: auto;
     padding: 30px;
     border-radius: 10px;
@@ -400,7 +406,7 @@ footer {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: rgba(249, 249, 249, 0.4); /* Şeffaflığı artırdık */
+    background-color: rgba(249, 249, 249, 0.2); /* Daha şeffaf */
     margin: 20px; /* Kenarlardan boşluk */
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -464,7 +470,7 @@ footer {
     overflow-y: auto; /* İçerik kaydırılabilir olsun */
     display: none; /* Varsayılan olarak gizli */
     flex-direction: column;
-    background-color: rgba(249, 249, 249, 0.4); /* İçerik bölümünü de şeffaf yaptık */
+    background-color: rgba(249, 249, 249, 0.2); /* İçerik bölümünü de daha şeffaf yaptık */
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
@@ -494,7 +500,7 @@ input[type="file"] {
     border-radius: 30px;
     outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #f9fdf9;
+    background-color: rgba(249, 253, 249, 0.7); /* Input arka planı şeffaflığı */
 }
 
 input[type="text"]:focus,
@@ -531,7 +537,7 @@ button.send-btn:active {
 /* Özellik Bölümleri ve Plan Çıktısı */
 .feature-section {
     padding: 20px;
-    background-color: rgba(224, 242, 241, 0.5);
+    background-color: rgba(224, 242, 241, 0.3); /* Daha şeffaf */
     border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -540,7 +546,7 @@ button.send-btn:active {
 .feature-section h3 {
     color: #004d40;
     margin-top: 0;
-    border-bottom: 1px solid #c8e6c9;
+    border-bottom: 1px solid rgba(200, 230, 201, 0.5); /* Daha şeffaf kenarlık */
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
@@ -581,16 +587,18 @@ button.send-btn:active {
     cursor: pointer;
     margin-right: 10px;
     margin-bottom: 10px;
+    opacity: 0.8; /* Butonların şeffaflığı */
 }
 
 .feature-form .budget-options button.selected {
     background-color: #004d40;
-    border: 2px solid #e0f2f1;
+    border: 2px solid rgba(224, 242, 241, 0.5); /* Daha şeffaf kenarlık */
+    opacity: 1;
 }
 
 .plan-output {
-    background-color: rgba(240, 253, 252, 0.5);
-    border: 1px dashed #004d40;
+    background-color: rgba(240, 253, 252, 0.3); /* Daha şeffaf */
+    border: 1px dashed rgba(0, 77, 64, 0.5); /* Daha şeffaf kenarlık */
     padding: 20px;
     border-radius: 10px;
     margin-top: 20px;
@@ -639,36 +647,6 @@ button.send-btn:active {
     flex-basis: calc(50% - 5px);
 } /* Son Kullanma Tarihi, CVV */
 
-/* Palmiye Kaptan Avatarı */
-#avatar {
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    width: 90px;
-    height: 90px;
-    background-image: url('img/avatar.jpg'); /* DOSYA YOLU VE UZANTISI BURADA */
-    background-size: cover;
-    background-position: center;
-    border-radius: 50%;
-    border: 4px solid #004d40;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-    z-index: 1000;
-    animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.03);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
 /* Sağ Reklam/Yönetici Alanı */
 .right-sidebar {
     width: 180px;
@@ -677,7 +655,7 @@ button.send-btn:active {
     flex-direction: column;
     gap: 20px;
     z-index: 90;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
     box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -687,8 +665,8 @@ button.send-btn:active {
 .ad-area-dynamic {
     width: 90%;
     height: 180px;
-    background-color: #f0fdfc;
-    border: 1px solid #b2dfdb;
+    background-color: rgba(240, 253, 252, 0.2); /* Çok daha şeffaf */
+    border: 1px solid rgba(178, 223, 219, 0.3); /* Çok daha şeffaf kenarlık */
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -722,8 +700,8 @@ button.send-btn:active {
 .admin-ad-message {
     width: 90%;
     padding: 15px;
-    background-color: rgba(224, 242, 241, 0.5);
-    border: 1px dashed #00796b;
+    background-color: rgba(224, 242, 241, 0.3); /* Çok daha şeffaf */
+    border: 1px dashed rgba(0, 121, 107, 0.3); /* Çok daha şeffaf kenarlık */
     border-radius: 8px;
     text-align: center;
     font-size: 1.0em;
@@ -806,12 +784,8 @@ button.send-btn:active {
         font-size: 0.8em;
     }
 
-    #avatar {
-        width: 60px;
-        height: 60px;
-        top: 10px;
-        right: 10px;
-    }
+    /* Avatar kaldırıldığı için bu bölüm de kaldırıldı */
+    /* #avatar { width: 0; height: 0; display: none; } */
 
     .right-sidebar {
         display: none;

@@ -4,14 +4,16 @@ admin.initializeApp();
 
 // OpenAI/Google Gemini API anahtarları ortam değişkenlerinden okunur.
 // Bu anahtarları Firebase config set komutuyla ayarlamanız gerekecek:
-// firebase functions:config:set openai.key="YOUR_OPENAI_API_KEY" google.gemini_key="YOUR_GEMINI_API_KEY"
+// firebase functions:config:set openai.key="YOUR_OPENAI_API_KEY" google.gemini_key="YOUR_GOOGLE_GEMINI_API_KEY"
 const openAiApiKey = functions.config().openai?.key;
 const googleGeminiApiKey = functions.config().google?.gemini_key;
-
+    
 const axios = require('axios'); // API çağrıları için
 
 exports.callOpenRouterAI = functions.https.onCall(async (data, context) => {
+    // Güvenlik ve yetkilendirme kontrolleri burada yapılır.
     if (!context.auth) {
+        console.error("Cloud Function 'callOpenRouterAI': Kullanıcı kimliği doğrulanmadı.");
         throw new functions.https.HttpsError('unauthenticated', 'Kullanıcı kimliği doğrulanmadı. Lütfen giriş yapın.');
     }
 
@@ -21,7 +23,7 @@ exports.callOpenRouterAI = functions.https.onCall(async (data, context) => {
 
     if (!openAiApiKey) {
         console.error("OpenAI API anahtarı Firebase Functions ortam değişkenlerinde yapılandırılmamış.");
-        throw new functions.https.HttpsError('internal', 'AI API anahtarı yapılandırılmamış.');
+        throw new functions.https.HttpsError('internal', 'AI API anahtarı yapılandırılmamış. Lütfen Firebase Functions ortam değişkenlerini kontrol edin.');
     }
 
     try {
@@ -47,19 +49,24 @@ exports.callOpenRouterAI = functions.https.onCall(async (data, context) => {
         return { reply: response.data.choices[0].message.content };
     } catch (error) {
         console.error("OpenRouter AI çağrılırken hata:", error.response?.data?.message || error.message);
-        throw new functions.https.HttpsError('internal', `AI API hatası: ${error.response?.data?.message || error.message}`);
+        let errorMessage = `AI iletişim hatası: ${error.response?.data?.message || error.message}`;
+        if (error.response && error.response.status) {
+            errorMessage = `AI hizmetinden hata kodu ${error.response.status}: ${error.response.statusText}. Detay: ${error.response.data?.message || 'Bilinmeyen Hata'}`;
+        }
+        throw new functions.https.HttpsError('internal', errorMessage);
     }
 });
 
 exports.callImageGenerationAI = functions.https.onCall(async (data, context) => {
     if (!context.auth) {
+        console.error("Cloud Function 'callImageGenerationAI': Kullanıcı kimliği doğrulanmadı.");
         throw new functions.https.HttpsError('unauthenticated', 'Kullanıcı kimliği doğrulanmadı.');
     }
     const promptText = data.promptText;
 
     if (!googleGeminiApiKey) {
         console.error("Google Gemini API anahtarı Firebase Functions ortam değişkenlerinde yapılandırılmamış.");
-        throw new functions.https.HttpsError('internal', 'Google Gemini API anahtarı yapılandırılmamış.');
+        throw new functions.https.HttpsError('internal', 'Google Gemini API anahtarı yapılandırılmamış. Lütfen Firebase Functions ortam değişkenlerini kontrol edin.');
     }
 
     try {
@@ -70,12 +77,17 @@ exports.callImageGenerationAI = functions.https.onCall(async (data, context) => 
 
     } catch (error) {
         console.error("Google Gemini Image Generation çağrılırken hata:", error.response?.data?.message || error.message);
-        throw new functions.https.HttpsError('internal', `Görsel API hatası: ${error.response?.data?.message || error.message}`);
+        let errorMessage = `Görsel AI hatası: ${error.response?.data?.message || error.message}`;
+        if (error.response && error.response.status) {
+            errorMessage = `Görsel AI hizmetinden hata kodu ${error.response.status}: ${error.response.statusText}. Detay: ${error.response.data?.message || 'Bilinmeyen Hata'}`;
+        }
+        throw new functions.https.HttpsError('internal', errorMessage);
     }
 });
 
 exports.getAdminMessage = functions.https.onCall(async (data, context) => {
     try {
+        // Firestore'a okunabilirlik kuralları olduğundan emin olun
         const doc = await firestore.collection('public').doc('adminMessage').get();
         return { message: doc.exists ? doc.data().text : "Henüz yönetici mesajı yok." };
     } catch (error) {
@@ -85,6 +97,8 @@ exports.getAdminMessage = functions.https.onCall(async (data, context) => {
 });
 
 exports.updateAdminMessage = functions.https.onCall(async (data, context) => {
+    // Buraya admin yetkilendirme kontrolü eklenmeli.
+    // Örn: if (!context.auth || !context.auth.token.admin) { ... }
     const message = data.message;
     if (!message) {
         throw new functions.https.HttpsError('invalid-argument', 'Mesaj boş olamaz.');
