@@ -5,7 +5,7 @@ admin.initializeApp();
 // OpenAI/Google Gemini API anahtarları ortam değişkenlerinden okunur.
 // Bu anahtarları Firebase config set komutuyla ayarlamanız gerekecek:
 // firebase functions:config:set openai.key="YOUR_OPENAI_API_KEY" google.gemini_key="YOUR_GOOGLE_GEMINI_API_KEY"
-const openAiApiKey = functions.config().openai?.key;
+const openAiApiKey = functions.config().openrouter?.key; // openrouter.key olarak düzeltildi
 const googleGeminiApiKey = functions.config().google?.gemini_key;
     
 const axios = require('axios'); // API çağrıları için
@@ -21,17 +21,28 @@ exports.callOpenRouterAI = functions.https.onCall(async (data, context) => {
     const model = data.model || "openai/gpt-3.5-turbo";
     const chatHistory = data.chatHistory || [];
 
+    // openAiApiKey yerine openrouter.key olarak düzeltildi
+    // API anahtarı kontrolü buraya eklendi/düzeltildi
     if (!openAiApiKey) {
-        console.error("OpenAI API anahtarı Firebase Functions ortam değişkenlerinde yapılandırılmamış.");
+        console.error("OpenRouter API anahtarı Firebase Functions ortam değişkenlerinde yapılandırılmamış.");
+        // Hata fırlatma satırı düzeltildi
         throw new functions.https.HttpsError('internal', 'AI API anahtarı yapılandırılmamış. Lütfen Firebase Functions ortam değişkenlerini kontrol edin.');
     }
 
     try {
         const messages = [
-            { role: "system", content: "You are a helpful travel assistant called 'Palmiye Kaptan'." },
+            // Eğer `prompt` boşsa ve sadece `chatHistory` gönderiliyorsa, ilk eleman olarak sistem mesajını ekle
+            // Aksi takdirde, sistem mesajını sadece chat geçmişi boşsa ekle
+            ...(chatHistory.length === 0 && prompt !== null ? [{ role: "system", content: "You are a helpful travel assistant called 'Palmiye Kaptan'." }] : []),
             ...chatHistory,
-            { role: "user", content: prompt }
+            // Eğer prompt null değilse veya boş değilse, bir kullanıcı mesajı olarak ekle
+            ...(prompt !== null ? [{ role: "user", content: prompt }] : []),
         ];
+
+        // API'ye boş mesaj dizisi göndermemek için kontrol
+        if (messages.length === 0) {
+            throw new functions.https.HttpsError('invalid-argument', 'AI için mesaj sağlanmadı.');
+        }
 
         const response = await axios.post(
             `https://openrouter.ai/api/v1/chat/completions`,
@@ -70,28 +81,34 @@ exports.callImageGenerationAI = functions.https.onCall(async (data, context) => 
     }
 
     try {
-        // Gemini API çağrısını buraya ekleyin. Bu bir yer tutucudur.
-        // Google Gemini Vision API'sinin doğru entegrasyonu için kendi API çağrı kodunuzu yazmalısınız.
-        // Örnek bir API çağrısı aşağıdaki gibi olabilir (buradaki URL ve yapılandırma sadece bir örnektir, Gemini dökümanlarına bakın):
-        /*
-        const response = await axios.post(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${googleGeminiApiKey}`,
-            {
-                contents: [{
-                    parts: [{ text: promptText }]
-                }]
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        // Gerçek API yanıtından görsel URL'sini ayıklamanız gerekecek
-        return { imageUrl: response.data.candidates[0].content.parts[0].text };
-        */
-        // Şu an için sabit bir placeholder dönüyorum.
-        return { imageUrl: `https://placehold.co/600x400?text=${encodeURIComponent(promptText)}` };
+        // BURASI ÇOK ÖNEMLİ! Bu kısım hala bir yer tutucudur.
+        // Google Gemini API'sinin gerçek görsel oluşturma (Vision) özelliğini burada entegre etmelisiniz.
+        // Genellikle Gemini, görseli Base64 formatında döndürür.
+        // Eğer Base64 dönerse, bu veriyi Firebase Storage'a yükleyip ardından bir URL döndürmeniz gerekir.
+        // Şimdilik, sadece bir placeholder (geçici) URL dönüyorum.
+        
+        // Örnek: Eğer Google Gemini API'sini kullanmak için @google/generative-ai paketini yüklediyseniz:
+        // const { GoogleGenerativeAI } = require('@google/generative-ai');
+        // const genAI = new GoogleGenerativeAI(googleGeminiApiKey);
+        // const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" }); // VEYA uygun görsel modeli
+
+        // const result = await model.generateContent([promptText]);
+        // const response = result.response;
+        // const imageBase64 = response.candidates[0].content.parts[0].inlineData.data; // Örnek Base64 yolu
+
+        // const bucket = admin.storage().bucket();
+        // const fileName = `generated_images/${Date.now()}_${context.auth.uid}.png`; // Kullanıcı ID'si ve zaman ile benzersiz isim
+        // const fileRef = bucket.file(fileName);
+        // await fileRef.save(Buffer.from(imageBase64, 'base64'), {
+        //     metadata: { contentType: 'image/png' }, // veya uygun tür
+        //     resumable: false
+        // });
+        // const imageUrl = (await fileRef.getSignedUrl({ action: 'read', expires: '03-09-2491' }))[0];
+
+        // return { imageUrl: imageUrl };
+
+        // Şimdilik sadece test amaçlı bir placeholder URL dönüyoruz:
+        return { imageUrl: `https://placehold.co/600x400?text=${encodeURIComponent(promptText.substring(0, 30))}` };
 
     } catch (error) {
         console.error("Google Gemini Image Generation çağrılırken hata:", error.response?.data?.message || error.message);
@@ -105,9 +122,11 @@ exports.callImageGenerationAI = functions.https.onCall(async (data, context) => 
 
 exports.getAdminMessage = functions.https.onCall(async (data, context) => {
     try {
-        // Firestore'a okunabilirlik kuralları olduğundan emin olun
-        const doc = await admin.firestore().collection('public').doc('adminMessage').get(); // Düzeltme burada yapıldı
-        return { message: doc.exists ? doc.data().text : "Henüz yönetici mesajı yok." };
+        // Güvenlik: Bu veriyi herkese açık Firestore'dan okuyacağımız için,
+        // Firestore Güvenlik Kuralları'nda (Firestore Security Rules)
+        // public/data/admin/message dokümanına okuma izni verdiğinizden emin olun.
+        const doc = await admin.firestore().collection('public').doc('data').collection('admin').doc("message").get();
+        return { message: doc.exists ? doc.data().message : "Henüz yönetici mesajı yok." };
     } catch (error) {
         console.error("Yönetici mesajı alınırken hata:", error);
         throw new functions.https.HttpsError('internal', 'Yönetici mesajı alınamadı.');
@@ -115,19 +134,20 @@ exports.getAdminMessage = functions.https.onCall(async (data, context) => {
 });
 
 exports.updateAdminMessage = functions.https.onCall(async (data, context) => {
-    // Buraya admin yetkilendirme kontrolü eklenmeli.
     if (!context.auth) {
         throw new functions.https.HttpsError('unauthenticated', 'Bu işlemi yapmak için giriş yapmalısınız.');
     }
-    // Örn: if (!context.auth.token.admin) { // Custom claims ile admin kontrolü
-    //     throw new functions.https.HttpsError('permission-denied', 'Bu işlemi yapmaya yetkiniz yok. Yönetici izni gereklidir.');
-    // }
+    // NOT: Gerçek bir uygulamada, kullanıcının yönetici yetkisine sahip olup olmadığını da kontrol etmelisiniz.
+    // Örn: if (!context.auth.token.admin) { ... } // Custom claims ile admin kontrolü
     const message = data.message;
     if (!message) {
         throw new functions.https.HttpsError('invalid-argument', 'Mesaj boş olamaz.');
     }
     try {
-        await admin.firestore().collection('public').doc('adminMessage').set({ text: message }); // Düzeltme burada yapıldı
+        // Güvenlik: Bu veriyi Firestore'a yazmak için,
+        // Firestore Güvenlik Kuralları'nda (Firestore Security Rules)
+        // sadece yetkili kullanıcılara (örn. admin) yazma izni verdiğinizden emin olun.
+        await admin.firestore().collection('public').doc('data').collection('admin').doc("message").set({ message: message });
         return { message: "Yönetici mesajı başarıyla güncellendi." };
     } catch (error) {
         console.error("Yönetici mesajı güncellenirken hata:", error);
@@ -140,7 +160,7 @@ exports.sendWelcomeEmail = functions.https.onCall(async (data, context) => {
     console.log(`Sending email to ${email} for user ${username} with subject: ${subject || "Welcome"}`);
 
     try {
-        // Bu kısım gerçek bir e-posta gönderme servisi (SendGrid, Nodemailer vb.) ile entegre edilmelidir.
+        // Bu kısım gerçek bir e-posta gönderme servisi (SendGrid, Nodemailer, vb.) ile entegre edilmelidir.
         // Şu an sadece simüle edilmiş bir yanıt dönüyor.
         const simulatedEmailServiceResponse = { success: true, messageId: "simulated-email-id-123" };
         console.log("Simulated email sent:", simulatedEmailServiceResponse);
@@ -173,15 +193,14 @@ exports.submitContactForm = functions.https.onCall(async (data, context) => {
                 metadata: { contentType: fileType },
                 resumable: false
             });
-            fileUrl = await fileRef.getSignedUrl({
+            fileUrl = (await fileRef.getSignedUrl({
                 action: 'read',
                 expires: '03-09-2491'
-            });
-            fileUrl = fileUrl[0];
+            }))[0];
             console.log("Uploaded file URL:", fileUrl);
         }
 
-        await admin.firestore().collection('contactForms').add({ // Düzeltme burada yapıldı
+        await admin.firestore().collection('contactForms').add({
             subject,
             email,
             message,

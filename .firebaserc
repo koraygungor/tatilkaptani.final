@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "tatil-b8a56"
-  }
+    "default": "tatil-b8a56",
+    "tatilkaptanifinal": "tatilkaptanifinal"
+  },
+  "targets": {},
+  "etags": {}
 }

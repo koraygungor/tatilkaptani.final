@@ -9,13 +9,13 @@ const VIP_PLAN_CHAT_COST = 10;
 // Bu bilgiler Firebase Console'dan alınmalıdır. Güvenli kabul edilir.
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-  authDomain: "tatilkaptanifinal.firebaseapp.com", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-  projectId: "tatilkaptanifinal", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-  storageBucket: "tatilkaptanifinal.firebasestorage.app", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-  messagingSenderId: "748801975441", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-  appId: "1:748801975441:web:cc26b7b825fafe44658b30", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-  measurementId: "G-0BQJQ25XX1" // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
+  authDomain: "tatilkaptanifinal.firebaseapp.com",
+  projectId: "tatilkaptanifinal",
+  storageBucket: "tatilkaptanifinal.firebasestorage.app",
+  messagingSenderId: "748801975441",
+  appId: "1:748801975441:web:cc26b7b825fafe44658b30",
+  measurementId: "G-0BQJQ25XX1"
 };
 
 // Firebase'i başlat
@@ -71,7 +71,6 @@ const tatilpuanTop = document.getElementById("tatilpuan-top");
 const sloganTop = document.getElementById("slogan-top");
 const voiceToggleTop = document.getElementById("voice-toggle-top");
 const languageSelect = document.getElementById("language-select");
-// const avatarEl = document.getElementById("avatar"); // Avatar kaldırıldığı için kaldırıldı
 const userIdDisplay = document.getElementById("user-id-display");
 const sidebarButtons = document.querySelectorAll(".sidebar-nav button");
 const contentSections = document.querySelectorAll(".content-section");
@@ -91,7 +90,7 @@ const loginPasswordInput = document.getElementById('loginPassword');
 const performLoginBtn = document.getElementById('performLoginBtn');
 const loginMessage = document.getElementById('loginMessage');
 const registerUsernameInput = document.getElementById('registerUsername');
-const registerEmailInput = document.getElementById('registerEmail'); // Düzeltildi
+const registerEmailInput = document.getElementById('registerEmail');
 const registerPasswordInput = document.getElementById('registerPassword');
 const performRegisterBtn = document.getElementById('performRegisterBtn');
 const registerMessage = document.getElementById('registerMessage');
@@ -117,7 +116,7 @@ const virtualTourCostEl = document.getElementById("virtual-tour-cost");
 const startVirtualBtn = document.getElementById("start-virtual-btn");
 const virtualHolidayOutput = document.getElementById("virtual-holiday-output");
 const virtualOutputTitle = document.getElementById("virtual-output-title");
-const virtualOutputStory = document.getElementById("virtual-output-story"); // Düzeltildi
+const virtualOutputStory = document.getElementById("virtual-output-story");
 const virtualImagesContainer = document.getElementById("virtual-images-container");
 const sendVirtualImageEmailBtn = document.getElementById("send-virtual-image-email-btn");
 const virtualLoading = document.getElementById("virtual-loading");
@@ -142,7 +141,7 @@ const goToVipPaymentBtn = document.getElementById("go-to-vip-payment-btn");
 const vipPlannerFormArea = document.getElementById("vip-planner-form-area");
 const vipDestinationInput = document.getElementById("vip-destination");
 const vipDurationInput = document.getElementById("vip-duration");
-const vipTravelersInput = document.getElementById("vip-travelers"); // Düzeltildi
+const vipTravelersInput = document.getElementById("vip-travelers");
 const vipBudgetButtons = document.querySelectorAll("#vip-planner-section .budget-options button");
 const vipTypeSelect = document.getElementById("vip-type");
 const generateVipPlanBtn = document.getElementById("generate-vip-plan-btn");
@@ -163,7 +162,7 @@ const nichePlanOutput = document.getElementById("niche-plan-output");
 
 // Kullanıcı Bilgileri
 const displayUserId = document.getElementById("display-userid");
-const displayUsername = document.getElementById("display-username"); // Düzeltildi
+const displayUsername = document.getElementById("display-username");
 const displayUserEmail = document.getElementById("display-user-email");
 const setuserEmailBtn = document.getElementById("set-user-email-btn");
 const displayTatilpuan = document.getElementById("display-tatilpuan");
@@ -185,15 +184,15 @@ const timeTravelFormArea = document.getElementById("time-travel-form-area");
 const timeTravelEraInput = document.getElementById("time-travel-era");
 const timeTravelDurationInput = document.getElementById("time-travel-duration");
 const timeTravelCharacterInput = document.getElementById("time-travel-character");
-const timeTravelFocusInput = document.getElementById("time-travel-focus"); // Düzeltildi
-const startTimeTravelBtn = document.getElementById("start-time-travel-btn"); // Düzeltildi
+const timeTravelFocusInput = document.getElementById("time-travel-focus");
+const startTimeTravelBtn = document.getElementById("start-time-travel-btn");
 const timeTravelLoading = document.getElementById("time-travel-loading");
 const timeTravelOutput = document.getElementById("time-travel-output");
 
 // Kader Rotası
 const destinyAgeInput = document.getElementById("destiny-age");
 const destinyHobbyInput = document.getElementById("destiny-hobby");
-const destinyDreamInput = document.getElementById("destiny-dream"); // Düzeltildi
+const destinyDreamInput = document.getElementById("destiny-dream");
 const destinyColorInput = document.getElementById("destiny-color");
 const predictDestinyBtn = document.getElementById("predict-destiny-btn");
 const destinyLoading = document.getElementById("destiny-loading");
@@ -221,7 +220,7 @@ const completePaymentBtn = document.getElementById("complete-payment-btn");
 // Bize Ulaşın Bölümü
 const contactSubjectInput = document.getElementById('contact-subject');
 const contactEmailInput = document.getElementById('contact-email');
-const contactMessageInput = document.getElementById('contact-message'); // Düzeltildi
+const contactMessageInput = document.getElementById('contact-message');
 const contactFileInput = document.getElementById('contact-file');
 const sendContactFormBtn = document.getElementById('send-contact-form-btn');
 const contactLoading = document.getElementById('contact-loading');
@@ -308,11 +307,9 @@ window.loadUserProfile = async function() {
             gameScore = data.gameScore || 0;
             userEmail = data.email || auth.currentUser.email || "Ayarlanmadı";
             palmCoinHistory = data.palmCoinHistory || [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }];
-            console.log("Kullanıcı profili yüklendi:", data); // Hata mesajı düzeltildi
+            console.log("Kullanıcı profili yüklendi:", data);
         } else {
             console.log("Kullanıcı profili bulunamadı, varsayılan oluşturuluyor.");
-            // Profil yoksa varsayılan profil oluştur. Bu ideal olarak kullanıcı kaydında gerçekleşmeli.
-            // Sadece kullanıcı giriş yapmışsa oluştur.
             if (auth.currentUser) {
                 window.updateUserProfile({
                     username: auth.currentUser.displayName || auth.currentUser.email,
@@ -344,7 +341,7 @@ window.updateUserProfile = async function(dataToUpdate) {
         await profileRef.set(dataToUpdate, { merge: true });
         console.log("Kullanıcı profili güncellendi:", dataToUpdate);
     } catch (error) {
-        console.error(`Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.`); // Hata mesajı düzeltildi
+        console.error(`Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.`);
         window.showModal("Hata", `Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.`);
     }
 };
@@ -354,11 +351,9 @@ window.loadAds = async function() {
     const dynamicAdsContainer = document.getElementById('dynamic-ads-container');
     if (!dynamicAdsContainer) return;
 
-    // Başlangıçta tüm statik/varsayılan ilan bloklarını temizle
     dynamicAdsContainer.innerHTML = ''; 
 
     try {
-        // Firestore'dan dinamik reklamları yükleme (Örnek)
         const adsSnapshot = await firestore.collection('ads').get();
         if (!adsSnapshot.empty) {
             adsSnapshot.forEach(doc => {
@@ -372,10 +367,9 @@ window.loadAds = async function() {
                 dynamicAdsContainer.appendChild(adElement);
             });
         } else {
-            // Dinamik reklam yoksa varsayılan mesajı göster
             const defaultAdElement = document.createElement('div');
             defaultAdElement.classList.add('ad-area-dynamic', 'default-ad-block');
-            defaultAdElement.style.cssText = "background-color: rgba(224, 242, 241, 0.3); border-color: rgba(0, 189, 212, 0.3); color: #004d40; border: 1px dashed;"; // Daha şeffaf
+            defaultAdElement.style.cssText = "background-color: rgba(224, 242, 241, 0.3); border-color: rgba(0, 189, 212, 0.3); color: #004d40; border: 1px dashed;";
             defaultAdElement.innerHTML = `
                 <i class="fas fa-bullhorn" style="font-size: 2em; margin-bottom: 10px; color: #0097a7;"></i>
                 <p>Burada sizin ilanınız olabilir! <br>İlan vermek için bize e-posta gönderin.</p>
@@ -385,10 +379,9 @@ window.loadAds = async function() {
         }
     } catch (error) {
         console.error("Dinamik reklamlar yüklenirken hata:", error);
-        // Hata durumunda da varsayılan mesajı göster
         const defaultAdElement = document.createElement('div');
         defaultAdElement.classList.add('ad-area-dynamic', 'default-ad-block');
-        defaultAdElement.style.cssText = "background-color: rgba(224, 242, 241, 0.3); border-color: rgba(0, 189, 212, 0.3); color: #004d40; border: 1px dashed;"; // Daha şeffaf
+        defaultAdElement.style.cssText = "background-color: rgba(224, 242, 241, 0.3); border-color: rgba(0, 189, 212, 0.3); color: #004d40; border: 1px dashed;";
         defaultAdElement.innerHTML = `
             <i class="fas fa-bullhorn" style="font-size: 2em; margin-bottom: 10px; color: #0097a7;"></i>
             <p>Reklamlar yüklenemedi. <br>Lütfen daha sonra tekrar deneyin.</p>
@@ -398,7 +391,6 @@ window.loadAds = async function() {
     }
 };
 
-// Yönetici Mesajını Yükleme (Artık Firebase Cloud Function üzerinden çağrılıyor)
 window.loadAdminMessage = async function() {
     if (!adminDisplayMessageEl || !adminDisplayMessageEl.querySelector('p')) {
         console.error("Yönetici mesajı görüntüleme elementi bulunamadı.");
@@ -406,7 +398,6 @@ window.loadAdminMessage = async function() {
     }
 
     try {
-        // Firestore'a okunabilirlik kuralları olduğundan emin olun
         const doc = await firestore.collection('public').doc('adminMessage').get();
         adminDisplayMessageEl.querySelector('p').textContent = doc.exists ? doc.data().text : "Henüz yönetici mesajı yok.";
     } catch (error) {
@@ -416,13 +407,11 @@ window.loadAdminMessage = async function() {
     }
 };
 
-// Yönetici Mesajını Güncelleme (Artık Firebase Cloud Function üzerinden çağrılıyor)
 window.updateAdminMessage = async function(message) {
     const adminMessageLoadingEl = document.getElementById("admin-message-loading");
     if (adminMessageLoadingEl) adminMessageLoadingEl.style.display = 'block';
 
     try {
-        // HTTPS Callable fonksiyonunu çağır
         const updateAdminMessageCallable = functions.httpsCallable('updateAdminMessage');
         const result = await updateAdminMessageCallable({ message: message });
 
@@ -431,7 +420,6 @@ window.updateAdminMessage = async function(message) {
     } catch (error) {
         console.error("Yönetici mesajı güncellenirken hata:", error);
         let errorMessage = `Yönetici mesajı güncellenirken bir sorun oluştu: ${error.message}.`;
-        // Yetki hatası özel mesajı
         if (error.code === 'permission-denied') {
             errorMessage = "Bu işlemi yapmaya yetkiniz yok. Yönetici izni gereklidir.";
         } else if (error.code === 'unauthenticated') {
@@ -494,7 +482,7 @@ window.speak = function(text) {
     const languageSelectEl = document.getElementById("language-select");
     if (!languageSelectEl || !voiceEnabled || !window.speechSynthesis) return;
 
-    const utterance = new SpeechSynthesisUtterance(text); // Düzeltme burada yapıldı
+    const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = languageSelectEl.value + "-" + languageSelectEl.value.toUpperCase();
     speechSynthesis.speak(utterance);
 };
@@ -586,9 +574,6 @@ window.showSection = function(sectionId) {
         activeSection.style.display = "flex";
     }
 
-    // Sidebar butonlarının olay dinleyicileri sadece bir kez DOMContentLoaded içinde atanmalı
-    // Bu fonksiyon her çağrıldığında tekrar atanmamalı.
-
     if (sectionId === "vip-planner-section") {
         window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("vip-planner-form-area"), "Altın");
         window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("niche-vip-request-area"), "Altın");
@@ -647,16 +632,14 @@ window.checkVipAccess = function(accessCheckEl, formAreaEl, requiredLevel) {
 };
 
 // OpenRouter AI Çağrısı (Artık backend fonksiyonu üzerinden HTTPS Callable ile)
-window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo", loadingIndicator = null, chatHistoryForAI = []) { // chatHistoryForAI parametresi eklendi
+window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo", loadingIndicator = null, chatHistoryForAI = []) {
     if (loadingIndicator) loadingIndicator.style.display = "block";
     try {
-        // Doğru Firebase Project ID'nizi burada kullanmalısınız.
-        // Bu URL, Firebase Console'da Cloud Functions bölümünde bulunur.
         const firebaseFunctionsUrl = `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net/callOpenRouterAI`;
         const response = await fetch(firebaseFunctionsUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data: { prompt, model, chatHistory: chatHistoryForAI } }) // chatHistoryForAI gönderildi
+            body: JSON.stringify({ data: { prompt, model, chatHistory: chatHistoryForAI } })
         });
         const result = await response.json();
 
@@ -687,7 +670,7 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
         const result = await response.json();
 
         if (response.ok && result.data && result.data.imageUrl) {
-            return result.data.imageUrl; // Backend'den gelen imageUrl'ı döndür
+            return result.data.imageUrl;
         } else {
             throw new Error(result.data?.message || 'Görsel yanıtı alınamadı.');
         }
@@ -730,7 +713,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         chatInput.value = "";
 
         const selectedLanguage = languageSelect.value;
-        const languagePrompt = `in ${selectedLanguage === 'tr' ? 'Turkish' : 'English'}`; // Daha güçlü dil istemi
+        const languagePrompt = `in ${selectedLanguage === 'tr' ? 'Turkish' : 'English'}`;
 
         const promptForAI = `You are a helpful travel assistant called "Palmiye Kaptan". User's message: "${userMessage}".
                             Respond ${languagePrompt}.
@@ -776,6 +759,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     "time-travel-section": "Zamanda Yolculuk Tatili",
                     "destiny-route-section": "Kader Rotası",
                     "ai-companion-section": "AI Yoldaşım",
+                    "korsan-sahne-section": "Korsan Sahnesi", // YENİ EKLENDİ
                     "payment-section": "VIP Üyelik Al",
                     "contact-us-section": "Bize Ulaşın"
                 };
@@ -827,7 +811,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.speak(`Language changed to ${languageSelect.options[languageSelect.selectedIndex].text}.`);
         });
 
-        // avatarEl.addEventListener('click', () => window.showSection("user-info-section")); // Avatar kaldırıldığı için kaldırıldı
         modalConfirmBtn.addEventListener("click", () => hideModal(appModal));
 
         if (loginBtn) {
@@ -898,7 +881,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 registerMessage.textContent = 'Kayıt başarılı! Hoş geldiniz. Şimdi giriş yapabilirsiniz.';
                 registerMessage.style.color = 'green';
 
-                // Hoş geldin e-postasını göndermek için Cloud Function'ı çağır
                 const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail');
                 sendWelcomeEmailCallable({ email: email, username: username })
                     .then(result => {
@@ -906,7 +888,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     })
                     .catch(error => {
                         console.error("Hoş geldin e-postası Cloud Function çağrılırken hata:", error);
-                        // Kullanıcıya e-posta gönderim hatası hakkında bilgi verebilirsiniz.
                     });
 
                 setTimeout(() => {
@@ -1038,7 +1019,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const newEmail = prompt("Yeni e-posta adresinizi girin:", userEmail !== "Ayarlanmadı" ? userEmail : '');
                 if (newEmail && newEmail.trim() !== "" && newEmail.trim() !== userEmail) {
                     try {
-                        // Firebase Auth email güncelleme (re-authentication gerekebilir)
                         await auth.currentUser.updateEmail(newEmail.trim());
                         await window.updateUserProfile({ email: newEmail.trim() });
                         userEmail = newEmail.trim();
@@ -1057,7 +1037,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
         }
-
 
         startGameBtn.onclick = () => {
             gameActive = true;
@@ -1216,7 +1195,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 General gift image prompt: "${imagePrompt}". You can use this as a theme throughout the story.
                                 Provide the response in Turkish.`;
 
-            const reply = await window.callOpenRouterAI(storyPrompt, "openai/gpt-3.5-turbo", virtualLoading); // `prompt` yerine `storyPrompt` kullanıldı
+            const reply = await window.callOpenRouterAI(storyPrompt, "openai/gpt-3.5-turbo", virtualLoading);
             virtualOutputTitle.textContent = `${city} - ${days} Günlük Sanal Tatil Hikayen:`;
             virtualOutputStory.innerHTML = '';
             const paragraphs = reply.split('\n').filter(p => p.trim() !== '');
@@ -1303,22 +1282,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail'); // sendWelcomeEmail fonksiyonunu kullanıyoruz, ismini değiştirebiliriz.
+                const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail');
                 await sendWelcomeEmailCallable({ 
                     email: emailToSendTo, 
                     username: userName,
                     subject: "Sanal Tatil Hediye Görseliniz",
                     message: `Merhaba ${userName},<br><br>Sanal tatilinizden hediye görseliniz ektedir: <img src="${generatedVirtualImageUrl}" alt="Hediye Görsel">`,
-                    imageUrl: generatedVirtualImageUrl // Görsel URL'sini de fonksiyona gönderebiliriz
+                    imageUrl: generatedVirtualImageUrl
                 });
                 window.showModal("E-posta Gönderildi (Simülasyon)", `Hediye resminiz ${emailToSendTo} adresine gönderildi (simülasyon).`);
                 window.speak("Mesajınız başarıyla gönderildi.");
 
-                // Bu kısım contact formdan kopyalanmış, sanal tatil sonrası inputları temizlemeye gerek yok
-                // contactSubjectInput.value = '';
-                // contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
-                // contactMessageInput.value = '';
-                // contactFileInput.value = '';
             } catch (error) {
                 console.error("Hediye görseli e-posta gönderirken hata:", error);
                 window.showModal("Hata", `Hediye resmi e-posta ile gönderilirken bir sorun oluştu: ${error.message}.`);
@@ -1363,7 +1337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     currentGeneratedImages.push(imageUrl);
                     const imgElement = document.createElement('img');
                     imgElement.src = imageUrl;
-                    imgElement.alt = `Oluşturulan görsel ${i + 1}: ${promptText}`; // Alt metin düzeltildi
+                    imgElement.alt = `Oluşturulan görsel ${i + 1}: ${promptText}`;
                     imgElement.style.cssText = 'width: calc(50% - 15px); height: 180px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
                     generatedImagesContainer.appendChild(imgElement);
                 }
@@ -1451,10 +1425,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentVipPlan = reply;
             let planContent = reply;
 
+            // Oluşturulan plan içinde görsel URL'si arama (AI tarafından sağlanırsa)
             const urlRegex = /(https?:\/\/[^\s]+\.(?:png|jpe?g|gif|webp|unsplash\.com\/\S+|pixabay\.com\/\S+))/i;
             const match = planContent.match(urlRegex);
             let mediaHtml = "";
-            if (match) {
+            if (match && match[0]) {
                 mediaHtml = `<br><img src="${match[0]}" alt="${destination} Planı">`;
                 planContent = planContent.replace(match[0], '').trim();
             } else {
@@ -1477,7 +1452,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.showModal("Yetersiz PalmCoin", `Bu soru için ${VIP_PLAN_CHAT_COST} PalmCoin'e ihtiyacınız var. Mevcut PalmCoin: ${tatilPuan}.`);
                 return;
             }
-            await window.updateTatilPuan(-VIP_PLAN_CHAT_COST, "VIP Plan Sohbet"); // PalmCoin düşüldü
+            await window.updateTatilPuan(-VIP_PLAN_CHAT_COST, "VIP Plan Sohbet");
 
             window.displayMessage("user", userQuestion, vipPlanChatBox);
             companionChatHistory.push({ role: "user", content: userQuestion });
@@ -1501,9 +1476,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                             Help the user with travel and holiday topics. Provide creative, friendly, and conversational responses in line with your personality.
                             Maintain context by considering the user's previous messages. Refer to the previously generated VIP plan as 'currentVipPlan'.`
             };
-            const messagesToSend = [systemMessage, { role: "assistant", content: currentVipPlan || "Henüz bir VIP planı oluşturulmadı." }, ...recentHistory]; // currentVipPlan da gönderildi
+            const messagesToSend = [systemMessage, { role: "assistant", content: currentVipPlan || "No VIP plan has been generated yet." }, ...recentHistory];
 
-            const reply = await window.callOpenRouterAI(userQuestion, "openai/gpt-3.5-turbo", companionLoading, messagesToSend); // userQuestion ve messagesToSend gönderildi
+            const reply = await window.callOpenRouterAI(userQuestion, "openai/gpt-3.5-turbo", companionLoading, messagesToSend);
 
             window.displayMessage("ai", reply, companionChatBox);
             companionChatHistory.push({ role: "assistant", content: reply });
@@ -1542,7 +1517,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await window.updateTatilPuan(75, `Niş Tur Planı Oluşturma (${nicheTopic})`);
             });
         }
-
 
         // Zamanda Yolculuk Tatili İşlemi
         if (startTimeTravelBtn) {
@@ -1605,7 +1579,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", destinyLoading);
                 destinyRouteOutput.innerHTML = `<h4>Kader Rotanız:</h4><p>${reply.replace(/\n/g, '<br>')}</p>`;
                 destinyRouteOutput.style.display = "block";
-                realizeDestinyBtn.style.display = "block"; // Tahmin edildikten sonra butonu göster
+                realizeDestinyBtn.style.display = "block";
                 window.speak("Kader rotanız hazırlandı!");
                 await window.updateTatilPuan(30, "Kader Rotası Tahmini");
             });
@@ -1623,7 +1597,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await window.updateTatilPuan(500, "Kader Rotasını Gerçekleştirme (VIP)");
             });
         }
-
 
         companionInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") sendCompanionMessageBtn.click();
@@ -1644,8 +1617,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     name: companionName,
                     personality: companionPersonality
                 };
-                companionChatHistory = []; // Yeni yoldaşla sohbeti sıfırla
-                companionChatBox.innerHTML = ''; // Sohbet kutusunu temizle
+                companionChatHistory = [];
+                companionChatBox.innerHTML = '';
                 activeCompanionName.textContent = companionName;
                 companionChatArea.style.display = 'block';
                 window.showModal("Yoldaş Oluşturuldu", `${companionName} adında ${companionPersonality} kişilikli yoldaşınız hazır! Merhaba diyin.`);
@@ -1653,7 +1626,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await window.updateTatilPuan(40, `AI Yoldaş Oluşturma (${companionName})`);
             });
         }
-
 
         completePaymentBtn.onclick = async () => {
             const cardNumber = cardNumberInput.value.trim();
@@ -1761,8 +1733,5 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentYearElement.textContent = new Date().getFullYear();
         }
 
-        // F12 uyarıları kaldırıldı
-        // console.warn("UYARI: Bu demo tek dosya, prototipleme amaçlıdır ve üretim için uygun DEĞİLDİR. API anahtarları artık frontend'de olmasa da, hassas işlemler (örn. ödeme işlemleri) için güçlü bir backend doğrulama ve güvenlik yapısı şarttır.");
-        // console.warn("Firebase yapılandırma bilgilerinizi kendi bilgilerinizle değiştirmeyi UNUTMAYIN.");
-        // console.warn("Firebase güvenlik kurallarınızı (Firestore Security Rules) uygulamanızın gereksinimlerine göre ayarladığınızdan emin olun. Özellikle 'public' koleksiyonları için okuma/yazma izinlerini ve kullanıcı profilleri için kullanıcıların yalnızca kendi verilerini okuyabil...
+        // Geliştirici uyarıları kaldırıldı
     });

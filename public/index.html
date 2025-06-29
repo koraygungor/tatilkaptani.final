@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -13,8 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <link rel="stylesheet" href="style.css">
-
-    </head>
+</head>
 <body>
     <header>
         <a href="#" class="logo">TatilKaptani.com</a>
@@ -87,6 +88,7 @@
                     <li><button data-section="time-travel-section"><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</button></li>
                     <li><button data-section="destiny-route-section"><i class="fas fa-crystal-ball"></i> Kader Rotası</button></li>
                     <li><button data-section="ai-companion-section"><i class="fas fa-robot"></i> AI Yoldaşım</button></li>
+                    <li><button data-section="korsan-sahne-section"><i class="fas fa-map-marked-alt"></i> Korsan Sahnesi</button></li>
                     <li><button data-section="payment-section"><i class="fas fa-credit-card"></i> VIP Üyelik Al</button></li>
                     <li><button data-section="contact-us-section"><i class="fas fa-envelope"></i> Bize Ulaşın</button></li>
                 </ul>
@@ -300,7 +302,7 @@
                     </ul>
                 </div>
 
-                <div id="rezervasyon-gecmisi-section" class="feature-section">
+                <div class="feature-section">
                     <h3>Rezervasyon Geçmişi (Demo)</h3>
                     <p>Henüz bir rezervasyon geçmişi bulunmamaktadır. VIP Tur Planlayıcı ile tatilinizi planlayın!</p>
                 </div>
@@ -313,25 +315,19 @@
                     <p>Tarihin derinliklerinde veya geleceğin gizemlerinde unutulmaz bir yolculuğa çıkın. AI sizin için eşsiz bir zaman dilimi simülasyonu yaratacak.</p>
                     <button id="go-to-time-travel-payment-btn">Hemen Altın Üye Ol!</button>
                 </div>
-                <div id="time-travel-form-area" style="display: none;">
-                    <div class="feature-section">
-                        <h3>Zamanda Yolculuk Deneyimi (Altın Üye Özel)</h3>
-                        <p>Nereye ve ne zaman gitmek istersiniz? AI size o dönemi canlandıracak!</p>
-                        <div class="feature-form">
-                            <label for="time-travel-era">Gitmek istediğiniz dönem (Yıl/Dönem):</label>
-                            <input type="text" id="time-travel-era" placeholder="Örn: Antik Roma M.S. 79, 2077 Mars Kolonisi" />
-                            <label for="time-travel-duration">Kalış Süresi (Gün):</label>
-                            <input type="number" id="time-travel-duration" placeholder="Örn: 3" min="1" />
-                            <label for="time-travel-character">Tanışmak istediğiniz hayali/tarihi karakter (Opsiyonel):</label>
-                            <input type="text" id="time-travel-character" placeholder="Örn: Kleopatra, Bir robot mühendis" />
-                            <label for="time-travel-focus">Odak noktası (Örn: Müzik, Yemek, Bilim, Savaş...):</label>
-                            <input type="text" id="time-travel-focus" placeholder="Örn: Dönemin müzikleri, Geleceğin yemekleri" />
-                            <button id="start-time-travel-btn">Zaman Yolculuğunu Başlat</button>
-                        </div>
-                        <div class="loading-indicator" id="time-travel-loading"><i class="fas fa-spinner fa-spin"></i> Zaman makinesi hazırlanıyor...</div>
-                        <div id="time-travel-output" class="plan-output" style="display: none;"></div>
-                    </div>
+                <div class="feature-form">
+                    <label for="time-travel-era">Gitmek istediğiniz dönem (Yıl/Dönem):</label>
+                    <input type="text" id="time-travel-era" placeholder="Örn: Antik Roma M.S. 79, 2077 Mars Kolonisi" />
+                    <label for="time-travel-duration">Kalış Süresi (Gün):</label>
+                    <input type="number" id="time-travel-duration" placeholder="Örn: 3" min="1" />
+                    <label for="time-travel-character">Tanışmak istediğiniz hayali/tarihi karakter (Opsiyonel):</label>
+                    <input type="text" id="time-travel-character" placeholder="Örn: Kleopatra, Bir robot mühendis" />
+                    <label for="time-travel-focus">Odak noktası (Örn: Müzik, Yemek, Bilim, Savaş...):</label>
+                    <input type="text" id="time-travel-focus" placeholder="Örn: Dönemin müzikleri, Geleceğin yemekleri" />
+                    <button id="start-time-travel-btn">Zaman Yolculuğunu Başlat</button>
                 </div>
+                <div class="loading-indicator" id="time-travel-loading"><i class="fas fa-spinner fa-spin"></i> Zaman makinesi hazırlanıyor...</div>
+                <div id="time-travel-output" class="plan-output" style="display: none;"></div>
             </div>
 
             <div id="destiny-route-section" class="content-section">
@@ -462,5 +458,5 @@
         </footer>
 
         <script src="index.js"></script>
-    </body>
-    </html>
+</body>
+</html>
