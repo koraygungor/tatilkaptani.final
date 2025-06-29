@@ -2,9 +2,10 @@ module.exports = {
   env: {
     es6: true,
     node: true,
+    browser: true,
   },
   parserOptions: {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
   },
   extends: [
     "eslint:recommended",
@@ -13,7 +14,13 @@ module.exports = {
   rules: {
     "no-restricted-globals": ["error", "name", "length"],
     "prefer-arrow-callback": "error",
-    "quotes": ["error", "double", {"allowTemplateLiterals": true}],
+    "quotes": "off",
+    "linebreak-style": ["error", "unix"],
+    "indent": ["error", 2],
+    "max-len": "off",
+    "no-trailing-spaces": "off",
+    "comma-dangle": "off",
+    "eol-last": "off",
   },
   overrides: [
     {
