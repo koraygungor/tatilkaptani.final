@@ -4,7 +4,7 @@
   "description": "Firebase Cloud Functions for TatilKaptani.com",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint .",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
@@ -27,5 +27,16 @@
     "eslint-config-google": "^0.14.0",
     "firebase-functions-test": "^3.1.0"
   },
-  "private": true
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koraygungor/tatilkaptani.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koraygungor/tatilkaptani/issues"
+  },
+  "homepage": "https://github.com/koraygungor/tatilkaptani#readme"
 }
