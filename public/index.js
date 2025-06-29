@@ -12,17 +12,17 @@ const firebaseConfig = {
   apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
   authDomain: "tatilkaptanifinal.firebaseapp.com",
   projectId: "tatilkaptanifinal",
-  storageBucket: "tatilkaptanifinal.firebasestorage.app",
+  storageBucket: "tatilkaptanifinal.appspot.com",
   messagingSenderId: "748801975441",
-  appId: "1:748801975441:web:cc26b7b825fafe44658b30",
-  measurementId: "G-0BQJQ25XX1"
+  appId: "1:748801975441:web:df703885770ab31b658b30",
+  measurementId: "G-3XBBMJTQ8K"
 };
 
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const functions = firebase.functions(); // Firebase Functions initialization corrected
+const functions = firebase.app().functions('us-central1'); // Firebase Functions'ı belirtilen bölgede başlat
 const storage = firebase.storage(); // Firebase Storage'ı başlat (dosya yükleme için)
 
 // Global Değişkenler
@@ -1731,7 +1731,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Geliştirici uyarıları kaldırıldı
-        // End of auth.onAuthStateChanged listener
+});     // End of auth.onAuthStateChanged listener
         // Initialize app features when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.initializeAppFeatures();
