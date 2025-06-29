@@ -7,14 +7,15 @@ const VIP_PLAN_CHAT_COST = 10;
 
 // Firebase yapılandırması - KENDİ BİLGİLERİNİZİ BURAYA GİRİN!
 // Bu bilgiler Firebase Console'dan alınmalıdır. Güvenli kabul edilir.
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_CLIENT_API_KEY", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-    projectId: "YOUR_PROJECT_ID", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-    storageBucket: "YOUR_PROJECT_ID.appspot.com", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-    appId: "YOUR_APP_ID", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
-    measurementId: "YOUR_MEASUREMENT_ID", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  authDomain: "tatilkaptanifinal.firebaseapp.com", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  projectId: "tatilkaptanifinal", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  storageBucket: "tatilkaptanifinal.firebasestorage.app", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  messagingSenderId: "748801975441", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  appId: "1:748801975441:web:cc26b7b825fafe44658b30", // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
+  measurementId: "G-0BQJQ25XX1" // Burayı KENDİ GERÇEK BİLGİNİZLE DEĞİŞTİRİN
 };
 
 // Firebase'i başlat
@@ -307,7 +308,7 @@ window.loadUserProfile = async function() {
             gameScore = data.gameScore || 0;
             userEmail = data.email || auth.currentUser.email || "Ayarlanmadı";
             palmCoinHistory = data.palmCoinHistory || [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }];
-            console.log("Kullanıcı profili yüklenirken hata:", data);
+            console.log("Kullanıcı profili yüklendi:", data); // Hata mesajı düzeltildi
         } else {
             console.log("Kullanıcı profili bulunamadı, varsayılan oluşturuluyor.");
             // Profil yoksa varsayılan profil oluştur. Bu ideal olarak kullanıcı kaydında gerçekleşmeli.
@@ -343,7 +344,7 @@ window.updateUserProfile = async function(dataToUpdate) {
         await profileRef.set(dataToUpdate, { merge: true });
         console.log("Kullanıcı profili güncellendi:", dataToUpdate);
     } catch (error) {
-        console.error("Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.");
+        console.error(`Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.`); // Hata mesajı düzeltildi
         window.showModal("Hata", `Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.`);
     }
 };
@@ -493,7 +494,7 @@ window.speak = function(text) {
     const languageSelectEl = document.getElementById("language-select");
     if (!languageSelectEl || !voiceEnabled || !window.speechSynthesis) return;
 
-    const utterance = new SpeechSynthesis(text);
+    const utterance = new SpeechSynthesisUtterance(text); // Düzeltme burada yapıldı
     utterance.lang = languageSelectEl.value + "-" + languageSelectEl.value.toUpperCase();
     speechSynthesis.speak(utterance);
 };
@@ -646,7 +647,7 @@ window.checkVipAccess = function(accessCheckEl, formAreaEl, requiredLevel) {
 };
 
 // OpenRouter AI Çağrısı (Artık backend fonksiyonu üzerinden HTTPS Callable ile)
-window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo", loadingIndicator = null, currentChatHistory = []) {
+window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo", loadingIndicator = null, chatHistoryForAI = []) { // chatHistoryForAI parametresi eklendi
     if (loadingIndicator) loadingIndicator.style.display = "block";
     try {
         // Doğru Firebase Project ID'nizi burada kullanmalısınız.
@@ -655,7 +656,7 @@ window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo",
         const response = await fetch(firebaseFunctionsUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data: { prompt, model, chatHistory } }) // Data objesi Cloud Function'a uygun şekilde gönderilir
+            body: JSON.stringify({ data: { prompt, model, chatHistory: chatHistoryForAI } }) // chatHistoryForAI gönderildi
         });
         const result = await response.json();
 
@@ -998,6 +999,66 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
+        // Yönetici Mesajı Güncelleme
+        if (updateAdminMessageBtn) {
+            updateAdminMessageBtn.addEventListener('click', async () => {
+                const message = adminMessageInput.value.trim();
+                if (!message) {
+                    window.showModal("Uyarı", "Yönetici mesajı boş olamaz.");
+                    return;
+                }
+                await window.updateAdminMessage(message);
+            });
+        }
+
+        // Kullanıcı Adı Güncelleme
+        if (updateUsernameBtn) {
+            updateUsernameBtn.addEventListener('click', async () => {
+                const newUsername = prompt("Yeni kullanıcı adınızı girin:", userName);
+                if (newUsername && newUsername.trim() !== "" && newUsername.trim() !== userName) {
+                    try {
+                        await auth.currentUser.updateProfile({ displayName: newUsername.trim() });
+                        await window.updateUserProfile({ username: newUsername.trim() });
+                        userName = newUsername.trim();
+                        window.displayMembershipInfo();
+                        window.showModal("Başarılı", "Kullanıcı adınız güncellendi!");
+                    } catch (error) {
+                        console.error("Kullanıcı adı güncellenirken hata:", error);
+                        window.showModal("Hata", `Kullanıcı adı güncellenirken bir sorun oluştu: ${error.message}.`);
+                    }
+                } else if (newUsername !== null && newUsername.trim() === "") {
+                    window.showModal("Uyarı", "Kullanıcı adı boş bırakılamaz.");
+                }
+            });
+        }
+
+        // E-posta Ayarlama/Güncelleme
+        if (setuserEmailBtn) {
+            setuserEmailBtn.addEventListener('click', async () => {
+                const newEmail = prompt("Yeni e-posta adresinizi girin:", userEmail !== "Ayarlanmadı" ? userEmail : '');
+                if (newEmail && newEmail.trim() !== "" && newEmail.trim() !== userEmail) {
+                    try {
+                        // Firebase Auth email güncelleme (re-authentication gerekebilir)
+                        await auth.currentUser.updateEmail(newEmail.trim());
+                        await window.updateUserProfile({ email: newEmail.trim() });
+                        userEmail = newEmail.trim();
+                        window.displayMembershipInfo();
+                        window.showModal("Başarılı", "E-posta adresiniz güncellendi! Giriş bilgilerinizi yenilemeniz gerekebilir.");
+                    } catch (error) {
+                        console.error("E-posta güncellenirken hata:", error);
+                        let errorMessage = `E-posta güncellenirken bir sorun oluştu: ${error.message}.`;
+                        if (error.code === 'auth/requires-recent-login') {
+                            errorMessage += " Güvenlik nedeniyle, bu işlemi tamamlamak için yakın zamanda tekrar giriş yapmanız gerekmektedir.";
+                        }
+                        window.showModal("Hata", errorMessage);
+                    }
+                } else if (newEmail !== null && newEmail.trim() === "") {
+                    window.showModal("Uyarı", "E-posta adresi boş bırakılamaz.");
+                }
+            });
+        }
+
+
         startGameBtn.onclick = () => {
             gameActive = true;
             currentQuestionIndex = 0;
@@ -1155,7 +1216,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 General gift image prompt: "${imagePrompt}". You can use this as a theme throughout the story.
                                 Provide the response in Turkish.`;
 
-            const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", virtualLoading);
+            const reply = await window.callOpenRouterAI(storyPrompt, "openai/gpt-3.5-turbo", virtualLoading); // `prompt` yerine `storyPrompt` kullanıldı
             virtualOutputTitle.textContent = `${city} - ${days} Günlük Sanal Tatil Hikayen:`;
             virtualOutputStory.innerHTML = '';
             const paragraphs = reply.split('\n').filter(p => p.trim() !== '');
@@ -1253,10 +1314,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.showModal("E-posta Gönderildi (Simülasyon)", `Hediye resminiz ${emailToSendTo} adresine gönderildi (simülasyon).`);
                 window.speak("Mesajınız başarıyla gönderildi.");
 
-                contactSubjectInput.value = '';
-                contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
-                contactMessageInput.value = '';
-                contactFileInput.value = '';
+                // Bu kısım contact formdan kopyalanmış, sanal tatil sonrası inputları temizlemeye gerek yok
+                // contactSubjectInput.value = '';
+                // contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
+                // contactMessageInput.value = '';
+                // contactFileInput.value = '';
             } catch (error) {
                 console.error("Hediye görseli e-posta gönderirken hata:", error);
                 window.showModal("Hata", `Hediye resmi e-posta ile gönderilirken bir sorun oluştu: ${error.message}.`);
@@ -1301,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     currentGeneratedImages.push(imageUrl);
                     const imgElement = document.createElement('img');
                     imgElement.src = imageUrl;
-                    imgElement.alt = `Gün ${i + 1} için görsel: ${promptText}`;
+                    imgElement.alt = `Oluşturulan görsel ${i + 1}: ${promptText}`; // Alt metin düzeltildi
                     imgElement.style.cssText = 'width: calc(50% - 15px); height: 180px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
                     generatedImagesContainer.appendChild(imgElement);
                 }
@@ -1415,6 +1477,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.showModal("Yetersiz PalmCoin", `Bu soru için ${VIP_PLAN_CHAT_COST} PalmCoin'e ihtiyacınız var. Mevcut PalmCoin: ${tatilPuan}.`);
                 return;
             }
+            await window.updateTatilPuan(-VIP_PLAN_CHAT_COST, "VIP Plan Sohbet"); // PalmCoin düşüldü
 
             window.displayMessage("user", userQuestion, vipPlanChatBox);
             companionChatHistory.push({ role: "user", content: userQuestion });
@@ -1436,11 +1499,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 content: `Your name is ${aiCompanion.name} and your personality is ${aiCompanion.personality}. The user's name is ${userName}.
                             Respond ${languagePrompt}.
                             Help the user with travel and holiday topics. Provide creative, friendly, and conversational responses in line with your personality.
-                            Maintain context by considering the user's previous messages.`
+                            Maintain context by considering the user's previous messages. Refer to the previously generated VIP plan as 'currentVipPlan'.`
             };
-            const messagesToSend = [systemMessage, ...recentHistory];
+            const messagesToSend = [systemMessage, { role: "assistant", content: currentVipPlan || "Henüz bir VIP planı oluşturulmadı." }, ...recentHistory]; // currentVipPlan da gönderildi
 
-            const reply = await window.callOpenRouterAI(null, "openai/gpt-3.5-turbo", companionLoading, messagesToSend);
+            const reply = await window.callOpenRouterAI(userQuestion, "openai/gpt-3.5-turbo", companionLoading, messagesToSend); // userQuestion ve messagesToSend gönderildi
 
             window.displayMessage("ai", reply, companionChatBox);
             companionChatHistory.push({ role: "assistant", content: reply });
@@ -1448,9 +1511,149 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.speak(reply);
         };
 
+        // Niş Tur Talebi İşlemi
+        if (generateNichePlanBtn) {
+            generateNichePlanBtn.addEventListener('click', async () => {
+                const nicheTopic = nicheTopicInput.value.trim();
+                const nicheDetails = nicheDetailsTextarea.value.trim();
+
+                if (!nicheTopic || !nicheDetails) {
+                    window.showModal("Eksik Bilgi", "Lütfen niş konu ve özel istekler alanlarını doldurun.");
+                    return;
+                }
+                if (userMembershipLevel !== "Altın") {
+                    window.showModal("Erişim Reddedildi", "Bu özellik sadece Altın üyelere özeldir. Lütfen üyeliğinizi yükseltin.");
+                    return;
+                }
+
+                nichePlanOutput.style.display = "none";
+                const selectedLanguage = languageSelect.value;
+                const languagePrompt = `in ${selectedLanguage === 'tr' ? 'Turkish' : 'English'}`;
+
+                const prompt = `Create a highly detailed and unique travel plan for a niche topic: "${nicheTopic}".
+                                Include specific details and unexpected elements based on these requests: "${nicheDetails}".
+                                The plan should be immersive and imaginative, detailing unique experiences, locations, and practical aspects relevant to the niche.
+                                Provide the response ${languagePrompt}.`;
+
+                const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", nichePlanLoading);
+                nichePlanOutput.innerHTML = `<h4>Niş Tur Planınız (${nicheTopic}):</h4><p>${reply.replace(/\n/g, '<br>')}</p>`;
+                nichePlanOutput.style.display = "block";
+                window.speak("Niş tur planınız hazır!");
+                await window.updateTatilPuan(75, `Niş Tur Planı Oluşturma (${nicheTopic})`);
+            });
+        }
+
+
+        // Zamanda Yolculuk Tatili İşlemi
+        if (startTimeTravelBtn) {
+            startTimeTravelBtn.addEventListener('click', async () => {
+                const era = timeTravelEraInput.value.trim();
+                const duration = parseInt(timeTravelDurationInput.value);
+                const character = timeTravelCharacterInput.value.trim();
+                const focus = timeTravelFocusInput.value.trim();
+
+                if (!era || isNaN(duration) || duration < 1) {
+                    window.showModal("Eksik Bilgi", "Lütfen gitmek istediğiniz dönemi ve kalış süresini doldurun.");
+                    return;
+                }
+                if (userMembershipLevel !== "Altın") {
+                    window.showModal("Erişim Reddedildi", "Bu özellik sadece Altın üyelere özeldir. Lütfen üyeliğinizi yükseltin.");
+                    return;
+                }
+
+                timeTravelOutput.style.display = "none";
+                const selectedLanguage = languageSelect.value;
+                const languagePrompt = `in ${selectedLanguage === 'tr' ? 'Turkish' : 'English'}`;
+
+                const prompt = `Create an immersive time travel holiday experience plan for ${duration} days in the era of "${era}".
+                                If a character is specified ("${character}"), include an interaction or a scenario involving them.
+                                Focus on "${focus}" aspects of that era (e.g., daily life, events, music, food, science, warfare).
+                                Describe the sights, sounds, tastes, and historical context. Make it engaging and detailed.
+                                Provide the response ${languagePrompt}.`;
+
+                const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", timeTravelLoading);
+                timeTravelOutput.innerHTML = `<h4>Zamanda Yolculuk Deneyiminiz (${era} - ${duration} Gün):</h4><p>${reply.replace(/\n/g, '<br>')}</p>`;
+                timeTravelOutput.style.display = "block";
+                window.speak("Zaman yolculuğu tatiliniz hazır!");
+                await window.updateTatilPuan(150, `Zamanda Yolculuk (${era})`);
+            });
+        }
+
+        // Kader Rotası Tahmini İşlemi
+        if (predictDestinyBtn) {
+            predictDestinyBtn.addEventListener('click', async () => {
+                const age = parseInt(destinyAgeInput.value);
+                const hobby = destinyHobbyInput.value.trim();
+                const dream = destinyDreamInput.value.trim();
+                const color = destinyColorInput.value.trim();
+
+                if (isNaN(age) || age < 1 || !hobby || !dream || !color) {
+                    window.showModal("Eksik Bilgi", "Lütfen tüm kader rotası alanlarını doldurun.");
+                    return;
+                }
+
+                destinyRouteOutput.style.display = "none";
+                realizeDestinyBtn.style.display = "none";
+                const selectedLanguage = languageSelect.value;
+                const languagePrompt = `in ${selectedLanguage === 'tr' ? 'Turkish' : 'English'}`;
+
+                const prompt = `Based on a person's age (${age}), hobby (${hobby}), dream (${dream}), and favorite color (${color}),
+                                predict their ideal future travel destiny.
+                                Be creative, inspiring, and detailed. Describe the type of trip, destination, experiences, and why it fits their profile.
+                                Provide the response ${languagePrompt}.`;
+
+                const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", destinyLoading);
+                destinyRouteOutput.innerHTML = `<h4>Kader Rotanız:</h4><p>${reply.replace(/\n/g, '<br>')}</p>`;
+                destinyRouteOutput.style.display = "block";
+                realizeDestinyBtn.style.display = "block"; // Tahmin edildikten sonra butonu göster
+                window.speak("Kader rotanız hazırlandı!");
+                await window.updateTatilPuan(30, "Kader Rotası Tahmini");
+            });
+        }
+
+        // Kader Rotasını Gerçekleştir Butonu (VIP Özelliği)
+        if (realizeDestinyBtn) {
+            realizeDestinyBtn.addEventListener('click', async () => {
+                if (userMembershipLevel !== "Altın") {
+                    window.showModal("Erişim Reddedildi", "Bu özelliği gerçekleştirmek sadece Altın üyelere özeldir. Lütfen üyeliğinizi yükseltin.");
+                    return;
+                }
+                window.showModal("Başarılı", "Kader rotanızı gerçekleştirmek için VIP ekibimiz sizinle iletişime geçecek! Hayalleriniz gerçek oluyor...");
+                window.speak("Kader rotanız hayata geçiriliyor!");
+                await window.updateTatilPuan(500, "Kader Rotasını Gerçekleştirme (VIP)");
+            });
+        }
+
+
         companionInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") sendCompanionMessageBtn.click();
         });
+
+        // AI Yoldaşını Oluşturma İşlemi
+        if (createCompanionBtn) {
+            createCompanionBtn.addEventListener('click', async () => {
+                const companionName = companionNameInput.value.trim();
+                const companionPersonality = companionPersonalitySelect.value;
+
+                if (!companionName) {
+                    window.showModal("Eksik Bilgi", "Lütfen yoldaşınıza bir isim verin.");
+                    return;
+                }
+
+                aiCompanion = {
+                    name: companionName,
+                    personality: companionPersonality
+                };
+                companionChatHistory = []; // Yeni yoldaşla sohbeti sıfırla
+                companionChatBox.innerHTML = ''; // Sohbet kutusunu temizle
+                activeCompanionName.textContent = companionName;
+                companionChatArea.style.display = 'block';
+                window.showModal("Yoldaş Oluşturuldu", `${companionName} adında ${companionPersonality} kişilikli yoldaşınız hazır! Merhaba diyin.`);
+                window.speak(`${companionName} adında yoldaşınız hazır!`);
+                await window.updateTatilPuan(40, `AI Yoldaş Oluşturma (${companionName})`);
+            });
+        }
+
 
         completePaymentBtn.onclick = async () => {
             const cardNumber = cardNumberInput.value.trim();
@@ -1562,9 +1765,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         // console.warn("UYARI: Bu demo tek dosya, prototipleme amaçlıdır ve üretim için uygun DEĞİLDİR. API anahtarları artık frontend'de olmasa da, hassas işlemler (örn. ödeme işlemleri) için güçlü bir backend doğrulama ve güvenlik yapısı şarttır.");
         // console.warn("Firebase yapılandırma bilgilerinizi kendi bilgilerinizle değiştirmeyi UNUTMAYIN.");
         // console.warn("Firebase güvenlik kurallarınızı (Firestore Security Rules) uygulamanızın gereksinimlerine göre ayarladığınızdan emin olun. Özellikle 'public' koleksiyonları için okuma/yazma izinlerini ve kullanıcı profilleri için kullanıcıların yalnızca kendi verilerini okuyabil...
-        ```
-DOSYA SONU
-
----
-
-**Lütfen `public/index.js` dosyasının tamamını yukarıdaki kod bloğuyla değiştirdiğinizi onaylayın.** Onayladığınızda, `functions/index.js` dosyasının içeriğini göndereceğim.
+    });

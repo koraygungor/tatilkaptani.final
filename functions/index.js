@@ -71,7 +71,25 @@ exports.callImageGenerationAI = functions.https.onCall(async (data, context) => 
 
     try {
         // Gemini API çağrısını buraya ekleyin. Bu bir yer tutucudur.
-        // Örnek: const response = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${googleGeminiApiKey}`, { contents: [{ parts: [{ text: promptText }] }] }, ...);
+        // Google Gemini Vision API'sinin doğru entegrasyonu için kendi API çağrı kodunuzu yazmalısınız.
+        // Örnek bir API çağrısı aşağıdaki gibi olabilir (buradaki URL ve yapılandırma sadece bir örnektir, Gemini dökümanlarına bakın):
+        /*
+        const response = await axios.post(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${googleGeminiApiKey}`,
+            {
+                contents: [{
+                    parts: [{ text: promptText }]
+                }]
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        // Gerçek API yanıtından görsel URL'sini ayıklamanız gerekecek
+        return { imageUrl: response.data.candidates[0].content.parts[0].text };
+        */
         // Şu an için sabit bir placeholder dönüyorum.
         return { imageUrl: `https://placehold.co/600x400?text=${encodeURIComponent(promptText)}` };
 
@@ -88,7 +106,7 @@ exports.callImageGenerationAI = functions.https.onCall(async (data, context) => 
 exports.getAdminMessage = functions.https.onCall(async (data, context) => {
     try {
         // Firestore'a okunabilirlik kuralları olduğundan emin olun
-        const doc = await firestore.collection('public').doc('adminMessage').get();
+        const doc = await admin.firestore().collection('public').doc('adminMessage').get(); // Düzeltme burada yapıldı
         return { message: doc.exists ? doc.data().text : "Henüz yönetici mesajı yok." };
     } catch (error) {
         console.error("Yönetici mesajı alınırken hata:", error);
@@ -98,13 +116,18 @@ exports.getAdminMessage = functions.https.onCall(async (data, context) => {
 
 exports.updateAdminMessage = functions.https.onCall(async (data, context) => {
     // Buraya admin yetkilendirme kontrolü eklenmeli.
-    // Örn: if (!context.auth || !context.auth.token.admin) { ... }
+    if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', 'Bu işlemi yapmak için giriş yapmalısınız.');
+    }
+    // Örn: if (!context.auth.token.admin) { // Custom claims ile admin kontrolü
+    //     throw new functions.https.HttpsError('permission-denied', 'Bu işlemi yapmaya yetkiniz yok. Yönetici izni gereklidir.');
+    // }
     const message = data.message;
     if (!message) {
         throw new functions.https.HttpsError('invalid-argument', 'Mesaj boş olamaz.');
     }
     try {
-        await firestore.collection('public').doc('adminMessage').set({ text: message });
+        await admin.firestore().collection('public').doc('adminMessage').set({ text: message }); // Düzeltme burada yapıldı
         return { message: "Yönetici mesajı başarıyla güncellendi." };
     } catch (error) {
         console.error("Yönetici mesajı güncellenirken hata:", error);
@@ -114,22 +137,24 @@ exports.updateAdminMessage = functions.https.onCall(async (data, context) => {
 
 exports.sendWelcomeEmail = functions.https.onCall(async (data, context) => {
     const { email, username, subject, message, imageUrl } = data;
-    console.log(`Sending welcome email to ${email} for user ${username}`);
+    console.log(`Sending email to ${email} for user ${username} with subject: ${subject || "Welcome"}`);
 
     try {
+        // Bu kısım gerçek bir e-posta gönderme servisi (SendGrid, Nodemailer vb.) ile entegre edilmelidir.
+        // Şu an sadece simüle edilmiş bir yanıt dönüyor.
         const simulatedEmailServiceResponse = { success: true, messageId: "simulated-email-id-123" };
         console.log("Simulated email sent:", simulatedEmailServiceResponse);
 
-        let responseMessage = `Hoş geldin e-postası ${email} adresine gönderildi.`;
+        let responseMessage = `E-posta ${email} adresine gönderildi (simülasyon).`;
         let fileUrl = null;
         if (imageUrl) {
-            responseMessage += ` Hediye görsel URL'si: ${imageUrl}`;
+            responseMessage += ` Ekli görsel URL'si: ${imageUrl}`;
             fileUrl = imageUrl;
         }
         return { message: responseMessage, fileUrl: fileUrl };
 
     } catch (error) {
-        console.error("Hoş geldin e-postası gönderilirken hata:", error);
+        console.error("E-posta gönderilirken hata:", error);
         throw new functions.https.HttpsError('internal', `E-posta gönderilirken bir sorun oluştu: ${error.message}`);
     }
 });
@@ -156,7 +181,7 @@ exports.submitContactForm = functions.https.onCall(async (data, context) => {
             console.log("Uploaded file URL:", fileUrl);
         }
 
-        await firestore.collection('contactForms').add({
+        await admin.firestore().collection('contactForms').add({ // Düzeltme burada yapıldı
             subject,
             email,
             message,
