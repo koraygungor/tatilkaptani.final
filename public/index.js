@@ -22,7 +22,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const functions = firebase.functions('us-central1'); // Firebase Functions'ı belirtilen bölgede başlat
+const functions = firebase.app().functions('us-central1'); // Firebase Functions'ı belirtilen bölgede başlat
 const storage = firebase.storage(); // Firebase Storage'ı başlat (dosya yükleme için)
 
 // Global Değişkenler
@@ -43,14 +43,15 @@ let chatHistory = []; // Main chat history
 let aiCompanion = null;
 let companionChatHistory = []; // AI Yoldaş sohbet geçmişi
 
-const sloganList = [
-    "Hayallerinizin Ötesinde Bir Tatil İçin Kaptanınız Yanınızda!",
-    "Keşfedilmeyi Bekleyen Her An, Yapay Zekanın Büyülü Dokunuşuyla!",
-    "Rotanızı Çizin, Gerisini Kaptanınıza Bırakın!",
-    "Tatil Değil, Bir Deneyim! Sizin İçin Özel Tasarlandı.",
-    "Dünyayı Yeniden Tanıyın, Sanal ve Gerçek Kaptanınızla!"
-];
-let currentSloganIndex = 0;
+// Sloganlar ve güncelleme fonksiyonu kaldırıldı
+// const sloganList = [
+//     "Hayallerinizin Ötesinde Bir Tatil İçin Kaptanınız Yanınızda!",
+//     "Keşfedilmeyi Bekleyen Her An, Yapay Zekanın Büyülü Dokunuşuyla!",
+//     "Rotanızı Çizin, Gerisini Kaptanınıza Bırakın!",
+//     "Tatil Değil, Bir Deneyim! Sizin İçin Özel Tasarlandı.",
+//     "Dünyayı Yeniden Tanıyın, Sanal ve Gerçek Kaptanınızla!"
+// ];
+// let currentSloganIndex = 0;
 let currentGameQuestion = null; // Aktif soruyu ve cevabı tutar
 
 // --- DOM Elementleri ---
@@ -227,8 +228,13 @@ const contactLoading = document.getElementById('contact-loading');
 
 
 // --- Uygulama Başlangıcı ve Genel Fonksiyonlar ---
+
+
 window.initializeAppFeatures = function() {
-    // Slogan güncellemesi DOMContentLoaded içinde başlatılıyor, burada sadece bir işaretleyici olarak kaldı
+
+
+
+
 };
 
 // Modalları gizlemek için yardımcı fonksiyon
@@ -686,16 +692,7 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 // --- Event Listeners ---
 document.addEventListener('DOMContentLoaded', async () => {
     window.initializeAppFeatures();
-
-    // Slogan güncelleme fonksiyonu ve çağrıları
-    function updateSlogan() {
-        if (sloganTop) {
-            sloganTop.textContent = sloganList[currentSloganIndex];
-        }
-        currentSloganIndex = (currentSloganIndex + 1) % sloganList.length;
-    }
-    setInterval(updateSlogan, 5000);
-    updateSlogan(); // Sayfa yüklendiğinde ilk sloganı hemen göster
+});
 
     sidebarButtons.forEach(button => {
         button.addEventListener("click", () => {
@@ -1729,9 +1726,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Yıl bilgisini güncelleyen kısım
         const currentYearElement = document.getElementById('currentYear');
-        if (currentYearElement) {
+            if (currentYearElement) {
             currentYearElement.textContent = new Date().getFullYear();
         }
 
         // Geliştirici uyarıları kaldırıldı
-    });
+});     // End of auth.onAuthStateChanged listener
+        // Initialize app features when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.initializeAppFeatures();
+});

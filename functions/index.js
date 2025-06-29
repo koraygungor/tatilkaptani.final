@@ -4,7 +4,7 @@ admin.initializeApp();
 
 // OpenAI/Google Gemini API anahtarları ortam değişkenlerinden okunur.
 // Bu anahtarları Firebase config set komutuyla ayarlamanız gerekecek:
-// firebase functions:config:set openai.key="YOUR_OPENAI_API_KEY" google.gemini_key="YOUR_GOOGLE_GEMINI_API_KEY"
+// firebase functions:config:set openrouter.key="YOUR_OPENROUTER_API_KEY" google.gemini_key="YOUR_GOOGLE_GEMINI_API_KEY"
 const openAiApiKey = functions.config().openrouter?.key; // openrouter.key olarak düzeltildi
 const googleGeminiApiKey = functions.config().google?.gemini_key;
     
@@ -144,7 +144,7 @@ exports.updateAdminMessage = functions.https.onCall(async (data, context) => {
         throw new functions.https.HttpsError('invalid-argument', 'Mesaj boş olamaz.');
     }
     try {
-        // Güvenlik: Bu veriyi Firestore'a yazmak için,
+        // Güvenlik: Bu veriyi Firestore'a yazmek için,
         // Firestore Güvenlik Kuralları'nda (Firestore Security Rules)
         // sadece yetkili kullanıcılara (örn. admin) yazma izni verdiğinizden emin olun.
         await admin.firestore().collection('public').doc('data').collection('admin').doc("message").set({ message: message });
