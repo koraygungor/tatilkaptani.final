@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const functions = firebase.functions('us-central1'); // Firebase Functions'ı belirtilen bölgede başlat
 const admin = require('firebase-admin');
 admin.initializeApp();
 
