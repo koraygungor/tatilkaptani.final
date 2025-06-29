@@ -1731,7 +1731,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Geliştirici uyarıları kaldırıldı
-// End of auth.onAuthStateChanged listener
+        // End of auth.onAuthStateChanged listener
         // Initialize app features when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.initializeAppFeatures();
