@@ -1,7 +1,5 @@
 // NOT: Firebase SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
-
-
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
@@ -201,11 +199,6 @@ const realizeDestinyBtn = document.getElementById("realize-destiny-btn");
 const companionNameInput = document.getElementById("companion-name");
 const companionPersonalitySelect = document.getElementById("companion-personality");
 const createCompanionBtn = document.getElementById("create-companion-btn");
-const companionChatArea = document.getElementById("companion-chat-area");
-const activeCompanionName = document.getElementById("active-companion-name");
-const companionChatBox = document.getElementById("companion-chat-box");
-const companionInput = document.getElementById("companion-input");
-const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
 const companionLoading = document.getElementById("companion-loading");
 
 // Ödeme
@@ -699,8 +692,14 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 
 
 // --- Event Listeners ---
-document.addEventListener('DOMContentLoaded', async () => 
+document.addEventListener('DOMContentLoaded', async () 
     {
+    const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
+    const companionInput = document.getElementById("companion-input");
+    const companionChatBox = document.getElementById("companion-chat-box");
+    const companionChatArea = document.getElementById("companion-chat-area");
+    const activeCompanionName = document.getElementById("active-companion-name");
+
     window.initializeAppFeatures();
 
     sidebarButtons.forEach(button => {
@@ -1003,20 +1002,22 @@ document.addEventListener('DOMContentLoaded', async () =>
     }
 
     // Tatil Avı (Oyun)
-    startGameBtn.onclick = () => {
-        gameActive = true;
-        currentQuestionIndex = 0;
-        gameScore = 0;
-        if (currentUserId) { // Giriş yapmışsa puanı sıfırla
-            window.updateUserProfile({ gameScore: gameScore });
-        }
-        gameOutput.innerHTML = `<p><strong>Palmiye Kaptan:</strong> Tatil Avı oyununa hoş geldin! Sana 3 soru soracağım. Doğru cevap verirsen PalmCoin kazanacaksın!</p>`;
-        gameAnswerInput.style.display = "block";
-        submitGameAnswerBtn.style.display = "block";
-        startGameBtn.style.display = "none";
-        window.speak("Tatil Avı oyununa hoş geldin! Sana üç soru soracağım. Doğru cevap verirsen PalmCoin kazanacaksın!");
-        setTimeout(askNextGameQuestion, 2000);
-    };
+    if (startGameBtn) {
+        startGameBtn.onclick = () => {
+            gameActive = true;
+            currentQuestionIndex = 0;
+            gameScore = 0;
+            if (currentUserId) { // Giriş yapmışsa puanı sıfırla
+                window.updateUserProfile({ gameScore: gameScore });
+            }
+            gameOutput.innerHTML = `<p><strong>Palmiye Kaptan:</strong> Tatil Avı oyununa hoş geldin! Sana 3 soru soracağım. Doğru cevap verirsen PalmCoin kazanacaksın!</p>`;
+            gameAnswerInput.style.display = "block";
+            submitGameAnswerBtn.style.display = "block";
+            startGameBtn.style.display = "none";
+            window.speak("Tatil Avı oyununa hoş geldin! Sana üç soru soracağım. Doğru cevap verirsen PalmCoin kazanacaksın!");
+            setTimeout(askNextGameQuestion, 2000);
+        };
+    }
 
     submitGameAnswerBtn.onclick = () => handleGameAnswer(gameAnswerInput.value);
     gameAnswerInput.addEventListener("keypress", (e) => {
@@ -1670,40 +1671,42 @@ document.addEventListener('DOMContentLoaded', async () =>
             await window.updateTatilPuan(30, `AI Yoldaş Oluşturma (${companionName})`);
         };
 
-        sendCompanionMessageBtn.onclick = async () => {
-            const userMessage = companionInput.value.trim();
-            if (!userMessage) return;
+        if (sendCompanionMessageBtn) {
+            sendCompanionMessageBtn.onclick = async () => {
+                const userMessage = companionInput.value.trim();
+                if (!userMessage) return;
 
-            window.displayMessage("user", userMessage, companionChatBox);
-            companionChatHistory.push({ role: "user", content: userMessage });
-            companionInput.value = "";
+                window.displayMessage("user", userMessage, companionChatBox);
+                companionChatHistory.push({ role: "user", content: userMessage });
+                companionInput.value = "";
 
-            if (!aiCompanion) {
-                window.showModal("Hata", "Önce bir AI Yoldaşı oluşturmalısın!");
-                return;
-            }
+                if (!aiCompanion) {
+                    window.showModal("Hata", "Önce bir AI Yoldaşı oluşturmalısın!");
+                    return;
+                }
 
-            const maxHistoryLength = 5; // Bağlam için son 5 mesajı tut
-            const recentHistory = companionChatHistory.slice(Math.max(0, companionChatHistory.length - maxHistoryLength));
+                const maxHistoryLength = 5; // Bağlam için son 5 mesajı tut
+                const recentHistory = companionChatHistory.slice(Math.max(0, companionChatHistory.length - maxHistoryLength));
 
-            const systemMessage = {
-                role: "system",
-                content: `Your name is ${aiCompanion.name} and your personality is ${aiCompanion.personality}. The user's name is ${userName}.
-                            Help the user with travel and holiday topics. Provide creative, friendly, and conversational responses in line with your personality.
-                            Maintain context by considering the user's previous messages.`
+                const systemMessage = {
+                    role: "system",
+                    content: `Your name is ${aiCompanion.name} and your personality is ${aiCompanion.personality}. The user's name is ${userName}.
+                                Help the user with travel and holiday topics. Provide creative, friendly, and conversational responses in line with your personality.
+                                Maintain context by considering the user's previous messages.`
+                };
+                // Sistem mesajını her zaman ilk mesaj olarak gönder
+                const messagesToSend = [systemMessage, ...recentHistory];
+
+                // callOpenRouterAI'yi, mevcut geçmişi ve son kullanıcı mesajını içerecek şekilde çağır
+                // OpenRouter API, messages dizisi bekler.
+                const reply = await window.callOpenRouterAI(null, "openai/gpt-3.5-turbo", companionLoading, messagesToSend);
+
+                window.displayMessage("ai", reply, companionChatBox);
+                companionChatHistory.push({ role: "assistant", content: reply });
+                companionChatBox.scrollTop = companionChatBox.scrollHeight;
+                window.speak(reply);
             };
-            // Sistem mesajını her zaman ilk mesaj olarak gönder
-            const messagesToSend = [systemMessage, ...recentHistory];
-
-            // callOpenRouterAI'yi, mevcut geçmişi ve son kullanıcı mesajını içerecek şekilde çağır
-            // OpenRouter API, messages dizisi bekler.
-            const reply = await window.callOpenRouterAI(null, "openai/gpt-3.5-turbo", companionLoading, messagesToSend);
-
-            window.displayMessage("ai", reply, companionChatBox);
-            companionChatHistory.push({ role: "assistant", content: reply });
-            companionChatBox.scrollTop = companionChatBox.scrollHeight;
-            window.speak(reply);
-        };
+        }
 
         companionInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") sendCompanionMessageBtn.click();

@@ -170,6 +170,7 @@ main {
     display: inline-block;
     max-width: 80%;
     word-wrap: break-word;
+    word-break: break-word; /* Uzun kelimeleri de böler */
 }
 
 .message.user span {
@@ -574,7 +575,7 @@ button.send-btn:active {
 }
 
 .feature-form .budget-options button {
-    background-color: #004d40;
+    background-color: rgba(0, 77, 64, 0.8); /* Koyu çamur yeşili - şeffaf */
     color: white;
     padding: 8px 15px;
     border: none;
@@ -582,13 +583,20 @@ button.send-btn:active {
     cursor: pointer;
     margin-right: 10px;
     margin-bottom: 10px;
-    opacity: 0.8; /* Butonların şeffaflığı */
+    opacity: 0.9;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.feature-form .budget-options button:hover {
+    opacity: 1;
+    background-color: #004d40;
 }
 
 .feature-form .budget-options button.selected {
-    background-color: #004d40;
-    border: 2px solid rgba(224, 242, 241, 0.5); /* Daha şeffaf kenarlık */
+    background-color: #004d40; /* Seçili olduğunda daha koyu */
+    border: 2px solid #a7d9b9; /* Hafif çerçeve */
     opacity: 1;
+    font-weight: bold;
 }
 
 .plan-output {
