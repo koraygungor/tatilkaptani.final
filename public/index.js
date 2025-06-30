@@ -483,7 +483,7 @@ window.showModal = function(title, message) {
             resolve(true);
         };
         modalConfirmBtnEl.addEventListener("click", handleConfirm);
-        modalConfirmBtnBtnEl._eventListener = handleConfirm; // Dinleyiciyi sakla
+        modalConfirmBtnEl._eventListener = handleConfirm; // Dinleyiciyi sakla
     });
 };
 
