@@ -1724,6 +1724,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
 
+});     // End of auth.onAuthStateChanged listener
         // Yıl bilgisini güncelleyen kısım
         const currentYearElement = document.getElementById('currentYear');
             if (currentYearElement) {

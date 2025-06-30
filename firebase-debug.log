@@ -1,0 +1,405 @@
+[debug] [2025-06-29T20:02:25.058Z] ----------------------------------------------------------------------
+[debug] [2025-06-29T20:02:25.067Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2025-06-29T20:02:25.068Z] CLI Version:   14.9.0
+[debug] [2025-06-29T20:02:25.068Z] Platform:      win32
+[debug] [2025-06-29T20:02:25.068Z] Node Version:  v22.16.0
+[debug] [2025-06-29T20:02:25.069Z] Time:          Sun Jun 29 2025 23:02:25 GMT+0300 (GMT+03:00)
+[debug] [2025-06-29T20:02:25.069Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-06-29T20:02:25.836Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-29T20:02:25.837Z] > authorizing via signed-in user (koray_gungorr@hotmail.com)
+[info] i  emulators: Starting emulators: functions, hosting, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, hosting, extensions"}}
+[debug] [2025-06-29T20:02:25.846Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:25.846Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:25.848Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/tatilkaptanifinal [none]
+[debug] [2025-06-29T20:02:26.865Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/tatilkaptanifinal 200
+[debug] [2025-06-29T20:02:26.866Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/tatilkaptanifinal {"projectNumber":"748801975441","projectId":"tatilkaptanifinal","lifecycleState":"ACTIVE","name":"tatilkaptanifinal","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-06-27T08:36:07.218112Z"}
+[debug] [2025-06-29T20:02:26.894Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-06-29T20:02:26.894Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-06-29T20:02:26.895Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-06-29T20:02:26.914Z] [hub] writing locator at C:\Users\Casper\AppData\Local\Temp\hub-tatilkaptanifinal.json
+[debug] [2025-06-29T20:02:26.931Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2025-06-29T20:02:26.947Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-06-29T20:02:26.948Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-06-29T20:02:26.948Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-06-29T20:02:26.949Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, auth, firestore, database, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2025-06-29T20:02:26.994Z] defaultcredentials: writing to file C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json
+[debug] [2025-06-29T20:02:26.998Z] Setting GAC to C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\Casper\\AppData\\Roaming\\firebase\\koray_gungorr_hotmail_com_application_default_credentials.json"}}
+[debug] [2025-06-29T20:02:26.999Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:27.000Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:27.000Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal/adminSdkConfig [none]
+[debug] [2025-06-29T20:02:27.413Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal/adminSdkConfig 200
+[debug] [2025-06-29T20:02:27.413Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal/adminSdkConfig {"projectId":"tatilkaptanifinal","storageBucket":"tatilkaptanifinal.firebasestorage.app"}
+[debug] [2025-06-29T20:02:27.482Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:27.482Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:27.482Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/tatilkaptanifinal/sites 
+[debug] [2025-06-29T20:02:28.722Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/tatilkaptanifinal/sites 200
+[debug] [2025-06-29T20:02:28.722Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/tatilkaptanifinal/sites {"sites":[{"name":"projects/tatilkaptanifinal/sites/tatilkaptanifinal","defaultUrl":"https://tatilkaptanifinal.web.app","appId":"1:748801975441:web:df703885770ab31b658b30","type":"DEFAULT_SITE"}]}
+[debug] [2025-06-29T20:02:28.723Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:28.723Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:28.723Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal/webApps/1:748801975441:web:df703885770ab31b658b30/config [none]
+[debug] [2025-06-29T20:02:29.244Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal/webApps/1:748801975441:web:df703885770ab31b658b30/config 200
+[debug] [2025-06-29T20:02:29.245Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal/webApps/1:748801975441:web:df703885770ab31b658b30/config {"projectId":"tatilkaptanifinal","appId":"1:748801975441:web:df703885770ab31b658b30","storageBucket":"tatilkaptanifinal.firebasestorage.app","apiKey":"AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU","authDomain":"tatilkaptanifinal.firebaseapp.com","messagingSenderId":"748801975441","measurementId":"G-3XBBMJTQ8K"}
+[debug] [2025-06-29T20:02:29.284Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:29.285Z] Checked if tokens are valid: true, expires at: 1751230678894
+[debug] [2025-06-29T20:02:29.285Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal [none]
+[debug] [2025-06-29T20:02:29.555Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal 200
+[debug] [2025-06-29T20:02:29.555Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tatilkaptanifinal {"projectId":"tatilkaptanifinal","projectNumber":"748801975441","displayName":"tatilkaptanifinal","name":"projects/tatilkaptanifinal","resources":{"hostingSite":"tatilkaptanifinal"},"state":"ACTIVE","etag":"1_905fd371-ab31-4246-9a45-f26aaf725d71"}
+[info] i  hosting[tatilkaptanifinal]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
+[info] +  hosting[tatilkaptanifinal]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
+[info] i  ui: downloading ui-v1.15.0.zip... {"metadata":{"emulator":{"name":"ui"},"message":"downloading ui-v1.15.0.zip..."}}
+[debug] [2025-06-29T20:02:29.787Z] >>> [apiv2][query] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.15.0.zip 
+[debug] [2025-06-29T20:02:30.121Z] <<< [apiv2][status] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.15.0.zip 200
+[debug] [2025-06-29T20:02:30.121Z] <<< [apiv2][body] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.15.0.zip [stream]
+[debug] [2025-06-29T20:02:31.329Z] Data is 3538469
+[debug] [2025-06-29T20:02:31.330Z] [unzip] Entry: client/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-06-29T20:02:31.330Z] [unzip] Processing entry: client\
+[debug] [2025-06-29T20:02:31.330Z] [unzip] mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\
+[debug] [2025-06-29T20:02:31.331Z] [unzip] Entry: client/favicon-16x16.png (compressed_size=293 bytes, uncompressed_size=293 bytes)
+[debug] [2025-06-29T20:02:31.331Z] [unzip] Processing entry: client\favicon-16x16.png
+[debug] [2025-06-29T20:02:31.332Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.332Z] [unzip] Writing file: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\favicon-16x16.png
+[debug] [2025-06-29T20:02:31.334Z] [unzip] Entry: client/safari-pinned-tab.svg (compressed_size=1433 bytes, uncompressed_size=2611 bytes)
+[debug] [2025-06-29T20:02:31.335Z] [unzip] Processing entry: client\safari-pinned-tab.svg
+[debug] [2025-06-29T20:02:31.335Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.335Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\safari-pinned-tab.svg
+[debug] [2025-06-29T20:02:31.351Z] [unzip] Entry: client/favicon.ico (compressed_size=2933 bytes, uncompressed_size=13294 bytes)
+[debug] [2025-06-29T20:02:31.352Z] [unzip] Processing entry: client\favicon.ico
+[debug] [2025-06-29T20:02:31.353Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.355Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\favicon.ico
+[debug] [2025-06-29T20:02:31.360Z] [unzip] Entry: client/index.html (compressed_size=1364 bytes, uncompressed_size=3071 bytes)
+[debug] [2025-06-29T20:02:31.361Z] [unzip] Processing entry: client\index.html
+[debug] [2025-06-29T20:02:31.361Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.362Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\index.html
+[debug] [2025-06-29T20:02:31.366Z] [unzip] Entry: client/android-chrome-192x192.png (compressed_size=2684 bytes, uncompressed_size=2684 bytes)
+[debug] [2025-06-29T20:02:31.367Z] [unzip] Processing entry: client\android-chrome-192x192.png
+[debug] [2025-06-29T20:02:31.367Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.368Z] [unzip] Writing file: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\android-chrome-192x192.png
+[debug] [2025-06-29T20:02:31.382Z] [unzip] Entry: client/apple-touch-icon.png (compressed_size=2123 bytes, uncompressed_size=2152 bytes)
+[debug] [2025-06-29T20:02:31.382Z] [unzip] Processing entry: client\apple-touch-icon.png
+[debug] [2025-06-29T20:02:31.383Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.384Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\apple-touch-icon.png
+[debug] [2025-06-29T20:02:31.391Z] [unzip] Entry: client/android-chrome-512x512.png (compressed_size=5369 bytes, uncompressed_size=5411 bytes)
+[debug] [2025-06-29T20:02:31.391Z] [unzip] Processing entry: client\android-chrome-512x512.png
+[debug] [2025-06-29T20:02:31.391Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.401Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\android-chrome-512x512.png
+[debug] [2025-06-29T20:02:31.412Z] [unzip] Entry: client/manifest.json (compressed_size=245 bytes, uncompressed_size=551 bytes)
+[debug] [2025-06-29T20:02:31.412Z] [unzip] Processing entry: client\manifest.json
+[debug] [2025-06-29T20:02:31.412Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.413Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\manifest.json
+[debug] [2025-06-29T20:02:31.418Z] [unzip] Entry: client/robots.txt (compressed_size=26 bytes, uncompressed_size=26 bytes)
+[debug] [2025-06-29T20:02:31.418Z] [unzip] Processing entry: client\robots.txt
+[debug] [2025-06-29T20:02:31.419Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.419Z] [unzip] Writing file: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\robots.txt
+[debug] [2025-06-29T20:02:31.422Z] [unzip] Entry: client/mstile-150x150.png (compressed_size=2034 bytes, uncompressed_size=2034 bytes)
+[debug] [2025-06-29T20:02:31.422Z] [unzip] Processing entry: client\mstile-150x150.png
+[debug] [2025-06-29T20:02:31.423Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.423Z] [unzip] Writing file: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\mstile-150x150.png
+[debug] [2025-06-29T20:02:31.426Z] [unzip] Entry: client/assets/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-06-29T20:02:31.426Z] [unzip] Processing entry: client\assets\
+[debug] [2025-06-29T20:02:31.426Z] [unzip] mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\
+[debug] [2025-06-29T20:02:31.448Z] [unzip] Entry: client/assets/index-BX-A56oj.js (compressed_size=582089 bytes, uncompressed_size=2092775 bytes)
+[debug] [2025-06-29T20:02:31.448Z] [unzip] Processing entry: client\assets\index-BX-A56oj.js
+[debug] [2025-06-29T20:02:31.448Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets
+[debug] [2025-06-29T20:02:31.449Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\index-BX-A56oj.js
+[debug] [2025-06-29T20:02:31.475Z] [unzip] Entry: client/assets/index-CjB9C900.css (compressed_size=35979 bytes, uncompressed_size=298654 bytes)
+[debug] [2025-06-29T20:02:31.475Z] [unzip] Processing entry: client\assets\index-CjB9C900.css
+[debug] [2025-06-29T20:02:31.475Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets
+[debug] [2025-06-29T20:02:31.476Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\index-CjB9C900.css
+[debug] [2025-06-29T20:02:31.481Z] [unzip] Entry: client/assets/index-BX-A56oj.js.map (compressed_size=2362482 bytes, uncompressed_size=10036679 bytes)
+[debug] [2025-06-29T20:02:31.481Z] [unzip] Processing entry: client\assets\index-BX-A56oj.js.map
+[debug] [2025-06-29T20:02:31.481Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets
+[debug] [2025-06-29T20:02:31.481Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\index-BX-A56oj.js.map
+[debug] [2025-06-29T20:02:31.589Z] [unzip] Entry: client/assets/extensions/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-06-29T20:02:31.589Z] [unzip] Processing entry: client\assets\extensions\
+[debug] [2025-06-29T20:02:31.589Z] [unzip] mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\extensions\
+[debug] [2025-06-29T20:02:31.590Z] [unzip] Entry: client/assets/extensions/default-extension.png (compressed_size=1646 bytes, uncompressed_size=1657 bytes)
+[debug] [2025-06-29T20:02:31.590Z] [unzip] Processing entry: client\assets\extensions\default-extension.png
+[debug] [2025-06-29T20:02:31.590Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\extensions
+[debug] [2025-06-29T20:02:31.591Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\extensions\default-extension.png
+[debug] [2025-06-29T20:02:31.594Z] [unzip] Entry: client/assets/img/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-06-29T20:02:31.594Z] [unzip] Processing entry: client\assets\img\
+[debug] [2025-06-29T20:02:31.594Z] [unzip] mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\img\
+[debug] [2025-06-29T20:02:31.595Z] [unzip] Entry: client/assets/img/database.png (compressed_size=29449 bytes, uncompressed_size=29988 bytes)
+[debug] [2025-06-29T20:02:31.595Z] [unzip] Processing entry: client\assets\img\database.png
+[debug] [2025-06-29T20:02:31.595Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\img
+[debug] [2025-06-29T20:02:31.596Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\img\database.png
+[debug] [2025-06-29T20:02:31.604Z] [unzip] Entry: client/assets/provider-icons/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-06-29T20:02:31.604Z] [unzip] Processing entry: client\assets\provider-icons\
+[debug] [2025-06-29T20:02:31.604Z] [unzip] mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\
+[debug] [2025-06-29T20:02:31.605Z] [unzip] Entry: client/assets/provider-icons/auth_service_saml.svg (compressed_size=575 bytes, uncompressed_size=1226 bytes)
+[debug] [2025-06-29T20:02:31.606Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_saml.svg
+[debug] [2025-06-29T20:02:31.606Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.606Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_saml.svg
+[debug] [2025-06-29T20:02:31.610Z] [unzip] Entry: client/assets/provider-icons/auth_service_phone.svg (compressed_size=261 bytes, uncompressed_size=414 bytes)
+[debug] [2025-06-29T20:02:31.610Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_phone.svg
+[debug] [2025-06-29T20:02:31.610Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.611Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_phone.svg
+[debug] [2025-06-29T20:02:31.631Z] [unzip] Entry: client/assets/provider-icons/auth_service_facebook.svg (compressed_size=289 bytes, uncompressed_size=457 bytes)
+[debug] [2025-06-29T20:02:31.632Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_facebook.svg
+[debug] [2025-06-29T20:02:31.632Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.633Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_facebook.svg
+[debug] [2025-06-29T20:02:31.638Z] [unzip] Entry: client/assets/provider-icons/auth_service_game_center.svg (compressed_size=991 bytes, uncompressed_size=3921 bytes)
+[debug] [2025-06-29T20:02:31.638Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_game_center.svg
+[debug] [2025-06-29T20:02:31.638Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.639Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_game_center.svg
+[debug] [2025-06-29T20:02:31.652Z] [unzip] Entry: client/assets/provider-icons/auth_service_apple.svg (compressed_size=230 bytes, uncompressed_size=334 bytes)
+[debug] [2025-06-29T20:02:31.653Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_apple.svg
+[debug] [2025-06-29T20:02:31.653Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.654Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_apple.svg
+[debug] [2025-06-29T20:02:31.657Z] [unzip] Entry: client/assets/provider-icons/auth_service_github.svg (compressed_size=466 bytes, uncompressed_size=838 bytes)
+[debug] [2025-06-29T20:02:31.658Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_github.svg
+[debug] [2025-06-29T20:02:31.658Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.663Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_github.svg
+[debug] [2025-06-29T20:02:31.667Z] [unzip] Entry: client/assets/provider-icons/auth_service_mslive.svg (compressed_size=203 bytes, uncompressed_size=378 bytes)
+[debug] [2025-06-29T20:02:31.667Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_mslive.svg
+[debug] [2025-06-29T20:02:31.668Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.668Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_mslive.svg
+[debug] [2025-06-29T20:02:31.672Z] [unzip] Entry: client/assets/provider-icons/auth_service_yahoo.svg (compressed_size=577 bytes, uncompressed_size=1182 bytes)
+[debug] [2025-06-29T20:02:31.672Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_yahoo.svg
+[debug] [2025-06-29T20:02:31.672Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.673Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_yahoo.svg
+[debug] [2025-06-29T20:02:31.677Z] [unzip] Entry: client/assets/provider-icons/auth_service_twitter.svg (compressed_size=444 bytes, uncompressed_size=751 bytes)
+[debug] [2025-06-29T20:02:31.677Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_twitter.svg
+[debug] [2025-06-29T20:02:31.677Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.678Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_twitter.svg
+[debug] [2025-06-29T20:02:31.705Z] [unzip] Entry: client/assets/provider-icons/auth_service_play_games.svg (compressed_size=565 bytes, uncompressed_size=1173 bytes)
+[debug] [2025-06-29T20:02:31.705Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_play_games.svg
+[debug] [2025-06-29T20:02:31.705Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.706Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_play_games.svg
+[debug] [2025-06-29T20:02:31.713Z] [unzip] Entry: client/assets/provider-icons/auth_service_email.svg (compressed_size=228 bytes, uncompressed_size=326 bytes)
+[debug] [2025-06-29T20:02:31.713Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_email.svg
+[debug] [2025-06-29T20:02:31.713Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.714Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_email.svg
+[debug] [2025-06-29T20:02:31.732Z] [unzip] Entry: client/assets/provider-icons/auth_service_google.svg (compressed_size=409 bytes, uncompressed_size=720 bytes)
+[debug] [2025-06-29T20:02:31.733Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_google.svg
+[debug] [2025-06-29T20:02:31.733Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.734Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_google.svg
+[debug] [2025-06-29T20:02:31.738Z] [unzip] Entry: client/assets/provider-icons/auth_service_oidc.svg (compressed_size=414 bytes, uncompressed_size=858 bytes)
+[debug] [2025-06-29T20:02:31.738Z] [unzip] Processing entry: client\assets\provider-icons\auth_service_oidc.svg
+[debug] [2025-06-29T20:02:31.738Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons
+[debug] [2025-06-29T20:02:31.739Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\assets\provider-icons\auth_service_oidc.svg
+[debug] [2025-06-29T20:02:31.802Z] [unzip] Entry: client/browserconfig.xml (compressed_size=491 bytes, uncompressed_size=822 bytes)
+[debug] [2025-06-29T20:02:31.803Z] [unzip] Processing entry: client\browserconfig.xml
+[debug] [2025-06-29T20:02:31.803Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.807Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\browserconfig.xml
+[debug] [2025-06-29T20:02:31.812Z] [unzip] Entry: client/favicon-32x32.png (compressed_size=475 bytes, uncompressed_size=475 bytes)
+[debug] [2025-06-29T20:02:31.813Z] [unzip] Processing entry: client\favicon-32x32.png
+[debug] [2025-06-29T20:02:31.814Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client
+[debug] [2025-06-29T20:02:31.814Z] [unzip] Writing file: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\client\favicon-32x32.png
+[debug] [2025-06-29T20:02:31.816Z] [unzip] Entry: server/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-06-29T20:02:31.818Z] [unzip] Processing entry: server\
+[debug] [2025-06-29T20:02:31.819Z] [unzip] mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\server\
+[debug] [2025-06-29T20:02:31.828Z] [unzip] Entry: server/server.mjs.map (compressed_size=217845 bytes, uncompressed_size=944978 bytes)
+[debug] [2025-06-29T20:02:31.828Z] [unzip] Processing entry: server\server.mjs.map
+[debug] [2025-06-29T20:02:31.828Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\server
+[debug] [2025-06-29T20:02:31.829Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\server\server.mjs.map
+[debug] [2025-06-29T20:02:31.878Z] [unzip] Entry: server/server.mjs (compressed_size=276407 bytes, uncompressed_size=933701 bytes)
+[debug] [2025-06-29T20:02:31.878Z] [unzip] Processing entry: server\server.mjs
+[debug] [2025-06-29T20:02:31.878Z] [unzip] else mkdir: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\server
+[debug] [2025-06-29T20:02:31.879Z] [unzip] deflating: C:\Users\Casper\.cache\firebase\emulators\ui-v1.15.0\server\server.mjs
+[debug] [2025-06-29T20:02:31.911Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "C:\Users\Casper\Desktop\deneme\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\Casper\\Desktop\\deneme\\functions\" for Cloud Functions..."}}
+[debug] [2025-06-29T20:02:32.030Z] Validating nodejs source
+[debug] [2025-06-29T20:02:34.450Z] > [functions] package.json contents: {
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "Firebase Cloud Functions for TatilKaptani.com",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.3.2",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koraygungor/tatilkaptani.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koraygungor/tatilkaptani/issues"
+  },
+  "homepage": "https://github.com/koraygungor/tatilkaptani#readme"
+}
+[debug] [2025-06-29T20:02:34.451Z] Building nodejs source
+[debug] [2025-06-29T20:02:34.452Z] Failed to find version of module node: reached end of search path C:\Users\Casper\Desktop\deneme\functions\node_modules
+[warn] !  functions: Your requested "node" version "20" doesn't match your global version "22". Using node@22 from host. 
+[debug] [2025-06-29T20:02:34.456Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-06-29T20:02:34.470Z] Found firebase-functions binary at 'C:\Users\Casper\Desktop\deneme\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8627
+
+[debug] [2025-06-29T20:02:36.642Z] Got response from /__/functions.yaml {"endpoints":{"callOpenRouterAI":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"callOpenRouterAI"},"callImageGenerationAI":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"callImageGenerationAI"},"getAdminMessage":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAdminMessage"},"updateAdminMessage":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"updateAdminMessage"},"sendWelcomeEmail":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"sendWelcomeEmail"},"submitContactForm":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"submitContactForm"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-06-29T20:02:40.727Z] defaultcredentials: writing to file C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json
+[debug] [2025-06-29T20:02:40.728Z] Setting GAC to C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\Casper\\AppData\\Roaming\\firebase\\koray_gungorr_hotmail_com_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: callOpenRouterAI, callImageGenerationAI, getAdminMessage, updateAdminMessage, sendWelcomeEmail, submitContactForm. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: callOpenRouterAI, callImageGenerationAI, getAdminMessage, updateAdminMessage, sendWelcomeEmail, submitContactForm."}}
+[info] +  functions[us-central1-callOpenRouterAI]: http function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/callOpenRouterAI). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/callOpenRouterAI)."}}
+[info] +  functions[us-central1-callImageGenerationAI]: http function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/callImageGenerationAI). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/callImageGenerationAI)."}}
+[info] +  functions[us-central1-getAdminMessage]: http function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/getAdminMessage). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/getAdminMessage)."}}
+[info] +  functions[us-central1-updateAdminMessage]: http function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/updateAdminMessage). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/updateAdminMessage)."}}
+[info] +  functions[us-central1-sendWelcomeEmail]: http function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/sendWelcomeEmail). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/sendWelcomeEmail)."}}
+[info] +  functions[us-central1-submitContactForm]: http function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/submitContactForm). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tatilkaptanifinal/us-central1/submitContactForm)."}}
+[debug] [2025-06-29T20:02:40.783Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator   │ Host:Port      │ View in Emulator UI              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Functions  │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Hosting    │ 127.0.0.1:5000 │ n/a                              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2025-06-29T20:04:56.341Z] File C:\Users\Casper\Desktop\deneme\functions\package-lock.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\Casper\\Desktop\\deneme\\functions\\package-lock.json changed, reloading triggers"}}
+[debug] [2025-06-29T20:04:57.344Z] Validating nodejs source
+[debug] [2025-06-30T02:57:23.827Z] checkFunctionsSDKVersion was unable to fetch information from NPM Error: spawnSync C:\Windows\system32\cmd.exe ETIMEDOUT
+    at Object.spawnSync (node:internal/child_process:1120:20)
+    at Object.spawnSync (node:child_process:868:24)
+    at Function.spawnSync [as sync] (C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\index.js:26:23)
+    at Object.getLatestSDKVersion (C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\versioning.js:54:25)
+    at Object.checkFunctionsSDKVersion (C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\versioning.js:74:32)
+    at Delegate.validate (C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\index.js:86:20)
+    at FunctionsEmulator.discoverTriggers (C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\functionsEmulator.js:313:35)
+    at async FunctionsEmulator.loadTriggers (C:\Users\Casper\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\functionsEmulator.js:353:34)
+[debug] [2025-06-30T02:57:23.829Z] > [functions] package.json contents: {
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "Firebase Cloud Functions for TatilKaptani.com",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.3.2",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koraygungor/tatilkaptani.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koraygungor/tatilkaptani/issues"
+  },
+  "homepage": "https://github.com/koraygungor/tatilkaptani#readme"
+}
+[debug] [2025-06-30T02:57:23.830Z] Building nodejs source
+[debug] [2025-06-30T02:57:23.831Z] Failed to find version of module node: reached end of search path C:\Users\Casper\Desktop\deneme\functions\node_modules
+[warn] !  functions: Your requested "node" version "20" doesn't match your global version "22". Using node@22 from host. 
+[debug] [2025-06-30T02:57:23.848Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-06-30T02:57:23.904Z] Found firebase-functions binary at 'C:\Users\Casper\Desktop\deneme\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8215
+
+[debug] [2025-06-30T02:57:31.341Z] Got response from /__/functions.yaml {"endpoints":{"callOpenRouterAI":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"callOpenRouterAI"},"callImageGenerationAI":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"callImageGenerationAI"},"getAdminMessage":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAdminMessage"},"updateAdminMessage":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"updateAdminMessage"},"sendWelcomeEmail":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"sendWelcomeEmail"},"submitContactForm":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"submitContactForm"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-06-30T02:57:35.388Z] defaultcredentials: writing to file C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json
+[debug] [2025-06-30T02:57:35.389Z] Setting GAC to C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\Casper\\AppData\\Roaming\\firebase\\koray_gungorr_hotmail_com_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: callOpenRouterAI, callImageGenerationAI, getAdminMessage, updateAdminMessage, sendWelcomeEmail, submitContactForm. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: callOpenRouterAI, callImageGenerationAI, getAdminMessage, updateAdminMessage, sendWelcomeEmail, submitContactForm."}}
+[debug] [2025-06-30T03:00:58.167Z] File C:\Users\Casper\Desktop\deneme\functions\package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File C:\\Users\\Casper\\Desktop\\deneme\\functions\\package.json changed, reloading triggers"}}
+[debug] [2025-06-30T03:00:59.170Z] Validating nodejs source
+[debug] [2025-06-30T03:01:03.192Z] > [functions] package.json contents: {
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "Firebase Cloud Functions for TatilKaptani.com",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.3.2",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koraygungor/tatilkaptani.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koraygungor/tatilkaptani/issues"
+  },
+  "homepage": "https://github.com/koraygungor/tatilkaptani#readme"
+}
+[debug] [2025-06-30T03:01:03.192Z] Building nodejs source
+[debug] [2025-06-30T03:01:03.192Z] Failed to find version of module node: reached end of search path C:\Users\Casper\Desktop\deneme\functions\node_modules
+[warn] !  functions: Your requested "node" version "20" doesn't match your global version "22". Using node@22 from host. 
+[debug] [2025-06-30T03:01:03.195Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-06-30T03:01:03.209Z] Found firebase-functions binary at 'C:\Users\Casper\Desktop\deneme\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8491
+
+[debug] [2025-06-30T03:01:05.365Z] Got response from /__/functions.yaml {"endpoints":{"callOpenRouterAI":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"callOpenRouterAI"},"callImageGenerationAI":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"callImageGenerationAI"},"getAdminMessage":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getAdminMessage"},"updateAdminMessage":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"updateAdminMessage"},"sendWelcomeEmail":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"sendWelcomeEmail"},"submitContactForm":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"submitContactForm"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-06-30T03:01:09.414Z] defaultcredentials: writing to file C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json
+[debug] [2025-06-30T03:01:09.415Z] Setting GAC to C:\Users\Casper\AppData\Roaming\firebase\koray_gungorr_hotmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\Casper\\AppData\\Roaming\\firebase\\koray_gungorr_hotmail_com_application_default_credentials.json"}}
+[info] +  functions: Loaded functions definitions from source: callOpenRouterAI, callImageGenerationAI, getAdminMessage, updateAdminMessage, sendWelcomeEmail, submitContactForm. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: callOpenRouterAI, callImageGenerationAI, getAdminMessage, updateAdminMessage, sendWelcomeEmail, submitContactForm."}}
