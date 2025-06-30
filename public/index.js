@@ -692,7 +692,6 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 // --- Event Listeners ---
 document.addEventListener('DOMContentLoaded', async () => {
     window.initializeAppFeatures();
-});
 
     sidebarButtons.forEach(button => {
         button.addEventListener("click", () => {
@@ -1724,16 +1723,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
 
-});     // End of auth.onAuthStateChanged listener
         // Yıl bilgisini güncelleyen kısım
         const currentYearElement = document.getElementById('currentYear');
             if (currentYearElement) {
             currentYearElement.textContent = new Date().getFullYear();
         }
-
         // Geliştirici uyarıları kaldırıldı
-});     // End of auth.onAuthStateChanged listener
-        // Initialize app features when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.initializeAppFeatures();
-});
+});     // End of main DOMContentLoaded listener
