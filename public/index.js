@@ -15,7 +15,8 @@ const firebaseConfig = {
   storageBucket: "tatilkaptanifinal.firebasestorage.app",
   messagingSenderId: "748801975441",
   appId: "1:748801975441:web:df703885770ab31b658b30",
-  measurementId: "G-3XBBMJTQ8K"
+  measurementId: "G-0BQJQ25XX1"
+};
 
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);

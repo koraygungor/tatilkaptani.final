@@ -1,22 +1,17 @@
-ım<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
-    <!-- Favicon bağlantısı tamamen kaldırıldı -->
-
-    <!-- Firebase SDK'ları güncel sürüm ve compat modunda yüklendi -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     
-    <!-- Font Awesome ikon kütüphanesi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Kendi stil dosyanız -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -109,8 +104,7 @@
                         <option value="en">English</option>
                     </select>
                 </div>
-                <span id="slogan-top"></span> <!-- Slogan elementi boş kalacak, JS'ten güncellenmeyecek -->
-            </div>
+                <span id="slogan-top"></span> </div>
 
             <div id="chat-section" class="content-section active">
                 <h2><i class="fas fa-comments"></i> Sohbet Asistanı</h2>
@@ -175,28 +169,26 @@
                     <div class="feature-section">
                         <h3>Hayalindeki Fotoğrafı Oluştur (Altın Üye Özel)</h3>
                         <p>Ne tür bir fotoğraf istediğinizi detaylıca tanımlayın. Örneğin: "Gün batımında tropik bir adada palmiye ağaçları ve sakin bir deniz, gerçeküstü tarzda, yüksek çözünürlüklü".</p>
-                        <div class="feature-form">
-                            <label for="ai-photo-prompt">Fotoğraf Açıklaması:</label>
-                            <textarea id="ai-photo-prompt" rows="4" placeholder="Örn: Sualtı şehrinde yüzen balıklar, fütüristik, parlak renkler..."></textarea>
-                            <label for="ai-photo-style">Fotoğraf Stili:</label>
-                            <select id="ai-photo-style">
-                                <option value="realistic">Gerçekçi</option>
-                                <option value="watercolor">Suluboya</option>
-                                <option value="anime">Anime</option>
-                                <option value="cyberpunk">Siberpunk</option>
-                                <option value="fantasy">Fantastik</option>
-                            </select>
-                            <label for="ai-photo-count">Oluşturulacak Resim Sayısı (1-3):</label>
-                            <input type="number" id="ai-photo-count" value="1" min="1" max="3" />
-                            <button id="generate-ai-photo-btn">Fotoğrafı Oluştur</button>
+                        <label for="ai-photo-prompt">Fotoğraf Açıklaması:</label>
+                        <textarea id="ai-photo-prompt" rows="4" placeholder="Örn: Sualtı şehrinde yüzen balıklar, fütüristik, parlak renkler..."></textarea>
+                        <label for="ai-photo-style">Fotoğraf Stili:</label>
+                        <select id="ai-photo-style">
+                            <option value="realistic">Gerçekçi</option>
+                            <option value="watercolor">Suluboya</option>
+                            <option value="anime">Anime</option>
+                            <option value="cyberpunk">Siberpunk</option>
+                            <option value="fantasy">Fantastik</option>
+                        </select>
+                        <label for="ai-photo-count">Oluşturulacak Resim Sayısı (1-3):</label>
+                        <input type="number" id="ai-photo-count" value="1" min="1" max="3" />
+                        <button id="generate-ai-photo-btn">Fotoğrafı Oluştur</button>
+                    </div>
+                    <div class="loading-indicator" id="ai-photo-loading"><i class="fas fa-spinner fa-spin"></i> Fotoğrafınız oluşturuluyor...</div>
+                    <div id="ai-photo-output" class="plan-output" style="display: none;">
+                        <h4>Oluşturulan Fotoğraflarınız:</h4>
+                        <div id="generated-images-container" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px;">
                         </div>
-                        <div class="loading-indicator" id="ai-photo-loading"><i class="fas fa-spinner fa-spin"></i> Fotoğrafınız oluşturuluyor...</div>
-                        <div id="ai-photo-output" class="plan-output" style="display: none;">
-                            <h4>Oluşturulan Fotoğraflarınız:</h4>
-                            <div id="generated-images-container" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px;">
-                            </div>
-                            <button id="download-all-images-btn" style="margin-top: 15px; display: none;">Tümünü İndir (<span id="download-all-cost"></span> PalmCoin)</button>
-                        </div>
+                        <button id="download-all-images-btn" style="margin-top: 15px; display: none;">Tümünü İndir (<span id="download-all-cost"></span> PalmCoin)</button>
                     </div>
                 </div>
             </div>
@@ -213,55 +205,53 @@
                     <div class="feature-section">
                         <h3>A'dan Z'ye Tatil Planlama (Altın Üye Özel)</h3>
                         <p>Hayalinizdeki tatilin tüm detaylarını yapay zekamız sizin için ayarlasın! Otelinden uçağına, transferinden her gezisine kadar sanal yapay zeka ayarlayıp rota çizecek ve size gönderecek!</p>
-                        <div class="feature-form">
-                            <label for="vip-destination">Gidilecek Şehir/Ülke:</label>
-                            <input type="text" id="vip-destination" placeholder="Örn: Tokyo" />
-                            <label for="vip-duration">Kalış Süresi (Gün):</label>
-                            <input type="number" id="vip-duration" placeholder="Örn: 7" min="1" />
-                            <label for="vip-travelers">Kişi Sayısı:</label>
-                            <input type="number" id="vip-travelers" placeholder="Örn: 2" min="1" />
-                            <label for="vip-budget">Bütçe Seviyesi:</label>
-                            <div class="budget-options">
-                                <button data-budget="ekonomik">Ekonomik</button>
-                                <button data-budget="orta">Orta</button>
-                                <button data-budget="lüks">Lüks</button>
-                            </div>
-                            <label for="vip-type">Tatil Tipi:</label>
-                            <select id="vip-type">
-                                <option value="macera">Macera</option>
-                                <option value="dinlenme">Dinlenme</option>
-                                <option value="kültür">Kültür</option>
-                                <option value="romantik">Romantik</option>
-                                <option value="aile">Aile</option>
-                                <option value="alisveris">Alışveriş</option>
-                            </select>
-                            <button id="generate-vip-plan-btn">VIP Planı Oluştur</button>
+                        <label for="vip-destination">Gidilecek Şehir/Ülke:</label>
+                        <input type="text" id="vip-destination" placeholder="Örn: Tokyo" />
+                        <label for="vip-duration">Kalış Süresi (Gün):</label>
+                        <input type="number" id="vip-duration" placeholder="Örn: 7" min="1" />
+                        <label for="vip-travelers">Kişi Sayısı:</label>
+                        <input type="number" id="vip-travelers" placeholder="Örn: 2" min="1" />
+                        <label for="vip-budget">Bütçe Seviyesi:</label>
+                        <div class="budget-options">
+                            <button data-budget="ekonomik">Ekonomik</button>
+                            <button data-budget="orta">Orta</button>
+                            <button data-budget="lüks">Lüks</button>
                         </div>
-                        <div class="loading-indicator" id="vip-planner-loading"><i class="fas fa-spinner fa-spin"></i> VIP planınız hazırlanıyor...</div>
-                        <div id="vip-plan-output" class="plan-output" style="display: none;"></div>
-                        <div id="vip-plan-chat-area" style="margin-top: 20px; display: none;">
-                            <h3>Plan Hakkında Soru Sor (<small>10 PalmCoin/Soru</small>)</h3>
-                            <div id="vip-plan-chat-box" class="chat-messages" style="max-height: 200px;"></div>
-                            <div class="input-group">
-                                <input type="text" id="vip-plan-input" placeholder="Plan hakkında bir şeyler sorun..." />
-                                <button id="send-vip-plan-message-btn" class="send-btn">Soru Sor</button>
-                            </div>
+                        <label for="vip-type">Tatil Tipi:</label>
+                        <select id="vip-type">
+                            <option value="macera">Macera</option>
+                            <option value="dinlenme">Dinlenme</option>
+                            <option value="kültür">Kültür</option>
+                            <option value="romantik">Romantik</option>
+                            <option value="aile">Aile</option>
+                            <option value="alisveris">Alışveriş</option>
+                        </select>
+                        <button id="generate-vip-plan-btn">VIP Planı Oluştur</button>
+                    </div>
+                    <div class="loading-indicator" id="vip-planner-loading"><i class="fas fa-spinner fa-spin"></i> VIP planınız hazırlanıyor...</div>
+                    <div id="vip-plan-output" class="plan-output" style="display: none;"></div>
+                    <div id="vip-plan-chat-area" style="margin-top: 20px; display: none;">
+                        <h3>Plan Hakkında Soru Sor (<small>10 PalmCoin/Soru</small>)</h3>
+                        <div id="vip-plan-chat-box" class="chat-messages" style="max-height: 200px;"></div>
+                        <div class="input-group">
+                            <input type="text" id="vip-plan-input" placeholder="Plan hakkında bir şeyler sorun..." />
+                            <button id="send-vip-plan-message-btn" class="send-btn">Soru Sor</button>
                         </div>
                     </div>
+                </div>
 
-                    <div class="feature-section" id="niche-vip-request-area">
-                        <h3>Özel Niş Tur Planı (Altın Üye Özel)</h3>
-                        <p>Alışılmışın dışında, tamamen size özel bir tur mı istiyorsunuz? Yapay zekamız, en niş ve özel isteklerinizi bile harika bir tatil planına dönüştürecek!</p>
-                        <div class="feature-form">
-                            <label for="niche-topic">Niş Konu/İlgi Alanı (Örn: Antik Kalıntıları Keşfetme, Uzay Turizmi Simülasyonu, Yemek Festivalleri):</label>
-                            <input type="text" id="niche-topic" placeholder="Niş konu veya ilgi alanı" />
-                            <label for="niche-details">Özel İstekleriniz/Detaylar (Örn: Az bilinen yerler, yerel etkileşimler, sürprizler...):</label>
-                            <textarea id="niche-details" rows="3" placeholder="Ek detaylar..."></textarea>
-                            <button id="generate-niche-plan-btn">Niş Planı Oluştur</button>
-                        </div>
-                        <div class="loading-indicator" id="niche-plan-loading"><i class="fas fa-spinner fa-spin"></i> Niş planınız hazırlanıyor...</div>
-                        <div id="niche-plan-output" class="plan-output" style="display: none;"></div>
+                <div class="feature-section" id="niche-vip-request-area">
+                    <h3>Özel Niş Tur Planı (Altın Üye Özel)</h3>
+                    <p>Alışılmışın dışında, tamamen size özel bir tur mı istiyorsunuz? Yapay zekamız, en niş ve özel isteklerinizi bile harika bir tatil planına dönüştürecek!</p>
+                    <div class="feature-form">
+                        <label for="niche-topic">Niş Konu/İlgi Alanı (Örn: Antik Kalıntıları Keşfetme, Uzay Turizmi Simülasyonu, Yemek Festivalleri):</label>
+                        <input type="text" id="niche-topic" placeholder="Niş konu veya ilgi alanı" />
+                        <label for="niche-details">Özel İstekleriniz/Detaylar (Örn: Az bilinen yerler, yerel etkileşimler, sürprizler...):</label>
+                        <textarea id="niche-details" rows="3" placeholder="Ek detaylar..."></textarea>
+                        <button id="generate-niche-plan-btn">Niş Planı Oluştur</button>
                     </div>
+                    <div class="loading-indicator" id="niche-plan-loading"><i class="fas fa-spinner fa-spin"></i> Niş planınız hazırlanıyor...</div>
+                    <div id="niche-plan-output" class="plan-output" style="display: none;"></div>
                 </div>
             </div>
 
@@ -373,14 +363,6 @@
                         </select>
                         <button id="create-companion-btn">Yoldaşımı Oluştur</button>
                     </div>
-                    <div id="companion-chat-area" style="margin-top: 20px; display: none;">
-                        <h3><span id="active-companion-name"></span> ile Sohbet</h3>
-                        <div id="companion-chat-box" class="chat-messages" style="max-height: 200px;"></div>
-                        <div class="input-group">
-                            <input type="text" id="companion-input" placeholder="Yoldaşınıza bir şeyler sorun..." />
-                            <button id="send-companion-message-btn" class="send-btn">Mesaj Gönder</button>
-                        </div>
-                    </div>
                     <div class="loading-indicator" id="companion-loading"><i class="fas fa-spinner fa-spin"></i> Yoldaşınız yükleniyor...</div>
                 </div>
             </div>
@@ -437,7 +419,7 @@
                     <ul>
                         <li><i class="fas fa-check-circle" style="color: green;"></i> Kişiye Özel A'dan Z'ye Tur Planlama (Uçuş, Otel, Transfer, Günlük Rota)</li>
                         <li><i class="fas fa-check-circle" style="color: green;"></i> Zamanda Yolculuk Tatilleri</li>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Kişisel AI Yoldaşınız</li>
+                        <li><i class="fas fa-check-circle" style="color: green;"></i> Kişiye Özel AI Yoldaşınız</li>
                         <li><i class="fas fa-check-circle" style="color: green;"></i> Reklamsız Deneyim</li>
                         <li><i class="fas fa-check-circle" style="color: green;"></i> Özel Müşteri Desteği</li>
                         <li><i class="fas fa-check-circle" style="color: green;"></i> Niş Tur Planlama</li>
@@ -447,15 +429,13 @@
                         <p style="color: red;">Bu bir demo ödeme ekranıdır, gerçek bir işlem yapılmayacaktır.</p>
                         <label for="card-number">Kart Numarası:</label>
                         <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" />
-                        <div class="card-input-group">
-                            <div>
-                                <label for="expiry-date">Son Kullanma Tarihi (AA/YY):</label>
-                                <input type="text" id="expiry-date" placeholder="AA/YY" maxlength="5" />
-                            </div>
-                            <div>
-                                <label for="cvv">CVV:</label>
-                                <input type="text" id="cvv" placeholder="XXX" maxlength="4" />
-                            </div>
+                        <div>
+                            <label for="expiry-date">Son Kullanma Tarihi (AA/YY):</label>
+                            <input type="text" id="expiry-date" placeholder="AA/YY" maxlength="5" />
+                        </div>
+                        <div>
+                            <label for="cvv">CVV:</label>
+                            <input type="text" id="cvv" placeholder="XXX" maxlength="4" />
                         </div>
                         <label for="card-holder-name">Kart Sahibinin Adı:</label>
                             <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
@@ -469,19 +449,17 @@
                     <div class="feature-section">
                         <h3>Sorularınız veya Destek Talepleriniz İçin</h3>
                         <p>Her türlü soru, öneri veya destek talebiniz için bize yazmaktan çekinmeyin. Ekibimiz en kısa sürede size geri dönecektir.</p>
-                        <div class="feature-form">
-                            <label for="contact-subject">Konu:</label>
-                            <input type="text" id="contact-subject" placeholder="Örn: VIP üyelik hakkında soru" />
-                            <label for="contact-email">E-posta Adresiniz:</label>
-                            <input type="email" id="contact-email" placeholder="Örn: adiniz@ornek.com" />
-                            <label for="contact-message">Mesajınız:</label>
-                            <textarea id="contact-message" rows="5" placeholder="Detaylı mesajınızı buraya yazın..."></textarea>
-                            <label for="contact-file">Dosya Ekle (Opsiyonel):</label>
-                            <input type="file" id="contact-file" />
-                            <button id="send-contact-form-btn">Gönder</button>
-                        </div>
-                        <div class="loading-indicator" id="contact-loading"><i class="fas fa-spinner fa-spin"></i> Mesajınız gönderiliyor...</div>
+                        <label for="contact-subject">Konu:</label>
+                        <input type="text" id="contact-subject" placeholder="Örn: VIP üyelik hakkında soru" />
+                        <label for="contact-email">E-posta Adresiniz:</label>
+                        <input type="email" id="contact-email" placeholder="Örn: adiniz@ornek.com" />
+                        <label for="contact-message">Mesajınız:</label>
+                        <textarea id="contact-message" rows="5" placeholder="Detaylı mesajınızı buraya yazın..."></textarea>
+                        <label for="contact-file">Dosya Ekle (Opsiyonel):</label>
+                        <input type="file" id="contact-file" />
+                        <button id="send-contact-form-btn">Gönder</button>
                     </div>
+                    <div class="loading-indicator" id="contact-loading"><i class="fas fa-spinner fa-spin"></i> Mesajınız gönderiliyor...</div>
                 </div>
             </div>
 
