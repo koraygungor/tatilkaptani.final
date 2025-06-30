@@ -1,5 +1,7 @@
 // NOT: Firebase SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
+
+
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
@@ -698,7 +700,8 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 
 
 // --- Event Listeners ---
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => 
+    {
     window.initializeAppFeatures();
 
     sidebarButtons.forEach(button => {
@@ -1819,7 +1822,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         console.warn("UYARI: Bu tek dosya, prototipleme amaçlıdır ve üretim için uygun DEĞİLDİR. API anahtarlarınız Cloud Functions tarafına taşınmıştır ancak Cloud Functions güvenlik kurallarını ve Firebase Security Rules'ı doğru bir şekilde yapılandırdığınızdan emin olun.");
         console.warn("Firebase yapılandırma bilgilerinizi ve AI API anahtarlarınızı kendi bilgilerinizle değiştirmeyi unutmayın.");
-        console.warn("Firebase güvenlik kurallarınızı (Firestore Security Rules) uygulamanızın gereksinimlerine göre ayarladığınızdan emin olun. Özellikle 'public' koleksiyonları için okuma/yazma izinlerini ve kullanıcı profilleri için kullanıcıların yalnızca kendi verilerine erişebildiğinden emin olun.");
-</script>
-</body>
-</html>
+        console.warn("Firebase güvenlik kurallarınızı (Firestore Security Rules) uygulamanızın gereksinimlerine göre ayarladığınızdan emin olun. Özellikle 'public' koleksiyonları için okuma/yazma izinlerini ve kullanıcı profilleri için kullanıcıların yalnızca kendi verilerine erişebildiğinden emin olun.")
+    }})
