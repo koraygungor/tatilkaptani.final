@@ -45,9 +45,11 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Üye Girişi</h2>
-            <input type="email" id="loginEmail" placeholder="E-posta Adresi" required>
-            <input type="password" id="loginPassword" placeholder="Şifre" required>
-            <button id="performLoginBtn">Giriş Yap</button>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="E-posta Adresi" required>
+                <input type="password" id="loginPassword" placeholder="Şifre" required>
+                <button type="submit" id="performLoginBtn">Giriş Yap</button>
+            </form>
             <p id="forgotPasswordLink">Şifremi Unuttum</p>
             <div id="loginMessage" class="modal-message"></div>
         </div>
