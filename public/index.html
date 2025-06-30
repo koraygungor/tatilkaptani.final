@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    
+    <!-- Firebase Services -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     
@@ -141,7 +144,8 @@
                         <input type="number" id="virtual-days" placeholder="Örn: 5" min="1" />
                         <label for="virtual-duration-minutes">Sanal Tur Süresi (Dakika): <small>(<span id="virtual-tour-cost">50</span> PalmCoin)</small></label>
                         <input type="number" id="virtual-duration-minutes" placeholder="Örn: 10" min="1" value="5" />
-                        <label for="virtual-activities">Sanal Tatilde Yapmak İstedikleriniz (Detaylı):</label>
+                        <label for="virtual-activities">Sanal Tatilde Yapmak
+                            İstedikleriniz (Detaylı):</label>
                         <textarea id="virtual-activities" rows="3" placeholder="Örn: Yerel pazarları gezmek, tekne turuna çıkmak, tarihi yerleri ziyaret etmek..."></textarea>
                         <label for="virtual-image-prompt">Hediye Resim Açıklaması (Genel Sanal Tatil Teması):</label>
                         <textarea id="virtual-image-prompt" rows="2" placeholder="Örn: Gün batımında tropik plaj, palmiye ağaçları ve sakin deniz"></textarea>
