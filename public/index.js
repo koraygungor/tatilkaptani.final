@@ -311,8 +311,7 @@ window.loadUserProfile = async function() {
                 gameScore: 0,
                 palmCoinHistory: [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }]
             });
-}); // Bu satır düzeltildi - ek kapanış parantezi eklendi
-        }
+        } // else bloğunu kapat
         window.displayMembershipInfo();
         window.updateTatilPuanDisplay();
         window.updatePalmCoinHistoryDisplay();
@@ -1707,4 +1706,5 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.speak(reply);
             };
         }
-    });
+    }
+);
