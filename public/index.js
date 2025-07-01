@@ -1706,5 +1706,5 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.speak(reply);
             };
         }
-    }
-);
+    });
+}}); // Bu satır düzeltildi - ek kapanış parantezi eklendi);
