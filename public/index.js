@@ -692,8 +692,7 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 
 
 // --- Event Listeners ---
-document.addEventListener('DOMContentLoaded', async () 
-    {
+document.addEventListener('DOMContentLoaded', async () => {
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
     const companionChatBox = document.getElementById("companion-chat-box");
