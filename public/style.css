@@ -125,7 +125,7 @@ main {
     max-width: 800px; /* Genişliği biraz artırabiliriz */
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 300px); /* Daha küçük bir yükseklik */
+    height: calc(100vh - 200px); /* Daha büyük sohbet ekranı */
     backdrop-filter: blur(8px); /* Arka planı daha belirgin bulanıklaştır */
     -webkit-backdrop-filter: blur(8px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -163,7 +163,7 @@ main {
 }
 
 .message span {
-    background-color: rgba(173, 216, 230, 0.5); /* Açık mavi ve %50 şeffaf */
+    background-color: #ffffff; /* Beyaz arka plan */
     padding: 8px 12px;
     border-radius: 15px;
     display: inline-block;
@@ -173,11 +173,11 @@ main {
 }
 
 .message.user span {
-    background-color: rgba(209, 231, 253, 0.5); /* Kullanıcı mesajı için açık mavi */
+    background-color: #ffffff; /* Beyaz arka plan */
 }
 
 .message.user span {
-    background-color: rgba(209, 231, 253, 0.5); /* Kullanıcı mesajı için açık mavi */
+    background-color: #ffffff; /* Beyaz arka plan */
 }
 
 .chat-input {
@@ -474,6 +474,12 @@ footer {
 .top-bar button:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: white;
+}
+
+#voice-toggle-top {
+    background-color: #ffffff; /* Beyaz arka plan */
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .content-section {
