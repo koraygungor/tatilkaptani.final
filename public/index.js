@@ -1706,4 +1706,4 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.speak(reply);
             };
         }
-    });
+    }
