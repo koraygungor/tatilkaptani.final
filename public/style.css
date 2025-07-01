@@ -125,7 +125,7 @@ main {
     max-width: 800px; /* Genişliği biraz artırabiliriz */
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 200px); /* Daha büyük sohbet ekranı */
+    height: calc(100vh - 200px); /* Ekran yüksekliğine göre daha iyi ayarlandı */
     backdrop-filter: blur(8px); /* Arka planı daha belirgin bulanıklaştır */
     -webkit-backdrop-filter: blur(8px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -163,7 +163,7 @@ main {
 }
 
 .message span {
-    background-color: #ffffff; /* Beyaz arka plan */
+    background-color: rgba(224, 242, 247, 0.7); /* Mesaj balonu şeffaflığı */
     padding: 8px 12px;
     border-radius: 15px;
     display: inline-block;
@@ -173,11 +173,7 @@ main {
 }
 
 .message.user span {
-    background-color: #ffffff; /* Beyaz arka plan */
-}
-
-.message.user span {
-    background-color: #ffffff; /* Beyaz arka plan */
+    background-color: rgba(209, 231, 253, 0.7); /* Kullanıcı mesaj balonu şeffaflığı */
 }
 
 .chat-input {
@@ -200,15 +196,25 @@ main {
     background-color: rgba(249, 253, 249, 0.7); /* Input arka planı şeffaflığı */
 }
 
-.chat-input input[type="text"]:focus {
+input[type="text"]:focus {
     border-color: #007bff;
 }
 
-2.  **Değişiklikleri Kaydet (Commit):** Bu komut, hazırlanan değişiklikleri açıklayıcı bir mesajla kaydeder.
+.chat-input button {
+    padding: 12px 20px;
+    background-color: #28a745; /* Yeşil gönder butonu */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
 
-    ```bash
-git commit -m "Sunucu hatası düzeltildi ve arayüz stilleri güncellendi"
-Bu üç adımı tamamladıktan sonra, GitHub reponuzu yenilediğinizde en son commit'in "Sunucu hatası düzeltildi ve arayüz stilleri güncellendi" mesajıyla göründüğünü teyit edebilirsiniz. Ardından, `firebase deploy` komutunu tekrar çalıştırarak sitenizi güncelleyebilirsiniz.
+.chat-input button:hover {
+    background-color: #218838;
+}
+
 /* Footer Stilleri */
 footer {
     margin-top: auto; /* Alt kısma sabitle */
@@ -323,40 +329,11 @@ footer {
 }
 
 /* Sidebar (Menü) ve İçerik Alanı Stilleri */
-/* Ana layout için de benzer bir stil uygulayalım */
 .main-layout {
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    height: calc(100vh - 100px); /* Header yüksekliğini çıkar */
-    align-items: stretch; /* Öğelerin yüksekliğini eşitler */
-}
-
-/* Sol ve orta paneller için ortak stil */
-.panel {
-    background-color: rgba(173, 216, 230, 0.25); /* Açık deniz mavisi, şeffaf */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow-y: auto; /* İçerik taşarsa kaydırma çubuğu çıkar */
-}
-
-#question-list-container {
-    flex: 1; /* Sol panelin esnek büyümesini sağlar */
-}
-
-#chat-section-container {
-    flex: 2; /* Orta panelin daha fazla yer kaplamasını sağlar */
-    display: flex; /* içindeki chat-container'ı düzgünce sarmak için */
-}
-
-#chat-section-container .chat-container {
-    width: 100%; /* Kapsayıcısını tamamen doldurur */
-    height: 100%; /* Kapsayıcısını tamamen doldurur */
-    max-width: none; /* Üst sınırı kaldır */
+    min-height: calc(100vh - 100px); /* Header/footer yüksekliğine göre ayarlandı */
+    width: 100%;
+    margin-top: 20px;
 }
 
 .left-sidebar {
@@ -474,12 +451,6 @@ footer {
 .top-bar button:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: white;
-}
-
-#voice-toggle-top {
-    background-color: #ffffff; /* Beyaz arka plan */
-    padding: 5px 10px;
-    border-radius: 5px;
 }
 
 .content-section {
@@ -615,16 +586,10 @@ button.send-btn:active {
     transition: opacity 0.3s ease, background-color 0.3s ease;
 }
 
-.feature-form .budget-options button:hover {
-    opacity: 1;
-    background-color: #004d40;
-}
-
 .feature-form .budget-options button.selected {
-    background-color: #004d40; /* Seçili olduğunda daha koyu */
-    border: 2px solid #a7d9b9; /* Hafif çerçeve */
+    background-color: #004d40;
+    border: 2px solid rgba(224, 242, 241, 0.5); /* Daha şeffaf kenarlık */
     opacity: 1;
-    font-weight: bold;
 }
 
 .plan-output {

@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    
-    <!-- Firebase Services -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -45,11 +42,9 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Üye Girişi</h2>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="E-posta Adresi" required autocomplete="username">
+            <form id="loginForm"> <input type="email" id="loginEmail" placeholder="E-posta Adresi" required autocomplete="username">
                 <input type="password" id="loginPassword" placeholder="Şifre" required autocomplete="current-password">
-                <button type="submit" id="performLoginBtn">Giriş Yap</button>
-            </form>
+                <button type="submit" id="performLoginBtn">Giriş Yap</button> </form>
             <p id="forgotPasswordLink">Şifremi Unuttum</p>
             <div id="loginMessage" class="modal-message"></div>
         </div>
@@ -59,14 +54,13 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Üye Ol</h2>
-            <form id="registerForm">
-                <label for="registerUsername">Kullanıcı Adı:</label>
+            <form id="registerForm"> <label for="registerUsername">Kullanıcı Adı:</label>
                 <input type="text" id="registerUsername" placeholder="Kullanıcı Adı" required autocomplete="username">
                 <label for="registerEmail">E-posta Adresi:</label>
                 <input type="email" id="registerEmail" placeholder="E-posta Adresi" required autocomplete="email">
                 <label for="registerPassword">Şifre:</label>
                 <input type="password" id="registerPassword" placeholder="Şifre" required autocomplete="new-password">
-                <button id="performRegisterBtn">Kayıt Ol</button>
+                <button type="submit" id="performRegisterBtn">Kayıt Ol</button>
             </form>
             <div id="registerMessage" class="modal-message"></div>
         </div>
@@ -76,9 +70,10 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Şifre Sıfırla</h2>
-            <label for="resetEmail">E-posta Adresiniz:</label>
-            <input type="email" id="resetEmail" placeholder="E-posta Adresiniz" required>
-            <button id="performResetBtn">Şifre Sıfırlama Linki Gönder</n>
+            <form id="forgotPasswordForm"> <label for="resetEmail">E-posta Adresiniz:</label>
+                <input type="email" id="resetEmail" placeholder="E-posta Adresiniz" required autocomplete="email">
+                <button type="submit" id="performResetBtn">Şifre Sıfırlama Linki Gönder</button>
+            </form>
             <div id="resetMessage" class="modal-message"></div>
         </div>
     </div>
@@ -152,8 +147,7 @@
                         <input type="number" id="virtual-days" placeholder="Örn: 5" min="1" />
                         <label for="virtual-duration-minutes">Sanal Tur Süresi (Dakika): <small>(<span id="virtual-tour-cost">50</span> PalmCoin)</small></label>
                         <input type="number" id="virtual-duration-minutes" placeholder="Örn: 10" min="1" value="5" />
-                        <label for="virtual-activities">Sanal Tatilde Yapmak
-                            İstedikleriniz (Detaylı):</label>
+                        <label for="virtual-activities">Sanal Tatilde Yapmak İstedikleriniz (Detaylı):</label>
                         <textarea id="virtual-activities" rows="3" placeholder="Örn: Yerel pazarları gezmek, tekne turuna çıkmak, tarihi yerleri ziyaret etmek..."></textarea>
                         <label for="virtual-image-prompt">Hediye Resim Açıklaması (Genel Sanal Tatil Teması):</label>
                         <textarea id="virtual-image-prompt" rows="2" placeholder="Örn: Gün batımında tropik plaj, palmiye ağaçları ve sakin deniz"></textarea>
@@ -255,245 +249,242 @@
                 <div class="feature-section" id="niche-vip-request-area">
                     <h3>Özel Niş Tur Planı (Altın Üye Özel)</h3>
                     <p>Alışılmışın dışında, tamamen size özel bir tur mı istiyorsunuz? Yapay zekamız, en niş ve özel isteklerinizi bile harika bir tatil planına dönüştürecek!</p>
-                    <div class="feature-form">
-                        <label for="niche-topic">Niş Konu/İlgi Alanı (Örn: Antik Kalıntıları Keşfetme, Uzay Turizmi Simülasyonu, Yemek Festivalleri):</label>
-                        <input type="text" id="niche-topic" placeholder="Niş konu veya ilgi alanı" />
-                        <label for="niche-details">Özel İstekleriniz/Detaylar (Örn: Az bilinen yerler, yerel etkileşimler, sürprizler...):</label>
-                        <textarea id="niche-details" rows="3" placeholder="Ek detaylar..."></textarea>
-                        <button id="generate-niche-plan-btn">Niş Planı Oluştur</button>
-                    </div>
-                    <div class="loading-indicator" id="niche-plan-loading"><i class="fas fa-spinner fa-spin"></i> Niş planınız hazırlanıyor...</div>
-                    <div id="niche-plan-output" class="plan-output" style="display: none;"></div>
+                    <label for="niche-topic">Niş Konu/İlgi Alanı (Örn: Antik Kalıntıları Keşfetme, Uzay Turizmi Simülasyonu, Yemek Festivalleri):</label>
+                    <input type="text" id="niche-topic" placeholder="Niş konu veya ilgi alanı" />
+                    <label for="niche-details">Özel İstekleriniz/Detaylar (Örn: Az bilinen yerler, yerel etkileşimler, sürprizler...):</label>
+                    <textarea id="niche-details" rows="3" placeholder="Ek detaylar..."></textarea>
+                    <button id="generate-niche-plan-btn">Niş Planı Oluştur</button>
                 </div>
+                <div class="loading-indicator" id="niche-plan-loading"><i class="fas fa-spinner fa-spin"></i> Niş planınız hazırlanıyor...</div>
+                <div id="niche-plan-output" class="plan-output" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div id="user-info-section" class="content-section">
+            <h2><i class="fas fa-user-circle"></i> Üyelik Bilgileri</h2>
+            <div class="feature-section">
+                <h3>Kullanıcı Profili</h3>
+                <p>Kullanıcı ID'si: <strong id="display-userid">Yükleniyor...</strong></p>
+                <p>Adınız: <strong id="display-username">Misafir</strong></p>
+                <p>E-posta Adresiniz: <strong id="display-user-email">Ayarlanmadı</strong></p>
+                <button id="set-user-email-btn">E-posta Ayarla / Güncelle</button>
+                <p>Toplam TatilPuan: <strong id="display-tatilpuan">0</strong></p>
+                <p>Üyelik Seviyeniz: <strong id="display-membership-level">Bronz</strong></p>
+                <p>Kazandığınız PalmCoin: <strong id="display-game-score">0</strong></p>
+                <button id="update-username-btn">Kullanıcı Adı Belirle / Güncelle</button> </div>
+
+            <div class="feature-section" id="palmcoin-history-section">
+                <h3>PalmCoin Geçmişi</h3>
+                <p>Son kazanılan/harcanan PalmCoin aktiviteleri:</p>
+                <ul id="palmcoin-history-list">
+                    <li>Başlangıç: 0 PalmCoin</li>
+                </ul>
             </div>
 
-            <div id="user-info-section" class="content-section">
-                <h2><i class="fas fa-user-circle"></i> Üyelik Bilgileri</h2>
-                <div class="feature-section">
-                    <h3>Kullanıcı Profili</h3>
-                    <p>Kullanıcı ID'si: <strong id="display-userid">Yükleniyor...</strong></p>
-                    <p>Adınız: <strong id="display-username">Misafir</strong></p>
-                    <p>E-posta Adresiniz: <strong id="display-user-email">Ayarlanmadı</strong></p>
-                    <button id="set-user-email-btn">E-posta Ayarla / Güncelle</button>
-                    <p>Toplam TatilPuan: <strong id="display-tatilpuan">0</strong></p>
-                    <p>Üyelik Seviyeniz: <strong id="display-membership-level">Bronz</strong></p>
-                    <p>Kazandığınız PalmCoin: <strong id="display-game-score">0</strong></p>
-                    <button id="update-username-btn">Kullanıcı Adı Belirle / Güncelle</button> </div>
-
-                <div class="feature-section" id="palmcoin-history-section">
-                    <h3>PalmCoin Geçmişi</h3>
-                    <p>Son kazanılan/harcanan PalmCoin aktiviteleri:</p>
-                    <ul id="palmcoin-history-list">
-                        <li>Başlangıç: 0 PalmCoin</li>
-                    </ul>
-                </div>
-
-                <div class="feature-section" id="admin-message-section">
-                    <h3>Yönetici Mesajı Ayarları (Demo)</h3>
-                    <p style="color: red;">Bu bir demo yönetim panelidir. Gerçek uygulamalarda güvenlik için arka uç gerektirir.</p>
-                    <label for="admin-message-input">Yönetici Mesajı:</label>
-                    <textarea id="admin-message-input" rows="3" placeholder="Yeni bir duyuru veya ilan yazın..."></textarea>
-                    <button id="update-admin-message-btn">Mesajı Yayınla</button>
-                    <div class="loading-indicator" id="admin-message-loading"><i class="fas fa-spinner fa-spin"></i> Mesaj güncelleniyor...</div>
-                </div>
-
-                <div class="feature-section">
-                    <h3>Geçmiş Sorgular (Demo)</h3>
-                    <ul id="past-queries-list">
-                        <li>(Bu kısım için gerçek bir geçmiş kaydı Firebase'e eklenebilir)</li>
-                        <li>Sanal tatil Paris 7 gün</li>
-                        <li>Bana rota öner Fethiye 3 gün</li>
-                        <li>Oyun</li>
-                    </ul>
-                </div>
-
-                <div class="feature-section">
-                    <h3>Rezervasyon Geçmişi (Demo)</h3>
-                    <p>Henüz bir rezervasyon geçmişi bulunmamaktadır. VIP Tur Planlayıcı ile tatilinizi planlayın!</p>
-                </div>
+            <div class="feature-section" id="admin-message-section">
+                <h3>Yönetici Mesajı Ayarları (Demo)</h3>
+                <p style="color: red;">Bu bir demo yönetim panelidir. Gerçek uygulamalarda güvenlik için arka uç gerektirir.</p>
+                <label for="admin-message-input">Yönetici Mesajı:</label>
+                <textarea id="admin-message-input" rows="3" placeholder="Yeni bir duyuru veya ilan yazın..."></textarea>
+                <button id="update-admin-message-btn">Mesajı Yayınla</button>
+                <div class="loading-indicator" id="admin-message-loading"><i class="fas fa-spinner fa-spin"></i> Mesaj güncelleniyor...</div>
             </div>
 
-            <div id="time-travel-section" class="content-section">
-                <h2><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</h2>
-                <div class="feature-section" id="time-travel-access-check">
-                    <h3>Bu özellik Altın üyelerimize özeldir!</h3>
-                    <p>Tarihin derinliklerinde veya geleceğin gizemlerinde unutulmaz bir yolculuğa çıkın. AI sizin için eşsiz bir zaman dilimi simülasyonu yaratacak.</p>
-                    <button id="go-to-time-travel-payment-btn">Hemen Altın Üye Ol!</button>
-                </div>
+            <div class="feature-section">
+                <h3>Geçmiş Sorgular (Demo)</h3>
+                <ul id="past-queries-list">
+                    <li>(Bu kısım için gerçek bir geçmiş kaydı Firebase'e eklenebilir)</li>
+                    <li>Sanal tatil Paris 7 gün</li>
+                    <li>Bana rota öner Fethiye 3 gün</li>
+                    <li>Oyun</li>
+                </ul>
+            </div>
+
+            <div class="feature-section">
+                <h3>Rezervasyon Geçmişi (Demo)</h3>
+                <p>Henüz bir rezervasyon geçmişi bulunmamaktadır. VIP Tur Planlayıcı ile tatilinizi planlayın!</p>
+            </div>
+        </div>
+
+        <div id="time-travel-section" class="content-section">
+            <h2><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</h2>
+            <div class="feature-section" id="time-travel-access-check">
+                <h3>Bu özellik Altın üyelerimize özeldir!</h3>
+                <p>Tarihin derinliklerinde veya geleceğin gizemlerinde unutulmaz bir yolculuğa çıkın. AI sizin için eşsiz bir zaman dilimi simülasyonu yaratacak.</p>
+                <button id="go-to-time-travel-payment-btn">Hemen Altın Üye Ol!</button>
+            </div>
+            <div class="feature-form">
+                <label for="time-travel-era">Gitmek istediğiniz dönem (Yıl/Dönem):</label>
+                <input type="text" id="time-travel-era" placeholder="Örn: Antik Roma M.S. 79, 2077 Mars Kolonisi" />
+                <label for="time-travel-duration">Kalış Süresi (Gün):</label>
+                <input type="number" id="time-travel-duration" placeholder="Örn: 3" min="1" />
+                <label for="time-travel-character">Tanışmak istediğiniz hayali/tarihi karakter (Opsiyonel):</label>
+                <input type="text" id="time-travel-character" placeholder="Örn: Kleopatra, Bir robot mühendis" />
+                <label for="time-travel-focus">Odak noktası (Örn: Müzik, Yemek, Bilim, Savaş...):</label>
+                <input type="text" id="time-travel-focus" placeholder="Örn: Dönemin müzikleri, Geleceğin yemekleri" />
+                <button id="start-time-travel-btn">Zaman Yolculuğunu Başlat</button>
+            </div>
+            <div class="loading-indicator" id="time-travel-loading"><i class="fas fa-spinner fa-spin"></i> Zaman makinesi hazırlanıyor...</div>
+            <div id="time-travel-output" class="plan-output" style="display: none;"></div>
+        </div>
+
+        <div id="destiny-route-section" class="content-section">
+            <h2><i class="fas fa-crystal-ball"></i> Kader Rotası</h2>
+            <div class="feature-section">
+                <h3>Palmiye Kaptan'ın Kehaneti!</h3>
+                <p>AI, gelecekteki rüya tatilinizi tahmin ediyor. Sadece birkaç bilgiye ihtiyacım var.</p>
                 <div class="feature-form">
-                    <label for="time-travel-era">Gitmek istediğiniz dönem (Yıl/Dönem):</label>
-                    <input type="text" id="time-travel-era" placeholder="Örn: Antik Roma M.S. 79, 2077 Mars Kolonisi" />
-                    <label for="time-travel-duration">Kalış Süresi (Gün):</label>
-                    <input type="number" id="time-travel-duration" placeholder="Örn: 3" min="1" />
-                    <label for="time-travel-character">Tanışmak istediğiniz hayali/tarihi karakter (Opsiyonel):</label>
-                    <input type="text" id="time-travel-character" placeholder="Örn: Kleopatra, Bir robot mühendis" />
-                    <label for="time-travel-focus">Odak noktası (Örn: Müzik, Yemek, Bilim, Savaş...):</label>
-                    <input type="text" id="time-travel-focus" placeholder="Örn: Dönemin müzikleri, Geleceğin yemekleri" />
-                    <button id="start-time-travel-btn">Zaman Yolculuğunu Başlat</button>
+                    <label for="destiny-age">Yaşınız:</label>
+                    <input type="number" id="destiny-age" placeholder="Örn: 30" />
+                    <label for="destiny-hobby">Hobilerinizden biri:</label>
+                    <input type="text" id="destiny-hobby" placeholder="Örn: Doğa yürüyüşü, okumak" />
+                    <label for="destiny-dream">Gelekle ilgili bir hayaliniz:</label>
+                    <input type="text" id="destiny-dream" placeholder="Örn: Dünyayı gezmek, kitap yazmak" />
+                    <label for="destiny-color">En sevdiğiniz renk (Kehaneti kişiselleştirir):</label>
+                    <input type="text" id="destiny-color" placeholder="Örn: Mavi" />
+                    <button id="predict-destiny-btn">Kader Rotamı Öğren!</button>
                 </div>
-                <div class="loading-indicator" id="time-travel-loading"><i class="fas fa-spinner fa-spin"></i> Zaman makinesi hazırlanıyor...</div>
-                <div id="time-travel-output" class="plan-output" style="display: none;"></div>
+                <div class="loading-indicator" id="destiny-loading"><i class="fas fa-spinner fa-spin"></i> Kaderiniz yazılıyor...</div>
+                <div id="destiny-route-output" class="plan-output" style="display: none;"></div>
+                <button id="realize-destiny-btn" style="display: none; margin-top: 20px;">Kaderimi Gerçekleştir! (VIP)</button>
             </div>
+        </div>
 
-            <div id="destiny-route-section" class="content-section">
-                <h2><i class="fas fa-crystal-ball"></i> Kader Rotası</h2>
-                <div class="feature-section">
-                    <h3>Palmiye Kaptan'ın Kehaneti!</h3>
-                    <p>AI, gelecekteki rüya tatilinizi tahmin ediyor. Sadece birkaç bilgiye ihtiyacım var.</p>
-                    <div class="feature-form">
-                        <label for="destiny-age">Yaşınız:</label>
-                        <input type="number" id="destiny-age" placeholder="Örn: 30" />
-                        <label for="destiny-hobby">Hobilerinizden biri:</label>
-                        <input type="text" id="destiny-hobby" placeholder="Örn: Doğa yürüyüşü, okumak" />
-                        <label for="destiny-dream">Gelecekle ilgili bir hayaliniz:</label>
-                        <input type="text" id="destiny-dream" placeholder="Örn: Dünyayı gezmek, kitap yazmak" />
-                        <label for="destiny-color">En sevdiğiniz renk (Kehaneti kişiselleştirir):</label>
-                        <input type="text" id="destiny-color" placeholder="Örn: Mavi" />
-                        <button id="predict-destiny-btn">Kader Rotamı Öğren!</button>
-                    </div>
-                    <div class="loading-indicator" id="destiny-loading"><i class="fas fa-spinner fa-spin"></i> Kaderiniz yazılıyor...</div>
-                    <div id="destiny-route-output" class="plan-output" style="display: none;"></div>
-                    <button id="realize-destiny-btn" style="display: none; margin-top: 20px;">Kaderimi Gerçekleştir! (VIP)</button>
+        <div id="ai-companion-section" class="content-section">
+            <h2><i class="fas fa-robot"></i> AI Yoldaşım</h2>
+            <div class="feature-section">
+                <h3>Kaptan Yardımcınızı Oluşturun!</h3>
+                <p>Tatilinizde size eşlik edecek kişisel bir yapay zeka arkadaşı. Ona bir isim verin ve kişiliğini seçin!</p>
+                <div class="feature-form">
+                    <label for="companion-name">Yoldaşınızın Adı:</label>
+                    <input type="text" id="companion-name" placeholder="Örn: Seyahatör" />
+                    <label for="companion-personality">Kişiliği:</label>
+                    <select id="companion-personality">
+                        <option value="esprili">Esprili</option>
+                        <option value="bilgili">Bilgili</option>
+                        <option value="sakin">Sakin</option>
+                        <option value="maceraperest">Maceraperest</option>
+                        <option value="ilham-veren">İlham Veren</option>
+                    </select>
+                    <button id="create-companion-btn">Yoldaşımı Oluştur</button>
                 </div>
+                <div class="loading-indicator" id="companion-loading"><i class="fas fa-spinner fa-spin"></i> Yoldaşınız yükleniyor...</div>
             </div>
+        </div>
 
-            <div id="ai-companion-section" class="content-section">
-                <h2><i class="fas fa-robot"></i> AI Yoldaşım</h2>
-                <div class="feature-section">
-                    <h3>Kaptan Yardımcınızı Oluşturun!</h3>
-                    <p>Tatilinizde size eşlik edecek kişisel bir yapay zeka arkadaşı. Ona bir isim verin ve kişiliğini seçin!</p>
-                    <div class="feature-form">
-                        <label for="companion-name">Yoldaşınızın Adı:</label>
-                        <input type="text" id="companion-name" placeholder="Örn: Seyahatör" />
-                        <label for="companion-personality">Kişiliği:</label>
-                        <select id="companion-personality">
-                            <option value="esprili">Esprili</option>
-                            <option value="bilgili">Bilgili</option>
-                            <option value="sakin">Sakin</option>
-                            <option value="maceraperest">Maceraperest</option>
-                            <option value="ilham-veren">İlham Veren</option>
-                        </select>
-                        <button id="create-companion-btn">Yoldaşımı Oluştur</button>
-                    </div>
-                    <div class="loading-indicator" id="companion-loading"><i class="fas fa-spinner fa-spin"></i> Yoldaşınız yükleniyor...</div>
-                </div>
-            </div>
-
-            <div id="korsan-sahne-section" class="content-section">
-                <h2><i class="fas fa-map-marked-alt"></i> Korsan Ailesi Sahnesi</h2>
-                <div class="feature-section">
-                    <h3>Korsan Ailesi ile Plaj Keyfi!</h3>
-                    <p>İşte CSS ile çizilmiş eğlenceli bir korsan ailesi sahnesi. HTML ve CSS'in gücünü görün!</p>
-                    <div class="korsan-sahne-container">
-                        <div class="scene">
-                            <div class="sezlong"></div>
-                            <div class="valiz valiz1"></div>
-                            <div class="valiz valiz2"></div>
-                            <div class="valiz valiz3"></div>
-                            <div class="person captain">
-                            <div class="head">
-                                <div class="hat">
-                                <div class="skull"></div>
-                                <div class="bones"></div>
-                                </div>
-                            </div>
-                            <div class="body"></div>
-                            <div class="valiz"></div> </div>
-                            <div class="person spouse">
-                            <div class="head">
-                                <div class="hat">
-                                <div class="skull"></div>
-                                <div class="bones"></div>
-                                </div>
-                            </div>
-                            <div class="body" style="background:#551a8b;"></div> <div class="valiz"></div> </div>
-                            <div class="person child">
-                            <div class="head">
-                                <div class="hat" style="width:45px; height:22px; border-width:2px;">
-                                <div class="skull" style="width:12px; height:12px; top:6px; left:16px;"></div>
-                                <div class="bones"></div>
-                                </div>
-                            </div>
-                            <div class="body" style="width:50px; height:90px; background:#a0522d; border-radius:15px;"></div>
-                            <div class="toy-sword"></div>
-                            <div class="valiz"></div>
+        <div id="korsan-sahne-section" class="content-section">
+            <h2><i class="fas fa-map-marked-alt"></i> Korsan Ailesi Sahnesi</h2>
+            <div class="feature-section">
+                <h3>Korsan Ailesi ile Plaj Keyfi!</h3>
+                <p>İşte CSS ile çizilmiş eğlenceli bir korsan ailesi sahnesi. HTML ve CSS'in gücünü görün!</p>
+                <div class="korsan-sahne-container">
+                    <div class="scene">
+                        <div class="sezlong"></div>
+                        <div class="valiz valiz1"></div>
+                        <div class="valiz valiz2"></div>
+                        <div class="valiz valiz3"></div>
+                        <div class="person captain">
+                        <div class="head">
+                            <div class="hat">
+                            <div class="skull"></div>
+                            <div class="bones"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="payment-section" class="content-section">
-                <h2><i class="fas fa-credit-card"></i> VIP Üyelik Al</h2>
-                <div class="feature-section">
-                    <h3>Altın Üyelik: Sınırları Aşan Tatil Deneyimi!</h3>
-                    <p>Aylık sadece **99.99 TL** ile:</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Kişiye Özel A'dan Z'ye Tur Planlama (Uçuş, Otel, Transfer, Günlük Rota)</li>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Zamanda Yolculuk Tatilleri</li>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Kişiye Özel AI Yoldaşınız</li>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Reklamsız Deneyim</li>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Özel Müşteri Desteği</li>
-                        <li><i class="fas fa-check-circle" style="color: green;"></i> Niş Tur Planlama</li>
-                    </ul>
-                    <div class="feature-form">
-                        <h3>Ödeme Bilgileri (Demo)</h3>
-                        <p style="color: red;">Bu bir demo ödeme ekranıdır, gerçek bir işlem yapılmayacaktır.</p>
-                        <label for="card-number">Kart Numarası:</label>
-                        <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" />
-                        <div>
-                            <label for="expiry-date">Son Kullanma Tarihi (AA/YY):</label>
-                            <input type="text" id="expiry-date" placeholder="AA/YY" maxlength="5" />
+                        <div class="body"></div>
+                        <div class="valiz"></div> </div>
+                        <div class="person spouse">
+                        <div class="head">
+                            <div class="hat">
+                            <div class="skull"></div>
+                            <div class="bones"></div>
+                            </div>
                         </div>
-                        <div>
-                            <label for="cvv">CVV:</label>
-                            <input type="text" id="cvv" placeholder="XXX" maxlength="4" />
+                        <div class="body" style="background:#551a8b;"></div> <div class="valiz"></div> </div>
+                        <div class="person child">
+                        <div class="head">
+                            <div class="hat" style="width:45px; height:22px; border-width:2px;">
+                            <div class="skull" style="width:12px; height:12px; top:6px; left:16px;"></div>
+                            <div class="bones"></div>
+                            </div>
                         </div>
-                        <label for="card-holder-name">Kart Sahibinin Adı:</label>
-                            <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
-                            <button id="complete-payment-btn">Ödemeyi Tamamla (Demo)</button>
+                        <div class="body" style="width:50px; height:90px; background:#a0522d; border-radius:15px;"></div>
+                        <div class="toy-sword"></div>
+                        <div class="valiz"></div>
                         </div>
-                    </div>
-                </div>
-
-                <div id="contact-us-section" class="content-section">
-                    <h2><i class="fas fa-envelope"></i> Bize Ulaşın</h2>
-                    <div class="feature-section">
-                        <h3>Sorularınız veya Destek Talepleriniz İçin</h3>
-                        <p>Her türlü soru, öneri veya destek talebiniz için bize yazmaktan çekinmeyin. Ekibimiz en kısa sürede size geri dönecektir.</p>
-                        <label for="contact-subject">Konu:</label>
-                        <input type="text" id="contact-subject" placeholder="Örn: VIP üyelik hakkında soru" />
-                        <label for="contact-email">E-posta Adresiniz:</label>
-                        <input type="email" id="contact-email" placeholder="Örn: adiniz@ornek.com" />
-                        <label for="contact-message">Mesajınız:</label>
-                        <textarea id="contact-message" rows="5" placeholder="Detaylı mesajınızı buraya yazın..."></textarea>
-                        <label for="contact-file">Dosya Ekle (Opsiyonel):</label>
-                        <input type="file" id="contact-file" />
-                        <button id="send-contact-form-btn">Gönder</button>
-                    </div>
-                    <div class="loading-indicator" id="contact-loading"><i class="fas fa-spinner fa-spin"></i> Mesajınız gönderiliyor...</div>
-                </div>
-            </div>
-
-            <div class="right-sidebar">
-                <div class="admin-ad-message" id="admin-display-message">
-                    <h4>Yönetici Mesajı</h4>
-                    <p>Yükleniyor...</p>
-                </div>
-                <div id="dynamic-ads-container">
-                    <div class="ad-area-dynamic default-ad-block" style="background-color: #e0f7fa; border-color: #00bcd4; color: #00796b;">
-                        <i class="fas fa-bullhorn" style="font-size: 2em; margin-bottom: 10px; color: #0097a7;"></i>
-                        <p>Burada sizin ilanınız olabilir! <br>İlan vermek için bize e-posta gönderin.</p>
-                        <a href="mailto:info@tatilkaptani.com" style="color: #00796b; font-weight: bold;">info@tatilkaptani.com</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <footer>
-            <p>&copy; <span id="currentYear"></span> TatilKaptani.com - Tüm Hakları Saklıdır.</p>
-        </footer>
+        <div id="payment-section" class="content-section">
+            <h2><i class="fas fa-credit-card"></i> VIP Üyelik Al</h2>
+            <div class="feature-section">
+                <h3>Altın Üyelik: Sınırları Aşan Tatil Deneyimi!</h3>
+                <p>Aylık sadece **99.99 TL** ile:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle" style="color: green;"></i> Kişiye Özel A'dan Z'ye Tur Planlama (Uçuş, Otel, Transfer, Günlük Rota)</li>
+                    <li><i class="fas fa-check-circle" style="color: green;"></i> Zamanda Yolculuk Tatilleri</li>
+                    <li><i class="fas fa-check-circle" style="color: green;"></i> Kişiye Özel AI Yoldaşınız</li>
+                    <li><i class="fas fa-check-circle" style="color: green;"></i> Reklamsız Deneyim</li>
+                    <li><i class="fas fa-check-circle" style="color: green;"></i> Özel Müşteri Desteği</li>
+                    <li><i class="fas fa-check-circle" style="color: green;"></i> Niş Tur Planlama</li>
+                </ul>
+                <div class="feature-form">
+                    <h3>Ödeme Bilgileri (Demo)</h3>
+                    <p style="color: red;">Bu bir demo ödeme ekranıdır, gerçek bir işlem yapılmayacaktır.</p>
+                    <label for="card-number">Kart Numarası:</label>
+                    <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" />
+                    <div>
+                        <label for="expiry-date">Son Kullanma Tarihi (AA/YY):</label>
+                        <input type="text" id="expiry-date" placeholder="AA/YY" maxlength="5" />
+                    </div>
+                    <div>
+                        <label for="cvv">CVV:</label>
+                        <input type="text" id="cvv" placeholder="XXX" maxlength="4" />
+                    </div>
+                    <label for="card-holder-name">Kart Sahibinin Adı:</label>
+                        <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
+                        <button id="complete-payment-btn">Ödemeyi Tamamla (Demo)</button>
+                    </div>
+                </div>
+            </div>
 
-        <script src="index.js"></script>
-</body>
-</html>
+            <div id="contact-us-section" class="content-section">
+                <h2><i class="fas fa-envelope"></i> Bize Ulaşın</h2>
+                <div class="feature-section">
+                    <h3>Sorularınız veya Destek Talepleriniz İçin</h3>
+                    <p>Her türlü soru, öneri veya destek talebiniz için bize yazmaktan çekinmeyin. Ekibimiz en kısa sürede size geri dönecektir.</p>
+                    <label for="contact-subject">Konu:</label>
+                    <input type="text" id="contact-subject" placeholder="Örn: VIP üyelik hakkında soru" />
+                    <label for="contact-email">E-posta Adresiniz:</label>
+                    <input type="email" id="contact-email" placeholder="Örn: adiniz@ornek.com" />
+                    <label for="contact-message">Mesajınız:</label>
+                    <textarea id="contact-message" rows="5" placeholder="Detaylı mesajınızı buraya yazın..."></textarea>
+                    <label for="contact-file">Dosya Ekle (Opsiyonel):</label>
+                    <input type="file" id="contact-file" />
+                    <button id="send-contact-form-btn">Gönder</button>
+                </div>
+                <div class="loading-indicator" id="contact-loading"><i class="fas fa-spinner fa-spin"></i> Mesajınız gönderiliyor...</div>
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="admin-ad-message" id="admin-display-message">
+                <h4>Yönetici Mesajı</h4>
+                <p>Yükleniyor...</p>
+            </div>
+            <div id="dynamic-ads-container">
+                <div class="ad-area-dynamic default-ad-block" style="background-color: #e0f7fa; border-color: #00bcd4; color: #00796b;">
+                    <i class="fas fa-bullhorn" style="font-size: 2em; margin-bottom: 10px; color: #0097a7;"></i>
+                    <p>Burada sizin ilanınız olabilir! <br>İlan vermek için bize e-posta gönderin.</p>
+                    <a href="mailto:info@tatilkaptani.com" style="color: #00796b; font-weight: bold;">info@tatilkaptani.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="currentYear"></span> TatilKaptani.com - Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script src="index.js"></script>

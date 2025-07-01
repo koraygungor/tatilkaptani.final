@@ -476,6 +476,7 @@ window.showModal = function(title, message) {
             resolve(true);
         };
         modalConfirmBtnEl.addEventListener("click", handleConfirm);
+        modalConfirmBtnEl._eventListener = handleConfirm; // Dinleyiciyi sakla
     });
 };
 
@@ -730,7 +731,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             Section names: game-section, virtual-holiday-section, ai-photo-studio-section, vip-planner-section, user-info-section, time-travel-section, destiny-route-section, ai-companion-section, payment-section, contact-us-section, korsan-sahne-section.`; // korsan-sahne-section eklendi
 
         // AI çağrısı için geçmişi dilimle (bağlamı korumak ama çok uzun istekleri önlemek için)
-        const chatHistoryForAI = chatHistory.slice(Math.max(chatHistory.length - 10, 0)); // Son 10 mesaj bağlam için
+        const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10)); // Son 10 mesaj bağlam için
 
         const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
         const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
@@ -1103,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             currentQuestionIndex++;
             if (currentQuestionIndex < 3) {
-                setTimeout(endGame, 1500); // Soru döngüsünü düzeltildi
+                setTimeout(askNextGameQuestion, 1500); // Soru döngüsünü düzeltildi
             } else {
                 setTimeout(endGame, 1500);
             }
@@ -1160,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 General gift image prompt: "${imagePrompt}". You can use this as a theme throughout the story.
                                 Provide the response in Turkish.`;
 
-            const reply = await window.callOpenRouterAI(storyPrompt, "openai/gpt-3.5-turbo", virtualLoading);
+            const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", virtualLoading);
             virtualOutputTitle.textContent = `${city} - ${days} Günlük Sanal Tatil Hikayen:`;
             virtualOutputStory.innerHTML = '';
             const paragraphs = reply.split('\n').filter(p => p.trim() !== '');
@@ -1398,12 +1399,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (genericImageUrl) {
                     mediaHtml = `<br><img src="${genericImageUrl}" alt="${destination} Planı">`;
                 } else {
-                    // Hiç görsel alınamazsa boş bırak veya varsayılan bir görsel göster
                     mediaHtml = `<br><p style="color:red;">Görsel oluşturulamadı.</p>`;
                 }
             }
 
-            vipPlanOutput.innerHTML = `<h4>${destination} için ${duration} Günlük VIP Tatil Planınız:</h4><p>${planContent.replace(/\n/g, '<br>')}</p>${mediaHtml}`;
+            vipPlanOutput.innerHTML = `<h4>${destination} için ${duration} Günlük VIP Tatil Planınız:</h4><p>${planContent.replace(/\n/g, '<br>')}</p>${mediaHtml}`; // Yeni satırları <br> ile değiştir
             vipPlanOutput.style.display = "block";
             vipPlanChatArea.style.display = "block";
             window.speak(`${destination} için VIP tatil planınız hazır.`);
@@ -1495,8 +1495,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     await auth.currentUser.updateProfile({ displayName: userName }); // Firebase Auth display name'i güncelle
                     await window.updateUserProfile({ username: userName }); // Firestore 'username' alanını güncelle
                 }
-                window.showModal("Hoş Geldin!", `Hoş geldin, **${userName}**! Kullanıcı adınız güncellendi.`);
-                window.speak(`Hoş geldin ${userName}!`);
+                window.showModal("Hoş Geldin!", `Hoş geldin, **${newName}**! Kullanıcı adınız güncellendi.`);
+                window.speak(`Hoş geldin ${newName}!`);
                 window.displayMembershipInfo(); // UI'yi güncelle
             } else if (newName !== null && newName.trim() === "") { // Kullanıcı boş string girerse
                 window.showModal("Uyarı", "Kullanıcı adı boş bırakılamaz.");
@@ -1706,122 +1706,4 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.speak(reply);
             };
         }
-
-        companionInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") sendCompanionMessageBtn.click();
-        });
-
-        // VIP Üyelik Ödeme Logic
-        completePaymentBtn.onclick = async () => {
-            const cardNumber = cardNumberInput.value.trim();
-            const expiryDate = expiryDateInput.value.trim();
-            const cvv = cvvInput.value.trim();
-            const cardHolderName = cardHolderNameInput.value.trim();
-
-            if (!cardNumber || !expiryDate || !cvv || !cardHolderName) {
-                window.showModal("Hata", "Lütfen tüm kart bilgilerini doldurun.");
-                return;
-            }
-
-            // Demo amaçlı temel doğrulama (örn. kart numarası uzunluğu)
-            if (cardNumber.replace(/\s/g, '').length !== 16 || !/^\d{2}\/\d{2}$/.test(expiryDate) || !/^\d{3,4}$/.test(cvv)) {
-                window.showModal("Hata", "Lütfen geçerli kart bilgileri girin. (Demo için format önemi)");
-                return;
-            }
-
-            window.showModal("Ödeme İşleniyor...", "Ödemeniz simüle ediliyor. Lütfen bekleyin...");
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Ödeme işlemini simüle et
-
-            userMembershipLevel = "Altın";
-            if (currentUserId) { // Giriş yapmışsa üyeliği güncelle
-                await window.updateUserProfile({ membershipLevel: userMembershipLevel });
-            }
-            await window.updateTatilPuan(200, "Altın Üyelik Satın Alma"); // VIP satın alımı için TatilPuan ver
-
-            let discountMessage = "Tebrikler! Artık Altın Üyesiniz! Tüm VIP özelliklere erişiminiz var. Keyfini çıkarın!";
-            if (tatilPuan > 150) { // Bu satın alımdan önceki tatilPuan'ı kontrol et
-                const bonusPalmCoin = 100;
-                gameScore += bonusPalmCoin; // gameScore'u doğrudan güncelle
-                if (currentUserId) { // Giriş yapmışsa gameScore'u güncelle
-                    await window.updateUserProfile({ gameScore: gameScore });
-                }
-                await window.updateTatilPuan(bonusPalmCoin, "Altın Üyelik Bonusu"); // TatilPuan'a ayrı bir girdiyle bonus ekle
-                discountMessage += `<br><br>Sadakatiniz için teşekkür ederiz! Yüksek TatilPuan'ınız sayesinde **${bonusPalmCoin} PalmCoin** hediye kazandınız!`;
-            }
-
-            window.showModal("Ödeme Başarılı!", discountMessage);
-            window.speak("Ödemeniz başarılı. Artık Altın üyesiniz!");
-            window.showSection("user-info-section"); // Kullanıcı bilgilerine yönlendir
-        };
-
-        // Bize Ulaşın Formu Gönderimi
-        sendContactFormBtn.onclick = async () => {
-            const subject = contactSubjectInput.value.trim();
-            const email = contactEmailInput.value.trim();
-            const message = contactMessageInput.value.trim();
-            const file = contactFileInput.files[0]; // Seçilen ilk dosya
-
-            if (!subject || !email || !message) {
-                window.showModal("Eksik Bilgi", "Lütfen Konu, E-posta Adresi ve Mesaj alanlarını doldurun.");
-                return;
-            }
-
-            if (contactLoading) contactLoading.style.display = 'block';
-
-            let fileData = null;
-            let fileName = null;
-            let fileType = null;
-
-            if (file) {
-                fileName = file.name;
-                fileType = file.type;
-                // Dosyayı base64 olarak oku
-                fileData = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result.split(',')[1]); // Sadece base64 kısmını al
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            try {
-                const submitContactFormCallable = firebase.functions().httpsCallable('submitContactForm');
-                const result = await submitContactFormCallable({
-                    subject: subject,
-                    email: email,
-                    message: message,
-                    fileName: fileName,
-                    fileType: fileType,
-                    fileData: fileData
-                });
-
-                window.showModal("Mesajınız Gönderildi", result.data.message);
-                window.speak("Mesajınız başarıyla gönderildi.");
-            } catch (e) {
-                console.error("İletişim formu gönderilirken Cloud Function hatası:", e);
-                window.showModal("Hata", `Mesajınız gönderilirken bir hata oluştu: ${e.message}`);
-            } finally {
-                if (contactLoading) contactLoading.style.display = 'none';
-                // Formu temizle
-                contactSubjectInput.value = '';
-                contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
-                contactMessageInput.value = '';
-                contactFileInput.value = '';
-            }
-        };
-
-        // --- Slogan Güncelleme ---
-        // Slogan listesi ve güncelleme fonksiyonu kaldırıldığı için ilgili kodlar çıkarıldı
-        // function updateSlogan() { ... }
-        // setInterval(updateSlogan, 5000);
-        // updateSlogan();
-
-        // --- Footer Yılını Güncelle ---
-        const currentYearElement = document.getElementById('currentYear');
-        if (currentYearElement) {
-            currentYearElement.textContent = new Date().getFullYear();
-        }
-
-        console.warn("UYARI: Bu tek dosya, prototipleme amaçlıdır ve üretim için uygun DEĞİLDİR. API anahtarlarınız Cloud Functions tarafına taşınmıştır ancak Cloud Functions güvenlik kurallarını ve Firebase Security Rules'ı doğru bir şekilde yapılandırdığınızdan emin olun.");
-        console.warn("Firebase yapılandırma bilgilerinizi ve AI API anahtarlarınızı kendi bilgilerinizle değiştirmeyi unutmayın.");
-        console.warn("Firebase güvenlik kurallarınızı (Firestore Security Rules) uygulamanızın gereksinimlerine göre ayarladığınızdan emin olun. Özellikle 'public' koleksiyonları için okuma/yazma izinlerini ve kullanıcı profilleri için kullanıcıların yalnızca kendi verilerine erişebildiğinden emin olun.")
     });
