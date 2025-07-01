@@ -1707,4 +1707,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }
     });
-}}); // Bu satır düzeltildi - ek kapanış parantezi eklendi);
+}); // Bu satır düzeltildi - ek kapanış parantezi eklendi);
