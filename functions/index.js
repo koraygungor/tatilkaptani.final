@@ -2,15 +2,14 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-// OpenAI/Google Gemini API anahtarları ortam değişkenlerinden okunur.
-// Bu anahtarları Firebase config set komutuyla ayarlamanız gerekecek:
-// firebase functions:config:set openrouter.key="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" google.gemini_key="AIzaSyCsgqLTFBplpuU-tRFFT8aFKS6ac_jJBcQ"
-const openAiApiKey = functions.config().openrouter?.key; // Düzeltildi: openai yerine openrouter
-const googleGeminiApiKey = functions.config().google?.gemini_key;
+// API anahtarlarını global kapsamdan kaldırıyoruz.
 
 const axios = require('axios'); // API çağrıları için
 
 exports.callOpenRouterAI = functions.https.onCall(async (data, context) => {
+    // API anahtarını fonksiyonun içinde okuyoruz.
+    const openAiApiKey = process.env.OPENROUTER_API_KEY;
+
     // Güvenlik ve yetkilendirme kontrolleri burada yapılır.
     if (!context.auth) {
         console.error("Cloud Function 'callOpenRouterAI': Kullanıcı kimliği doğrulanmadı.");
@@ -63,6 +62,9 @@ exports.callOpenRouterAI = functions.https.onCall(async (data, context) => {
 });
 
 exports.callImageGenerationAI = functions.https.onCall(async (data, context) => {
+    // API anahtarını fonksiyonun içinde okuyoruz.
+    const googleGeminiApiKey = process.env.GOOGLE_GEMINI_KEY; // Burayı da güncelledim
+
     if (!context.auth) {
         console.error("Cloud Function 'callImageGenerationAI': Kullanıcı kimliği doğrulanmadı.");
         throw new functions.https.HttpsError('unauthenticated', 'Kullanıcı kimliği doğrulanmadı.');
@@ -179,3 +181,6 @@ exports.submitContactForm = functions.https.onCall(async (data, context) => {
         throw new functions.https.HttpsError('internal', `İletişim formunuz gönderilirken bir sorun oluştu: ${error.message}`);
     }
 });
+
+// Bu satırı kaldırın, çünkü artık global kapsamda tanımlamaya gerek yok.
+// const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;

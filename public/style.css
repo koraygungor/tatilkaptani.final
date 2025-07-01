@@ -117,20 +117,19 @@ main {
 
 /* Sohbet Kapsayıcı Stilleri */
 .chat-container {
-    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
+    background-color: rgba(173, 216, 230, 0.25); /* Açık deniz mavisi, daha şeffaf */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     width: 90%;
-    max-width: 600px;
+    max-width: 800px; /* Genişliği biraz artırabiliriz */
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 250px); /* Ekran yüksekliğine göre ayarlandı, footer/header için boşluk */
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    /* opacity: 0; */ /* Başlangıçta gizli tutmaya gerek yok, aktif class ile yönetilecek */
-    /* transform: translateY(20px); */
+    height: calc(100vh - 300px); /* Daha küçük bir yükseklik */
+    backdrop-filter: blur(8px); /* Arka planı daha belirgin bulanıklaştır */
+    -webkit-backdrop-filter: blur(8px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* .chat-container.visible { /* Aktif class showSection ile yönetiliyor */
@@ -145,7 +144,7 @@ main {
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
-    background-color: rgba(250, 250, 250, 0.7); /* Mesaj alanı arka planı şeffaflığı */
+    background-color: rgba(255, 255, 255, 0.15); /* Mesaj alanı arka planı daha da şeffaf */
 }
 
 .message {
@@ -164,7 +163,7 @@ main {
 }
 
 .message span {
-    background-color: rgba(224, 242, 247, 0.7); /* Mesaj balonu şeffaflığı */
+    background-color: rgba(173, 216, 230, 0.5); /* Açık mavi ve %50 şeffaf */
     padding: 8px 12px;
     border-radius: 15px;
     display: inline-block;
@@ -174,7 +173,11 @@ main {
 }
 
 .message.user span {
-    background-color: rgba(209, 231, 253, 0.7); /* Kullanıcı mesaj balonu şeffaflığı */
+    background-color: rgba(209, 231, 253, 0.5); /* Kullanıcı mesajı için açık mavi */
+}
+
+.message.user span {
+    background-color: rgba(209, 231, 253, 0.5); /* Kullanıcı mesajı için açık mavi */
 }
 
 .chat-input {
@@ -201,21 +204,11 @@ main {
     border-color: #007bff;
 }
 
-.chat-input button {
-    padding: 12px 20px;
-    background-color: #28a745; /* Yeşil gönder butonu */
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
+2.  **Değişiklikleri Kaydet (Commit):** Bu komut, hazırlanan değişiklikleri açıklayıcı bir mesajla kaydeder.
 
-.chat-input button:hover {
-    background-color: #218838;
-}
-
+    ```bash
+git commit -m "Sunucu hatası düzeltildi ve arayüz stilleri güncellendi"
+Bu üç adımı tamamladıktan sonra, GitHub reponuzu yenilediğinizde en son commit'in "Sunucu hatası düzeltildi ve arayüz stilleri güncellendi" mesajıyla göründüğünü teyit edebilirsiniz. Ardından, `firebase deploy` komutunu tekrar çalıştırarak sitenizi güncelleyebilirsiniz.
 /* Footer Stilleri */
 footer {
     margin-top: auto; /* Alt kısma sabitle */
@@ -330,11 +323,40 @@ footer {
 }
 
 /* Sidebar (Menü) ve İçerik Alanı Stilleri */
+/* Ana layout için de benzer bir stil uygulayalım */
 .main-layout {
     display: flex;
-    min-height: calc(100vh - 100px); /* Header/footer yüksekliğine göre ayarlandı */
-    width: 100%;
-    margin-top: 20px;
+    gap: 20px;
+    padding: 20px;
+    height: calc(100vh - 100px); /* Header yüksekliğini çıkar */
+    align-items: stretch; /* Öğelerin yüksekliğini eşitler */
+}
+
+/* Sol ve orta paneller için ortak stil */
+.panel {
+    background-color: rgba(173, 216, 230, 0.25); /* Açık deniz mavisi, şeffaf */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow-y: auto; /* İçerik taşarsa kaydırma çubuğu çıkar */
+}
+
+#question-list-container {
+    flex: 1; /* Sol panelin esnek büyümesini sağlar */
+}
+
+#chat-section-container {
+    flex: 2; /* Orta panelin daha fazla yer kaplamasını sağlar */
+    display: flex; /* içindeki chat-container'ı düzgünce sarmak için */
+}
+
+#chat-section-container .chat-container {
+    width: 100%; /* Kapsayıcısını tamamen doldurur */
+    height: 100%; /* Kapsayıcısını tamamen doldurur */
+    max-width: none; /* Üst sınırı kaldır */
 }
 
 .left-sidebar {
