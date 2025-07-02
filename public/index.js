@@ -1929,3 +1929,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     //     button.addEventListener('click', function() {
     //         alert(`${this.textContent} butonuna basıldı!`);
     //         console.log('Button clicked:', this.id || this.textContent);
+    //     });
+    // });
