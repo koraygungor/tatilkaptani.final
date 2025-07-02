@@ -1914,7 +1914,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             };
         }
-    
+    }); // DOMContentLoaded'in kapanışı
+
 
 
     // TÜM BUTONLARA GENEL İŞLEVSELLİK EKLEME KISMI KALDIRILDI
