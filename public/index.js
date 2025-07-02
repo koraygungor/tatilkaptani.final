@@ -186,7 +186,7 @@ const timeTravelOutput = document.getElementById("time-travel-output");
 // Kader Rotası
 const destinyAgeInput = document.getElementById("destiny-age");
 const destinyHobbyInput = document.getElementById("destiny-hobby");
-const destinyDreamInput = document.getElementById("destiny-dream");
+//const destinyDreamInput = document.getElementById("destiny-dream");
 const destinyColorInput = document.getElementById("destiny-color");
 const predictDestinyBtn = document.getElementById("predict-destiny-btn");
 const destinyLoading = document.getElementById("destiny-loading");
