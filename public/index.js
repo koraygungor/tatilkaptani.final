@@ -820,9 +820,6 @@ const VIP_PLAN_CHAT_COST = 10;
     //     });
     // });
 
-    sendChatBtn.onclick = async () => {
-        const userMessage = chatInput.value.trim();
-        if (!userMessage) return;// ... existing code ...
 
 document.addEventListener('DOMContentLoaded', function() {
     // Bu fonksiyonun içine, HTML'deki elementlere erişen tüm kodlarınızı yerleştirin.
@@ -934,7 +931,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
             }
         }
-    }; // sendChatBtn.onclick sonu
+  
 
     chatInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") sendChatBtn.click();
