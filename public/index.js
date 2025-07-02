@@ -1,4 +1,4 @@
-    // document.querySelectorAll('button').forEach(button => {
+// document.querySelectorAll('button').forEach(button => {
     //     button.addEventListener('click', function() {
     //         alert(`${this.textContent} butonuna basıldı!`);
     //         console.log('Button clicked:', this.id || this.textContent);
@@ -12,10 +12,10 @@ const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
 
 
-const auth = firebase.auth();
-const firestore = firebase.firestore();
-const functions = firebase.functions(); // Firebase Functions'ı başlat (argüman olmadan)
-const storage = firebase.storage(); // Firebase Storage'ı başlat (dosya yükleme için)
+// const auth = firebase.auth();
+// const firestore = firebase.firestore();
+// const functions = firebase.functions(); // Firebase Functions'ı başlat (argüman olmadan)
+// const storage = firebase.storage(); // Firebase Storage'ı başlat (dosya yükleme için)
 
 // Global Değişkenler
 let currentUserId = null;
