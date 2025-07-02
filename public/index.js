@@ -1884,8 +1884,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 contactLoading.style.display = 'block';
 
                 try {
-                    // Firebase Functions'ı kullanarak e-posta gönderme (örnek)
-                    // Bu fonksiyonun Firebase Cloud Functions tarafında tanımlanmış olması gerekir.
+                  
                     const sendContactEmailCallable = firebase.functions().httpsCallable('sendContactEmail');
 
                     let fileDownloadUrl = null;
