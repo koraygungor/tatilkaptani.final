@@ -1995,4 +1995,4 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
     }; 
-}); // Bu satırı ekleyin
+}; // document.addEventListener('DOMContentLoaded', () => { ... kapanışı
