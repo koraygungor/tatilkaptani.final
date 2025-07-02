@@ -112,8 +112,21 @@ const aiPhotoCountInput = document.getElementById("ai-photo-count");
 const generateAiPhotoButton = document.getElementById("generate-ai-photo-btn");
 const aiPhotoLoading = document.getElementById("ai-photo-loading");
 const aiPhotoOutput = document.getElementById("ai-photo-output");
-const generatedImagesContainer = document.getElementById("generated-images-container");
-const downloadAllImagesBtn = document.getElementById("download-all-images-btn");
+// ... existing code ...
+
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadAllImagesBtn = document.getElementById('download-all-images-btn');
+    if(downloadAllImagesBtn) {
+        downloadAllImagesBtn.onclick = function() {
+            // ... existing onclick code ...
+        };
+    } else {
+        console.error('download-all-images-btn element not found');
+    }
+});
+
+// ... existing code ...const generatedImagesContainer = document.getElementById("generated-images-container");
+// const downloadAllImagesBtn = document.getElementById("download-all-images-btn");
 const downloadAllCostSpan = document.getElementById("download-all-cost");
 
 // VIP Planlayıcı
