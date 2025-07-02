@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
+    <!-- Firebase SDK'ları -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
+    <!-- Font Awesome ikon kütüphanesi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <!-- Özel stil dosyanız -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,6 +32,7 @@
         </div>
     </header>
 
+    <!-- Genel Uygulama Modalı -->
     <div id="appModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -38,23 +42,28 @@
         </div>
     </div>
 
+    <!-- Giriş Modalı -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Üye Girişi</h2>
-            <form id="loginForm"> <input type="email" id="loginEmail" placeholder="E-posta Adresi" required autocomplete="username">
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="E-posta Adresi" required autocomplete="username">
                 <input type="password" id="loginPassword" placeholder="Şifre" required autocomplete="current-password">
-                <button type="submit" id="performLoginBtn">Giriş Yap</button> </form>
+                <button type="submit" id="performLoginBtn">Giriş Yap</button>
+            </form>
             <p id="forgotPasswordLink">Şifremi Unuttum</p>
             <div id="loginMessage" class="modal-message"></div>
         </div>
     </div>
 
+    <!-- Kayıt Modalı -->
     <div id="registerModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Üye Ol</h2>
-            <form id="registerForm"> <label for="registerUsername">Kullanıcı Adı:</label>
+            <form id="registerForm">
+                <label for="registerUsername">Kullanıcı Adı:</label>
                 <input type="text" id="registerUsername" placeholder="Kullanıcı Adı" required autocomplete="username">
                 <label for="registerEmail">E-posta Adresi:</label>
                 <input type="email" id="registerEmail" placeholder="E-posta Adresi" required autocomplete="email">
@@ -66,11 +75,13 @@
         </div>
     </div>
 
+    <!-- Şifre Sıfırlama Modalı -->
     <div id="forgotPasswordModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Şifre Sıfırla</h2>
-            <form id="forgotPasswordForm"> <label for="resetEmail">E-posta Adresiniz:</label>
+            <form id="forgotPasswordForm">
+                <label for="resetEmail">E-posta Adresiniz:</label>
                 <input type="email" id="resetEmail" placeholder="E-posta Adresiniz" required autocomplete="email">
                 <button type="submit" id="performResetBtn">Şifre Sıfırlama Linki Gönder</button>
             </form>
@@ -78,7 +89,9 @@
         </div>
     </div>
 
+    <!-- Ana Düzen (Sidebar ve İçerik Alanı) -->
     <div class="main-layout">
+        <!-- Sol Kenar Çubuğu (Sidebar) -->
         <div class="left-sidebar">
             <h2>Palmiye Kaptan</h2>
             <nav class="sidebar-nav">
@@ -92,14 +105,16 @@
                     <li><button data-section="time-travel-section"><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</button></li>
                     <li><button data-section="destiny-route-section"><i class="fas fa-crystal-ball"></i> Kader Rotası</button></li>
                     <li><button data-section="ai-companion-section"><i class="fas fa-robot"></i> AI Yoldaşım</button></li>
-                    <li><button data-section="korsan-sahne-section"><i class="fas fa-map-marked-alt"></i> Korsan Sahnesi</button></li>
+                    <!-- Korsan Sahnesi bölümü kaldırıldı -->
                     <li><button data-section="payment-section"><i class="fas fa-credit-card"></i> VIP Üyelik Al</button></li>
                     <li><button data-section="contact-us-section"><i class="fas fa-envelope"></i> Bize Ulaşın</button></li>
                 </ul>
             </nav>
         </div>
 
+        <!-- İçerik Alanı -->
         <div class="content-area">
+            <!-- Üst Bar (TatilPuan, UID, Ses, Dil Seçimi) -->
             <div class="top-bar">
                 <div class="info-group">
                     <span id="tatilpuan-top"><i class="fas fa-star"></i> TatilPuan: 0 (Bronz)</span>
@@ -110,8 +125,10 @@
                         <option value="en">English</option>
                     </select>
                 </div>
-                <span id="slogan-top"></span> </div>
+                <span id="slogan-top"></span>
+            </div>
 
+            <!-- Sohbet Asistanı Bölümü -->
             <div id="chat-section" class="content-section active">
                 <h2><i class="fas fa-comments"></i> Sohbet Asistanı</h2>
                 <div id="chat-box" class="chat-messages" aria-live="polite" aria-label="Sohbet kutusu"></div>
@@ -122,6 +139,7 @@
                 </div>
             </div>
 
+            <!-- Tatil Avı (Mini Oyun) Bölümü -->
             <div id="game-section" class="content-section">
                 <h2><i class="fas fa-gamepad"></i> Tatil Avı (Mini Oyun)</h2>
                 <div class="feature-section">
@@ -134,6 +152,7 @@
                 </div>
             </div>
 
+            <!-- Sanal Tatil Planı Bölümü -->
             <div id="virtual-holiday-section" class="content-section">
                 <h2><i class="fas fa-globe-americas"></i> Sanal Tatil Planı</h2>
                 <div class="feature-section">
@@ -164,6 +183,7 @@
                 </div>
             </div>
 
+            <!-- AI Fotoğraf Stüdyosu Bölümü -->
             <div id="ai-photo-studio-section" class="content-section">
                 <h2><i class="fas fa-paint-brush"></i> AI Fotoğraf Stüdyosu</h2>
                 <div class="feature-section" id="ai-photo-access-check">
@@ -199,6 +219,7 @@
                 </div>
             </div>
 
+            <!-- VIP A'dan Z'ye Tur Planlayıcı Bölümü -->
             <div id="vip-planner-section" class="content-section">
                 <h2><i class="fas fa-plane-departure"></i> VIP A'dan Z'ye Tur Planlayıcı</h2>
                 <div class="feature-section" id="vip-access-check">
@@ -260,6 +281,7 @@
             </div>
         </div>
 
+        <!-- Üyelik Bilgileri Bölümü -->
         <div id="user-info-section" class="content-section">
             <h2><i class="fas fa-user-circle"></i> Üyelik Bilgileri</h2>
             <div class="feature-section">
@@ -271,7 +293,8 @@
                 <p>Toplam TatilPuan: <strong id="display-tatilpuan">0</strong></p>
                 <p>Üyelik Seviyeniz: <strong id="display-membership-level">Bronz</strong></p>
                 <p>Kazandığınız PalmCoin: <strong id="display-game-score">0</strong></p>
-                <button id="update-username-btn">Kullanıcı Adı Belirle / Güncelle</button> </div>
+                <button id="update-username-btn">Kullanıcı Adı Belirle / Güncelle</button>
+            </div>
 
             <div class="feature-section" id="palmcoin-history-section">
                 <h3>PalmCoin Geçmişi</h3>
@@ -306,6 +329,7 @@
             </div>
         </div>
 
+        <!-- Zamanda Yolculuk Tatili Bölümü -->
         <div id="time-travel-section" class="content-section">
             <h2><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</h2>
             <div class="feature-section" id="time-travel-access-check">
@@ -328,6 +352,7 @@
             <div id="time-travel-output" class="plan-output" style="display: none;"></div>
         </div>
 
+        <!-- Kader Rotası Bölümü -->
         <div id="destiny-route-section" class="content-section">
             <h2><i class="fas fa-crystal-ball"></i> Kader Rotası</h2>
             <div class="feature-section">
@@ -350,6 +375,7 @@
             </div>
         </div>
 
+        <!-- AI Yoldaşım Bölümü -->
         <div id="ai-companion-section" class="content-section">
             <h2><i class="fas fa-robot"></i> AI Yoldaşım</h2>
             <div class="feature-section">
@@ -372,50 +398,7 @@
             </div>
         </div>
 
-        <div id="korsan-sahne-section" class="content-section">
-            <h2><i class="fas fa-map-marked-alt"></i> Korsan Ailesi Sahnesi</h2>
-            <div class="feature-section">
-                <h3>Korsan Ailesi ile Plaj Keyfi!</h3>
-                <p>İşte CSS ile çizilmiş eğlenceli bir korsan ailesi sahnesi. HTML ve CSS'in gücünü görün!</p>
-                <div class="korsan-sahne-container">
-                    <div class="scene">
-                        <div class="sezlong"></div>
-                        <div class="valiz valiz1"></div>
-                        <div class="valiz valiz2"></div>
-                        <div class="valiz valiz3"></div>
-                        <div class="person captain">
-                        <div class="head">
-                            <div class="hat">
-                            <div class="skull"></div>
-                            <div class="bones"></div>
-                            </div>
-                        </div>
-                        <div class="body"></div>
-                        <div class="valiz"></div> </div>
-                        <div class="person spouse">
-                        <div class="head">
-                            <div class="hat">
-                            <div class="skull"></div>
-                            <div class="bones"></div>
-                            </div>
-                        </div>
-                        <div class="body" style="background:#551a8b;"></div> <div class="valiz"></div> </div>
-                        <div class="person child">
-                        <div class="head">
-                            <div class="hat" style="width:45px; height:22px; border-width:2px;">
-                            <div class="skull" style="width:12px; height:12px; top:6px; left:16px;"></div>
-                            <div class="bones"></div>
-                            </div>
-                        </div>
-                        <div class="body" style="width:50px; height:90px; background:#a0522d; border-radius:15px;"></div>
-                        <div class="toy-sword"></div>
-                        <div class="valiz"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- VIP Üyelik Al Bölümü -->
         <div id="payment-section" class="content-section">
             <h2><i class="fas fa-credit-card"></i> VIP Üyelik Al</h2>
             <div class="feature-section">
@@ -449,6 +432,7 @@
                 </div>
             </div>
 
+            <!-- Bize Ulaşın Bölümü -->
             <div id="contact-us-section" class="content-section">
                 <h2><i class="fas fa-envelope"></i> Bize Ulaşın</h2>
                 <div class="feature-section">
@@ -468,6 +452,7 @@
             </div>
         </div>
 
+        <!-- Sağ Kenar Çubuğu (Reklamlar ve Yönetici Mesajı) -->
         <div class="right-sidebar">
             <div class="admin-ad-message" id="admin-display-message">
                 <h4>Yönetici Mesajı</h4>
@@ -487,4 +472,7 @@
         <p>&copy; <span id="currentYear"></span> TatilKaptani.com - Tüm Hakları Saklıdır.</p>
     </footer>
 
+    <!-- Ana JavaScript dosyanız -->
     <script src="index.js"></script>
+</body>
+</html>

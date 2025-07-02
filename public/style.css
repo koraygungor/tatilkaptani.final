@@ -1,17 +1,20 @@
 /* Genel Stil Ayarları */
+/* Genel arka plan ve yazı rengi */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: transparent;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Sitenin tüm dikey alanı kaplaması için */
-    background-image: url('img/background.jpg'); /* Kendi yerel JPG dosyanızın yolu */
-    background-size: cover; /* Resmi tüm alanı kaplayacak şekilde boyutlandır */
-    background-attachment: fixed; /* Arkaplanın kaydırma ile sabit kalmasını sağlar */
-    background-position: center; /* Arkaplanı ortalar */
+    color: black; /* Tüm yazılar siyah */
+    background-image: url('img/background.jpg');
+    background-size: cover;
+}
+
+/* Tüm yazı alt kısımlarını şeffaf yap */
+.message-container, .chat-input, .sidebar {
+    background-color: transparent !important;
+}
+
+/* Buton stillerini düzenle */
+button {
+    background-color: rgba(0,0,0,0.1) !important;
+    color: black !important;
 }
 
 header, .sidebar, .announcements, .chat-container {

@@ -822,7 +822,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.speak(`Language changed to ${languageSelect.options[languageSelect.selectedIndex].text}.`);
     });
 
-    // Avatar kaldırıldığı için bu satır gereksiz: avatarEl.addEventListener('click', () => window.showSection("user-info-section"));
+    
     modalConfirmBtn.addEventListener("click", () => hideModal(appModal));
 
     // Giriş/Kayıt Modal butonları
@@ -1707,17 +1707,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }
     });
-// Tuşlar için olay dinleyicilerinin doğru bağlandığından emin olun
+// Tüm butonlara temel işlevsellik ekle
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', function() {
-        console.log('Button clicked:', this.id); // Hangi butona basıldığını kontrol
-        // Buton işlevselliği buraya gelecek
+        alert(`${this.textContent} butonuna basıldı!`);
+        console.log('Button clicked:', this.id || this.textContent);
     });
-});// callOpenRouterAI fonksiyonunun çalıştığından emin olun
-console.log('API called with:', messagesToSend);
-const reply = await window.callOpenRouterAI(null, "openai/gpt-3.5-turbo", companionLoading, messagesToSend);
-console.log('API response:', reply);// Basit bir test işlevi ekleyin
-document.getElementById('testButton').addEventListener('click', () => {
-    alert('Buton çalışıyor!');
-    console.log('Test butonuna basıldı');
 });
