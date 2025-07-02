@@ -12,10 +12,7 @@ const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
 
 
-// const auth = firebase.auth();
-// const firestore = firebase.firestore();
-// const functions = firebase.functions(); // Firebase Functions'ı başlat (argüman olmadan)
-// const storage = firebase.storage(); // Firebase Storage'ı başlat (dosya yükleme için)
+
 
 // Global Değişkenler
 let currentUserId = null;
@@ -100,7 +97,7 @@ const virtualTourCostEl = document.getElementById("virtual-tour-cost");
 const startVirtualBtn = document.getElementById("start-virtual-btn");
 const virtualHolidayOutput = document.getElementById("virtual-holiday-output");
 const virtualOutputTitle = document.getElementById("virtual-output-title");
-const virtualOutputStory = document.getElementById("virtual-output-story");
+
 const virtualImagesContainer = document.getElementById("virtual-images-container");
 const sendVirtualImageEmailBtn = document.getElementById("send-virtual-image-email-btn");
 const virtualLoading = document.getElementById("virtual-loading");
@@ -783,7 +780,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // Ana sohbet asistanı
+    // Ana sohbet asistanı// ... existing code ...
+
+// Sabitler
+const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
+const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
+const VIP_PLAN_CHAT_COST = 10;
+
+
+// const auth = firebase.auth(); // Bu satırı yorum satırı yapın veya silin
+// const firestore = firebase.firestore(); // Bu satırı yorum satırı yapın veya silin
+// const functions = firebase.functions(); // Bu satırı yorum satırı yapın veya silin
+// const storage = firebase.storage(); // Bu satırı yorum satırı yapın veya silin
+// const virtualOutputStory = document.getElementById("virtual-output-story"); // Bu satırı yorum satırı yapın veya silin
+
+// Global Değişkenler
+
+
+
+    // TÜM BUTONLARA GENEL İŞLEVSELLİK EKLEME KISMI KALDIRILDI
+    // Bu kısım, her butona gereksiz bir alert ekliyordu ve diğer olay dinleyicileriyle çakışıyordu.
+    // document.querySelectorAll('button').forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         alert(`${this.textContent} butonuna basıldı!`);
+    //         console.log('Button clicked:', this.id || this.textContent);
+    //     });
+    // });
     sendChatBtn.onclick = async () => {
         const userMessage = chatInput.value.trim();
         if (!userMessage) return;
@@ -1917,4 +1939,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }
     }; 
-})
+}); // Bu satırı ekleyin
