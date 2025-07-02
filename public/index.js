@@ -1632,9 +1632,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const newEmail = prompt("Lütfen e-posta adresinizi girin:", userEmail !== "Ayarlanmadı" ? userEmail : ''); // Mevcut e-postayı göster
                 if (newEmail && newEmail.trim() !== "" && newEmail.trim() !== userEmail) { // Boş veya aynı e-posta değilse güncelle
                     userEmail = newEmail.trim();
-                    if (currentUserId) { // Giriş yapmışsa e-postayı güncelle
-                        // Firebase Auth e-posta güncelleme, kullanıcının yeniden kimlik doğrulamasını gerektirebilir.
-                        // Basit demo için Firestore'daki 'email' alanını güncelliyoruz.
+                    if (currentUserId) { 
                         await window.updateUserProfile({ email: userEmail });
                     }
                     window.showModal("E-posta Güncellendi", `E-posta adresiniz **${userEmail}** olarak güncellendi.`);
