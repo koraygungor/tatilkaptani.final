@@ -819,9 +819,39 @@ const VIP_PLAN_CHAT_COST = 10;
     //         console.log('Button clicked:', this.id || this.textContent);
     //     });
     // });
+
     sendChatBtn.onclick = async () => {
         const userMessage = chatInput.value.trim();
-        if (!userMessage) return;
+        if (!userMessage) return;// ... existing code ...
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Bu fonksiyonun içine, HTML'deki elementlere erişen tüm kodlarınızı yerleştirin.
+    // Örneğin, sendChatBtn tanımı ve onclick olayı burada olmalı:
+
+    const sendChatBtn = document.getElementById('send-button-chat');
+    if (sendChatBtn) {
+        sendChatBtn.onclick = async () => {
+            // ... sendChatBtn'in mevcut onclick kodu ...
+            if (!userMessage) return;
+        };
+    } else {
+        console.error('send-button-chat elementi bulunamadı');
+    }
+
+    // Diğer tüm DOM manipülasyonları ve olay dinleyicileri de buraya gelmeli.
+    // Örneğin, downloadAllImagesBtn ile ilgili kod da bu bloğun içinde olmalı:
+    const downloadAllImagesBtn = document.getElementById('download-all-images-btn');
+    if(downloadAllImagesBtn) {
+        downloadAllImagesBtn.onclick = function() {
+            // ... existing onclick code ...
+        };
+    } else {
+        console.error('download-all-images-btn element not found');
+    }
+
+}); // DOMContentLoaded olay dinleyicisinin kapanış parantezi
+
+// ... existing code ...
 
         window.displayMessage("user", userMessage, chatBox);
         chatHistory.push({ role: "user", content: userMessage }); // Kullanıcı mesajını geçmişe ekle
