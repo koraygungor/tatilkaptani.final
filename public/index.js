@@ -1925,3 +1925,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     //         console.log('Button clicked:', this.id || this.textContent);
     //     });
     // });
+    }); // DOMContentLoaded kapatılıyor
