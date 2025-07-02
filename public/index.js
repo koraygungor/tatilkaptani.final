@@ -1916,15 +1916,5 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             };
         }
-    }; // DOMContentLoaded'in kapanışı
-
-
-
-    // TÜM BUTONLARA GENEL İŞLEVSELLİK EKLEME KISMI KALDIRILDI
-    // Bu kısım, her butona gereksiz bir alert ekliyordu ve diğer olay dinleyicileriyle çakışıyordu.
-    // document.querySelectorAll('button').forEach(button => {
-    //     button.addEventListener('click', function() {
-    //         alert(`${this.textContent} butonuna basıldı!`);
-    //         console.log('Button clicked:', this.id || this.textContent);
-    //     });
+    }; 
 })
