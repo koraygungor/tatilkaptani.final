@@ -821,18 +821,22 @@ const VIP_PLAN_CHAT_COST = 10;
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Bu fonksiyonun içine, HTML'deki elementlere erişen tüm kodlarınızı yerleştirin.
-    // Örneğin, sendChatBtn tanımı ve onclick olayı burada olmalı:
-
     const sendChatBtn = document.getElementById('send-button-chat');
+    const chatInput = document.getElementById('user-input-chat');
+    const chatBox = document.getElementById('chat-box');
+
     if (sendChatBtn) {
         sendChatBtn.onclick = async () => {
-            // ... sendChatBtn'in mevcut onclick kodu ...
-            if (!userMessage) return;
+            const userMessage = chatInput.value.trim();  // Burada tanımla
+            if (!userMessage) return;  // Boşsa işlemi durdur
+
+            window.displayMessage("user", userMessage, chatBox);
+            chatInput.value = "";  // Gönderince inputu temizle
         };
     } else {
         console.error('send-button-chat elementi bulunamadı');
     }
+});
 
     // Diğer tüm DOM manipülasyonları ve olay dinleyicileri de buraya gelmeli.
     // Örneğin, downloadAllImagesBtn ile ilgili kod da bu bloğun içinde olmalı:
