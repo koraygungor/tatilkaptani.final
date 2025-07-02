@@ -1,5 +1,10 @@
-(function() {
-// NOT: Firebase SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
+    // document.querySelectorAll('button').forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         alert(`${this.textContent} butonuna basıldı!`);
+    //         console.log('Button clicked:', this.id || this.textContent);
+    //     });
+    // });
+// NOT: Firebae SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
