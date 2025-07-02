@@ -175,15 +175,28 @@ const firebaseConfig = {
             </div>
 
             <!-- Sohbet Asistanı Bölümü -->
-            <div id="chat-section" class="content-section active">
-                <h2><i class="fas fa-comments"></i> Sohbet Asistanı</h2>
-                <div id="chat-box" class="chat-messages" aria-live="polite" aria-label="Sohbet kutusu"></div>
-                <div class="loading-indicator" id="chat-loading"><i class="fas fa-spinner fa-spin"></i> Palmiye Kaptan düşünüyor...</div>
-                <div class="input-group">
-                    <input type="text" id="user-input-chat" placeholder="Bir tatil sorusu yazın..." />
-                    <button id="send-button-chat" class="send-btn">Gönder</button>
-                </div>
-            </div>
+<div id="chat-section" class="content-section active">
+    <h2><i class="fas fa-comments"></i> Sohbet Asistanı</h2>
+    
+    <!-- Burada sohbet mesajları görünecek -->
+    <div id="chat-box" class="chat-messages" aria-live="polite" aria-label="Sohbet kutusu" 
+         style="border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; background: #fafafa; border-radius: 5px;">
+    </div>
+
+    <!-- Yükleniyor göstergesi -->
+    <div class="loading-indicator" id="chat-loading" style="display:none;">
+        <i class="fas fa-spinner fa-spin"></i> Palmiye Kaptan düşünüyor...
+    </div>
+
+    <!-- Mesaj yazma alanı ve gönderme butonu -->
+    <div class="input-group" style="margin-top: 10px;">
+        <input type="text" id="user-input-chat" placeholder="Bir tatil sorusu yazın..." 
+               style="width: 80%; padding: 8px; font-size: 16px;"/>
+        <button id="send-button-chat" class="send-btn" style="padding: 8px 15px; font-size: 16px; margin-left: 5px;">
+            Gönder
+        </button>
+    </div>
+</div>
 
             <!-- Tatil Avı (Mini Oyun) Bölümü -->
             <div id="game-section" class="content-section">
