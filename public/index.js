@@ -1707,4 +1707,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }
     });
+// Tuşlar için olay dinleyicilerinin doğru bağlandığından emin olun
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', function() {
+        console.log('Button clicked:', this.id); // Hangi butona basıldığını kontrol
+        // Buton işlevselliği buraya gelecek
+    });
+});// callOpenRouterAI fonksiyonunun çalıştığından emin olun
+console.log('API called with:', messagesToSend);
+const reply = await window.callOpenRouterAI(null, "openai/gpt-3.5-turbo", companionLoading, messagesToSend);
+console.log('API response:', reply);// Basit bir test işlevi ekleyin
+document.getElementById('testButton').addEventListener('click', () => {
+    alert('Buton çalışıyor!');
+    console.log('Test butonuna basıldı');
 });
