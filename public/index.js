@@ -880,20 +880,22 @@ document.addEventListener('DOMContentLoaded', function() {
                             Example: "Elbette, size özel bir tatil planı oluşturabilirim! [YÖNLENDİR: vip-planner-section]".
                             Section names: game-section, virtual-holiday-section, ai-photo-studio-section, vip-planner-section, user-info-section, time-travel-section, destiny-route-section, ai-companion-section, payment-section, contact-us-section.`; // Korsan sahnesi artık yok
 
-        // AI çağrısı için geçmişi dilimle (bağlamı korumak ama çok uzun istekleri önlemek için)
-        const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10)); // Son 10 mesaj bağlam için
+        async function sendAIRequest() {
+    // AI çağrısı için geçmişi dilimle (bağlamı korumak ama çok uzun istekleri önlemek için)
+    const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10)); // Son 10 mesaj bağlam için
 
-        const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
-        const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
-        let cleanReply = reply.replace(/\[YÖNLENDİR:\s*([^\]]+)\]/, '').trim();
+    const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
+    const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
+    let cleanReply = reply.replace(/\[YÖNLENDİR:\s*([^\]]+)\]/, '').trim();
 
-        window.displayMessage("ai", cleanReply, chatBox);
-        chatHistory.push({ role: "assistant", content: cleanReply }); // AI yanıtını geçmişe ekle
-        window.speak(cleanReply);
-        window.updateTatilPuan(5, "Sohbet");
+    window.displayMessage("ai", cleanReply, chatBox);
+    chatHistory.push({ role: "assistant", content: cleanReply }); // AI yanıtını geçmişe ekle
+    window.speak(cleanReply);
+    window.updateTatilPuan(5, "Sohbet");
 
-        if (currentUserId) {
-            // Sohbet geçmişini Firestore'a kaydet
+    if (currentUserId) {
+        // Sohbet geçmişini Firestore'a kaydet
+        // Buraya Firestore kaydetme kodunu ekle
             try {
                 await firestore.collection('users').doc(currentUserId).collection('chatHistory').add({
                     userMessage: userMessage,
