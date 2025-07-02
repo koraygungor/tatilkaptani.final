@@ -1930,4 +1930,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     //         alert(`${this.textContent} butonuna basıldı!`);
     //         console.log('Button clicked:', this.id || this.textContent);
     //     });
-    // });
+})
