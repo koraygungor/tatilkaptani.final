@@ -580,6 +580,7 @@ window.updateTatilPuan = async function(points, activity = "Genel Aktivite") {
         userMembershipLevel = "Altın";
     }
 
+// Profil güncelleme fonksiyonu
 async function updateProfileIfNeeded() {
     if (currentUserId) { 
         await window.updateUserProfile({
@@ -588,14 +589,21 @@ async function updateProfileIfNeeded() {
             palmCoinHistory: palmCoinHistory,
             gameScore: gameScore 
         });
+        console.log("Profil başarıyla güncellendi!");
+
+        // Üyelik seviyesi değişmişse kullanıcıya bildir
+        if (oldLevel !== userMembershipLevel) {
+            window.showModal("Tebrikler!", `Üyelik seviyeniz **${userMembershipLevel}** seviyesine yükseldi! Yeni özelliklere göz atın.`);
+            window.speak(`Tebrikler! Üyelik seviyeniz ${userMembershipLevel} seviyesine yükseldi!`);
+        }
+    } else {
+        console.log("Kullanıcı giriş yapmamış, güncelleme yapılmadı.");
     }
 }
-// Fonksiyonu çağır
-updateProfileIfNeeded();
-    if (oldLevel !== userMembershipLevel) {
-        window.showModal("Tebrikler!", `Üyelik seviyeniz **${userMembershipLevel}** seviyesine yükseldi! Yeni özelliklere göz atın.`);
-        window.speak(`Tebrikler! Üyelik seviyeniz ${userMembershipLevel} seviyesine yükseldi!`);
-    }
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateProfileIfNeeded();
+});
     window.updatePalmCoinHistoryDisplay();
     window.updateTatilPuanDisplay(); // UI'nin güncel olduğundan emin ol
 };
