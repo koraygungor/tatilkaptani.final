@@ -9,18 +9,18 @@ const VIP_PLAN_CHAT_COST = 10;
 // Bu bilgiler Firebase Console'dan alınmalıdır. Güvenli kabul edilir.
 // Canvas ortamında __firebase_config global değişkeni otomatik olarak sağlanır,
 // bu nedenle aşağıdaki apiKey'e manuel değer girmenize gerek kalmaz.
-const firebaseConfig = {
-  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU", // Bu değer Canvas tarafından otomatik olarak sağlanır
-  authDomain: "tatilkaptanifinal.firebaseapp.com",
-  projectId: "tatilkaptanifinal",
-  storageBucket: "tatilkaptanifinal.firebasestorage.app",
-  messagingSenderId: "748801975441",
-  appId: "1:748801975441:web:cc26b7b825fafe44658b30",
-  measurementId: "G-0BQJQ25XX1"
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU", // Bu değer Canvas tarafından otomatik olarak sağlanır
+//   authDomain: "tatilkaptanifinal.firebaseapp.com",
+//   projectId: "tatilkaptanifinal",
+//   storageBucket: "tatilkaptanifinal.firebasestorage.app",
+//   messagingSenderId: "748801975441",
+//   appId: "1:748801975441:web:cc26b7b825fafe44658b30",
+//   measurementId: "G-0BQJQ25XX1"
+// };
 
 // Firebase'i başlat
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const functions = firebase.functions(); // Firebase Functions'ı başlat (argüman olmadan)
