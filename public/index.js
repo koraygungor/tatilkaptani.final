@@ -1,3 +1,4 @@
+(function() {
 // NOT: Firebase SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
 // Sabitler
@@ -1913,7 +1914,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             };
         }
-    }); // DOMContentLoaded'in kapanışı
+    
+})(); // Bu satırı ekleyin
 
     // TÜM BUTONLARA GENEL İŞLEVSELLİK EKLEME KISMI KALDIRILDI
     // Bu kısım, her butona gereksiz bir alert ekliyordu ve diğer olay dinleyicileriyle çakışıyordu.
