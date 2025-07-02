@@ -848,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }); // DOMContentLoaded olay dinleyicisinin kapanış parantezi
 
 // ... existing code ...
-
+        let userMessage;
         window.displayMessage("user", userMessage, chatBox);
         chatHistory.push({ role: "user", content: userMessage }); // Kullanıcı mesajını geçmişe ekle
         chatInput.value = "";
@@ -1875,7 +1875,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (sendCompanionMessageBtn) {
             sendCompanionMessageBtn.onclick = async () => {
-                const userMessage = companionInput.value.trim();
+                userMessage = companionInput.value.trim();
                 if (!userMessage) return;
 
                 window.displayMessage("user", userMessage, companionChatBox);
