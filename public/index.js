@@ -1914,7 +1914,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             };
         }
-    }); // DOMContentLoaded'in kapanışı
+    }; // DOMContentLoaded'in kapanışı
 
 
 
