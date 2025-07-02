@@ -580,15 +580,18 @@ window.updateTatilPuan = async function(points, activity = "Genel Aktivite") {
         userMembershipLevel = "Altın";
     }
 
-    if (currentUserId) { // Sadece giriş yapmış kullanıcılar için güncelle
+async function updateProfileIfNeeded() {
+    if (currentUserId) { 
         await window.updateUserProfile({
             tatilPuanlari: tatilPuan,
             membershipLevel: userMembershipLevel,
             palmCoinHistory: palmCoinHistory,
-            gameScore: gameScore // gameScore'u da güncel tut
+            gameScore: gameScore 
         });
     }
-
+}
+// Fonksiyonu çağır
+updateProfileIfNeeded();
     if (oldLevel !== userMembershipLevel) {
         window.showModal("Tebrikler!", `Üyelik seviyeniz **${userMembershipLevel}** seviyesine yükseldi! Yeni özelliklere göz atın.`);
         window.speak(`Tebrikler! Üyelik seviyeniz ${userMembershipLevel} seviyesine yükseldi!`);
