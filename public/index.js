@@ -236,6 +236,15 @@ window.hideModal = hideModal;
  * Firebase kimlik doğrulama durumu değiştiğinde çalışacak listener.
  * Kullanıcının oturum açmasını veya anonim olarak devam etmesini sağlar.
  */
+async function main() {
+  // Kullanıcı zaten giriş yapmışsa profil yükle
+  if (auth.currentUser) {
+    currentUserId = auth.currentUser.uid;
+  await loadUserProfile();
+  const reply = await window.callOpenRouterAI(prompt, model, loadingElement, history);
+  // vs...
+}
+
 auth.onAuthStateChanged(async (user) => {
     const mainLayout = document.querySelector('.main-layout');
     if (user) {
@@ -519,25 +528,7 @@ window.showModal = function(title, message) {
 };
 
 /**
- * Sohbet kutusuna yeni bir mesaj ekler.
- * @param {string} sender - Mesajı gönderen (örn: "user", "ai").
- * @param {string} text - Mesaj metni.
- * @param {HTMLElement} chatBoxElement - Mesajın ekleneceği sohbet kutusu elementi.
- */
-window.displayMessage = function(sender, text, chatBoxElement = chatBox) {
-    if (!chatBoxElement) {
-        console.error("Sohbet kutusu elementi bulunamadı.");
-        return;
-    }
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add("message", sender);
-    const span = document.createElement('span');
-    span.textContent = text;
-    messageDiv.appendChild(span);
-    chatBoxElement.appendChild(messageDiv);
-    chatBoxElement.scrollTop = chatBoxElement.scrollHeight;
-};
-
+ c
 /**
  * Metni sesli olarak okur.
  * @param {string} text - Okunacak metin.
@@ -603,10 +594,9 @@ async function updateProfileIfNeeded() {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateProfileIfNeeded();
-});
     window.updatePalmCoinHistoryDisplay();
     window.updateTatilPuanDisplay(); // UI'nin güncel olduğundan emin ol
-};
+});
 
 /**
  * TatilPuan ve üyelik seviyesi gösterimini günceller.
@@ -830,27 +820,70 @@ const VIP_PLAN_CHAT_COST = 10;
     //     });
     // });
 
-
 document.addEventListener('DOMContentLoaded', function() {
     const sendChatBtn = document.getElementById('send-button-chat');
     const chatInput = document.getElementById('user-input-chat');
     const chatBox = document.getElementById('chat-box');
+    const languageSelect = document.getElementById('language-select'); // Eğer yoksa ekle
+
+    if (!chatBox) {
+        console.error("Sohbet kutusu elementi bulunamadı.");
+        return;
+    }
 
     if (sendChatBtn) {
         sendChatBtn.onclick = async () => {
-            const userMessage = chatInput.value.trim();  // Burada tanımla
-            if (!userMessage) return;  // Boşsa işlemi durdur
+            const userMessage = chatInput.value.trim();
+            if (!userMessage) return;
 
             window.displayMessage("user", userMessage, chatBox);
-            chatInput.value = "";  // Gönderince inputu temizle
+            chatInput.value = "";
+
+            // Mesajı chat geçmişine ekle
+            chatHistory.push({ role: "user", content: userMessage });
+
+            // Dil seçimini al
+            const selectedLanguage = languageSelect ? languageSelect.value : 'tr';
+            const languagePrompt = selectedLanguage === 'tr' ? '(Türkçe)' : '(English)';
+
+            // AI için prompt hazırla
+            const promptForAI = `You are a helpful travel assistant called "Palmiye Kaptan". User's message: "${userMessage}".
+Detect the language of the message ${languagePrompt} and respond in that language.
+Provide creative, informative, and personalized assistance on topics like travel, destinations, accommodation, activities, budget planning, virtual tours, historical sites, and cultural experiences.
+Avoid repetitive or generic answers. Understand the context by considering previous messages in the chat history.
+If the user's message clearly indicates a feature request (e.g., 'I want to play a game', 'plan a trip', 'generate an image', 'I want to be VIP', 'set email', 'set admin message'),
+add a hidden tag at the end of your response in the format "[YÖNLENDİR: [section-name]]".
+Example: "Elbette, size özel bir tatil planı oluşturabilirim! [YÖNLENDİR: vip-planner-section]".
+Section names: game-section, virtual-holiday-section, ai-photo-studio-section, vip-planner-section, user-info-section, time-travel-section, destiny-route-section, ai-companion-section, payment-section, contact-us-section.`;
+
+            // AI isteği yapan async fonksiyon
+            async function sendAIRequest() {
+                // Son 10 mesajlık geçmişi al
+                const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10));
+
+                const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
+                const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
+                let cleanReply = reply.replace(/\[YÖNLENDİR:\s*([^\]]+)\]/, '').trim();
+
+                window.displayMessage("ai", cleanReply, chatBox);
+                chatHistory.push({ role: "assistant", content: cleanReply });
+                window.speak(cleanReply);
+                window.updateTatilPuan(5, "Sohbet");
+
+                // İstersen yönlendirme varsa burada kullanabilirsin:
+                if (redirectMatch && redirectMatch[1]) {
+                    window.showSection(redirectMatch[1]);
+                }
+            }
+
+            // AI isteğini başlat
+            await sendAIRequest();
         };
     } else {
         console.error('send-button-chat elementi bulunamadı');
     }
-});
 
-    // Diğer tüm DOM manipülasyonları ve olay dinleyicileri de buraya gelmeli.
-    // Örneğin, downloadAllImagesBtn ile ilgili kod da bu bloğun içinde olmalı:
+    // Diğer element ve event handler'lar burada olabilir
     const downloadAllImagesBtn = document.getElementById('download-all-images-btn');
     if(downloadAllImagesBtn) {
         downloadAllImagesBtn.onclick = function() {
@@ -859,39 +892,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error('download-all-images-btn element not found');
     }
-
-}); // DOMContentLoaded olay dinleyicisinin kapanış parantezi
-
-// ... existing code ...
-        let userMessage;
-        window.displayMessage("user", userMessage, chatBox);
-        chatHistory.push({ role: "user", content: userMessage }); // Kullanıcı mesajını geçmişe ekle
-        chatInput.value = "";
-
-        const selectedLanguage = languageSelect.value;
-        const languagePrompt = selectedLanguage === 'tr' ? '(Türkçe)' : '(English)';
-
-        const promptForAI = `You are a helpful travel assistant called "Palmiye Kaptan". User's message: "${userMessage}".
-                            Detect the language of the message (${languagePrompt}) and respond in that language.
-                            Provide creative, informative, and personalized assistance on topics like travel, destinations, accommodation, activities, budget planning, virtual tours, historical sites, and cultural experiences.
-                            Avoid repetitive or generic answers. Understand the context by considering previous messages in the chat history.
-                            If the user's message clearly indicates a feature request (e.g., 'I want to play a game', 'plan a trip', 'generate an image', 'I want to be VIP', 'set email', 'set admin message'),
-                            add a hidden tag at the end of your response in the format "[YÖNLENDİR: [section-name]]".
-                            Example: "Elbette, size özel bir tatil planı oluşturabilirim! [YÖNLENDİR: vip-planner-section]".
-                            Section names: game-section, virtual-holiday-section, ai-photo-studio-section, vip-planner-section, user-info-section, time-travel-section, destiny-route-section, ai-companion-section, payment-section, contact-us-section.`; // Korsan sahnesi artık yok
-
-        async function sendAIRequest() {
-    // AI çağrısı için geçmişi dilimle (bağlamı korumak ama çok uzun istekleri önlemek için)
-    const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10)); // Son 10 mesaj bağlam için
-
-    const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
-    const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
-    let cleanReply = reply.replace(/\[YÖNLENDİR:\s*([^\]]+)\]/, '').trim();
-
-    window.displayMessage("ai", cleanReply, chatBox);
-    chatHistory.push({ role: "assistant", content: cleanReply }); // AI yanıtını geçmişe ekle
-    window.speak(cleanReply);
-    window.updateTatilPuan(5, "Sohbet");
+});
 
     if (currentUserId) {
         // Sohbet geçmişini Firestore'a kaydet
