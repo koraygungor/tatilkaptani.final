@@ -1915,7 +1915,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }
     
-})(); // Bu satırı ekleyin
+
 
     // TÜM BUTONLARA GENEL İŞLEVSELLİK EKLEME KISMI KALDIRILDI
     // Bu kısım, her butona gereksiz bir alert ekliyordu ve diğer olay dinleyicileriyle çakışıyordu.
