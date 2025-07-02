@@ -784,8 +784,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const companionChatArea = document.getElementById("companion-chat-area");
     const activeCompanionName = document.getElementById("active-companion-name");
 
-    window.initializeAppFeatures();
-
     sidebarButtons.forEach(button => {
         button.addEventListener("click", () => {
             const sectionId = button.dataset.section;
@@ -793,6 +791,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+    window.initializeAppFeatures();
     // Ana sohbet asistanı// ... existing code ...
 
 // Sabitler
