@@ -245,6 +245,10 @@ async function main() {
   // vs...
   }
 }
+// Sayfa yüklendiğinde çalıştır
+document.addEventListener('DOMContentLoaded', () => {
+  main().catch(console.error);
+});
 auth.onAuthStateChanged(async (user) => {
     const mainLayout = document.querySelector('.main-layout');
     if (user) {
