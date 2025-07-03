@@ -1999,4 +1999,4 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
             };
         }
     }; 
-}; // document.addEventListener('DOMContentLoaded', () => { ... kapanışı
+} // document.addEventListener('DOMContentLoaded', () => { ... kapanışı
