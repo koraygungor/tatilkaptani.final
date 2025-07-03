@@ -243,8 +243,8 @@ async function main() {
   await loadUserProfile();
   const reply = await window.callOpenRouterAI(prompt, model, loadingElement, history);
   // vs...
+  }
 }
-
 auth.onAuthStateChanged(async (user) => {
     const mainLayout = document.querySelector('.main-layout');
     if (user) {
@@ -596,6 +596,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProfileIfNeeded();
     window.updatePalmCoinHistoryDisplay();
     window.updateTatilPuanDisplay(); // UI'nin güncel olduğundan emin ol
+
+     // main fonksiyonunu çalıştır
+    main().catch(console.error);
 });
 
 /**
