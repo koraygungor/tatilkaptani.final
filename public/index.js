@@ -14,10 +14,10 @@ const VIP_PLAN_CHAT_COST = 10;
 // Firebase SDK değişkenlerini burada tanımlayın, aksi takdirde 'firebase is not defined' hataları alabilirsiniz.
 // HTML dosyanızda Firebase SDK'larının yüklendiğinden emin olun (örn: <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>)
 // ve Firebase projenizi yapılandırdığınızdan emin olun (firebase.initializeApp(firebaseConfig)).
-const auth = firebase.auth();
-const firestore = firebase.firestore();
-const functions = firebase.functions();
-const storage = firebase.storage();
+// const auth = firebase.auth(); // Bu değişkenler HTML dosyasında tanımlanacağı için burada kaldırıldı
+// const firestore = firebase.firestore(); // Bu değişkenler HTML dosyasında tanımlanacağı için burada kaldırıldı
+// const functions = firebase.functions(); // Bu değişkenler HTML dosyasında tanımlanacağı için burada kaldırıldı
+// const storage = firebase.storage(); // Bu değişkenler HTML dosyasında tanımlanacağı için burada kaldırıldı
 const virtualOutputStory = document.getElementById("virtual-output-story"); // Bu elementin HTML'de olduğundan emin olun
 
 
@@ -1108,7 +1108,8 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
             try {
                 await auth.signOut();
                 window.showModal('Çıkış Başarılı', 'Başarıyla çıkış yaptınız.');
-            } catch (error) {
+            }
+            catch (error) {
                 console.error('Çıkış yaparken hata:', error);
                 window.showModal('Hata', 'Çıkış yaparken bir hata oluştu: ' + error.message);
             }
@@ -1727,7 +1728,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                             Describe the atmosphere, important events, clothing, food, and potential interactions of that era in a detailed, immersive, and imaginative way.
                             ${character ? `In this journey, specifically include an opportunity to meet or interact with "${character}".` : ''}
                             ${focus ? `The theme "${focus}" should be prominent as a focal point.` : ''}
-                            The story should be engaging and include an image link relevant to that period (e.g., an Unsplash or Pixabay link).
+                            The story should be engaging and include an image link relevant to that period (e.g.: an Unsplash or Pixabay link).
                             Provide the response in Turkish. Focus on details.`;
 
             const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", timeTravelLoading);
