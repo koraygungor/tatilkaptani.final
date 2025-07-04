@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
 
+<<<<<<< HEAD
     <!-- Firebase SDK'ları (Uyumluluk Katmanı - v9) -->
     <!-- Bu scriptler, firebase.initializeApp() ve firebase.auth() gibi eski sözdizimini kullanmanızı sağlar. -->
+=======
+>>>>>>> 234a22248160f9e39a2af0b142844299087331f9
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -14,8 +17,12 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
     <script>
+<<<<<<< HEAD
       // Web uygulamanızın Firebase konfigürasyonu
       // Bu bilgiler Firebase Konsolu'ndan alınmıştır.
+=======
+      // Your web app's Firebase configuration
+>>>>>>> 234a22248160f9e39a2af0b142844299087331f9
       const firebaseConfig = {
         apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
         authDomain: "tatilkaptanifinal.firebaseapp.com",
@@ -25,6 +32,7 @@
         appId: "1:748801975441:web:cc26b7b825fafe44658b30",
         measurementId: "G-0BQJQ25XX1"
       };
+<<<<<<< HEAD
 
       // Firebase Uygulamasını Başlatma
       firebase.initializeApp(firebaseConfig);
@@ -90,6 +98,27 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Kendi CSS dosyanız -->
+=======
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Kullanacağınız servisleri burada başlatın (global olarak erişilebilir olması için)
+      // index.js dosyanızda const auth = firebase.auth(); gibi tanımlamalar olduğu için
+      // burada bu değişkenleri global hale getiriyoruz.
+      // EĞER index.js içinde de 'const auth = firebase.auth();' tanımları varsa,
+      // index.js içindeki o tanımları silmeniz gerekecek.
+      // En iyi uygulama, servisleri sadece bir kez başlatmaktır.
+      const auth = firebase.auth();
+      const firestore = firebase.firestore();
+      const functions = firebase.functions(); // Eğer kullanıyorsanız
+      const storage = firebase.storage(); // Eğer kullanıyorsanız
+      // const db = firebase.firestore(); // db zaten firestore olarak tanımlandı, duplicate olmasın
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+>>>>>>> 234a22248160f9e39a2af0b142844299087331f9
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -535,8 +564,14 @@
         <p>&copy; <span id="currentYear"></span> TatilKaptani.com - Tüm Hakları Saklıdır.</p>
     </footer>
 
+<<<<<<< HEAD
     <!-- Kendi JavaScript dosyanız -->
     <!-- Bu script, Firebase SDK'ları yüklendikten ve global değişkenler tanımlandıktan sonra çalışmalıdır. -->
     <script src="index.js"></script>
 </body>
 </html>
+=======
+    <script src="index.js"></script>
+</body>
+</html>
+>>>>>>> 234a22248160f9e39a2af0b142844299087331f9
