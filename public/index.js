@@ -1255,44 +1255,52 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
         }
 
         async function handleGameAnswer(answer) {
-            if (!currentGameQuestion) {
-                gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Henüz bir soru yok. Lütfen oyunu başlatın.</p>`;
-                return;
-            }
+    if (!currentGameQuestion) {
+        gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Henüz bir soru yok. Lütfen oyunu başlatın.</p>`;
+        return;
+    }
 
-            const userAnswer = answer.trim().toUpperCase();
-            gameAnswerInput.value = ""; // Girişi hemen temizle
+    const userAnswer = answer.trim().toUpperCase();
+    const correctAnswer = currentGameQuestion.answer.trim().toUpperCase();
 
-            if (userAnswer === currentGameQuestion.answer) {
-                gameOutput.innerHTML += `<p style="color: green;"><strong>Palmiye Kaptan:</strong> Tebrikler! Doğru cevap. (+${currentGameQuestion.points} PalmCoin)</p>`;
-                window.speak("Tebrikler! Doğru cevap.");
-                gameScore += currentGameQuestion.points;
-                if (currentUserId) { // Giriş yapmışsa puanı güncelle
-                    await window.updateUserProfile({ gameScore: gameScore });
-                }
-                window.updateTatilPuan(currentGameQuestion.points, `Tatil Avı Oyunu (Soru ${currentQuestionIndex + 1})`);
-            } else {
-                gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Yanlış cevap. Doğru cevap: ${currentGameQuestion.answer}</p>`;
-                window.speak(`Yanlış cevap. Doğru cevap ${currentGameQuestion.answer}`);
-            }
+    gameAnswerInput.value = ""; // Girişi hemen temizle
 
-            currentQuestionIndex++;
-            if (currentQuestionIndex < 3) {
-                setTimeout(askNextGameQuestion, 1500); // Soru döngüsünü düzeltildi
-            } else {
-                setTimeout(endGame, 1500);
-            }
+    if (userAnswer === correctAnswer) {
+        gameOutput.innerHTML += `<p style="color: green;"><strong>Palmiye Kaptan:</strong> Tebrikler! Doğru cevap. (+${currentGameQuestion.points} PalmCoin)</p>`;
+        window.speak("Tebrikler! Doğru cevap.");
+        gameScore += currentGameQuestion.points;
+
+        if (currentUserId) {
+            await window.updateUserProfile({ gameScore: gameScore });
         }
 
-        function endGame() {
-            gameActive = false;
-            gameOutput.innerHTML += `<p><strong>Palmiye Kaptan:</strong> Oyun bitti! Toplam **${gameScore} PalmCoin** kazandın! TatilPuan'ın güncellendi.</p>`;
-            window.speak(`Oyun bitti! Toplam ${gameScore} PalmCoin kazandın!`);
-            gameAnswerInput.style.display = "none";
-            submitGameAnswerBtn.style.display = "none";
-            startGameBtn.style.display = "block";
-            window.displayMembershipInfo(); // Kullanıcı bilgilerini yenile
-        }
+        await window.updateTatilPuan(currentGameQuestion.points, `Tatil Avı Oyunu (Soru ${currentQuestionIndex + 1})`);
+    } else {
+        gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Yanlış cevap. Doğru cevap: ${currentGameQuestion.answer}</p>`;
+        window.speak(`Yanlış cevap. Doğru cevap ${currentGameQuestion.answer}`);
+    }
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < 3) {
+        setTimeout(askNextGameQuestion, 1500);
+    } else {
+        setTimeout(endGame, 1500);
+    }
+}
+
+function endGame() {
+    gameActive = false;
+    gameOutput.innerHTML += `<p><strong>Palmiye Kaptan:</strong> Oyun bitti! Toplam <strong>${gameScore} PalmCoin</strong> kazandın! TatilPuan'ın güncellendi.</p>`;
+    window.speak(`Oyun bitti! Toplam ${gameScore} PalmCoin kazandın!`);
+    
+    gameAnswerInput.style.display = "none";
+    submitGameAnswerBtn.style.display = "none";
+    startGameBtn.style.display = "block";
+    
+    window.displayMembershipInfo();
+}
+
 
         // Sanal tur dakika maliyeti güncelleme dinleyicisi
         if (virtualDurationMinutesInput) {
@@ -1998,9 +2006,8 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                     console.error("Mesaj gönderilirken hata oluştu:", error);
                     window.showModal("Hata", `Mesajınız gönderilirken bir hata oluştu: ${error.message}. Lütfen daha sonra tekrar deneyin.`);
                 } finally {
-                    contactLoading.style.display = 'none';
-                }
-            };
-        }
-    }; 
-}); // document.addEventListener('DOMContentLoaded', () => { ... kapanışı
+                contactLoading.style.display = 'none';
+            }
+        };
+    }
+}); // document.addEventListener DOMContentLoaded doğru şekilde kapandı
