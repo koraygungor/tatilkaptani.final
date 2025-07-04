@@ -2,7 +2,8 @@
     //     button.addEventListener('click', function() {
     //         alert(`${this.textContent} butonuna basıldı!`);
     //         console.log('Button clicked:', this.id || this.textContent);
-    //     });
+    //     }
+// Remove this empty closing bracket as it has no matching opening bracket
     // });
 // NOT: Firebae SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
@@ -2009,4 +2010,51 @@ function endGame() {
             }
         };
     }
-}); // Close DOMContentLoaded event listener
+window.loadAdminMessage = async function() {
+    const adminMessageRef = window.getAdminMessageRef();
+    if (!adminMessageRef) {
+        console.log("Yönetici mesajı referansı mevcut değil.");
+        return;
+    }
+
+    // Listen for real-time updates to admin message
+    adminMessageRef.onSnapshot((docSnap) => {
+        if (docSnap.exists) {
+            const data = docSnap.data();
+            if (adminDisplayMessageEl) {
+                adminDisplayMessageEl.textContent = data.message || "Yönetici mesajı bulunamadı.";
+            }
+        } else {
+            console.log("Yönetici mesajı bulunamadı.");
+            if (adminDisplayMessageEl) {
+                adminDisplayMessageEl.textContent = "Yönetici mesajı bulunamadı.";
+            }
+        }
+    }, (error) => {
+        console.error("Yönetici mesajı yüklenirken hata:", error);
+    });
+}
+window.loadAdminMessage = async function() {
+    const adminMessageRef = window.getAdminMessageRef();
+    if (!adminMessageRef) {
+        console.log("Yönetici mesajı referansı mevcut değil.");
+        return;
+    }
+
+    // Listen for real-time updates to admin message
+    adminMessageRef.onSnapshot((docSnap) => {
+        if (docSnap.exists) {
+            const data = docSnap.data();
+            if (adminDisplayMessageEl) {
+                adminDisplayMessageEl.textContent = data.message || "Yönetici mesajı bulunamadı.";
+            }
+        } else {
+            console.log("Yönetici mesajı bulunamadı.");
+            if (adminDisplayMessageEl) {
+                adminDisplayMessageEl.textContent = "Yönetici mesajı bulunamadı.";
+            }
+        }
+    }, (error) => {
+        console.error("Yönetici mesajı yüklenirken hata:", error);
+    });
+}
