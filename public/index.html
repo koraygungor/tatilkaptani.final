@@ -4,63 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Your App Title</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <!-- Uygulamanızın diğer HTML içeriği buraya gelecek -->
-    
-        <!-- Firebase SDK'yı ekleyin -->
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-        <!-- Kullanacağınız diğer Firebase ürünlerini de buraya ekleyebilirsiniz, örneğin:
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-        -->
-    
-        <!-- Firebase projenizin yapılandırma bilgilerini ekleyin -->
-        <script>
-          // Your web app's Firebase configuration
-          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
-  authDomain: "tatilkaptanifinal.firebaseapp.com",
-  projectId: "tatilkaptanifinal",
-  storageBucket: "tatilkaptanifinal.firebasestorage.app",
-  messagingSenderId: "748801975441",
-  appId: "1:748801975441:web:cc26b7b825fafe44658b30",
-  measurementId: "G-0BQJQ25XX1"
-};
-    
-          // Initialize Firebase
-          firebase.initializeApp(firebaseConfig);
-    
-          // Kullanacağınız servisleri başlatın (örneğin Firestore ve Auth)
-          const db = firebase.firestore();
-          const auth = firebase.auth();
-        </script>
-    
-        <!-- Kendi JavaScript dosyanızı en sona ekleyin -->
-        <script src="index.js"></script>
-    </body>
-    </html>
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
-    <!-- Font Awesome ikon kütüphanesi -->
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
+        authDomain: "tatilkaptanifinal.firebaseapp.com",
+        projectId: "tatilkaptanifinal",
+        storageBucket: "tatilkaptanifinal.firebasestorage.app",
+        messagingSenderId: "748801975441",
+        appId: "1:748801975441:web:cc26b7b825fafe44658b30",
+        measurementId: "G-0BQJQ25XX1"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Kullanacağınız servisleri burada başlatın (global olarak erişilebilir olması için)
+      // index.js dosyanızda const auth = firebase.auth(); gibi tanımlamalar olduğu için
+      // burada bu değişkenleri global hale getiriyoruz.
+      // EĞER index.js içinde de 'const auth = firebase.auth();' tanımları varsa,
+      // index.js içindeki o tanımları silmeniz gerekecek.
+      // En iyi uygulama, servisleri sadece bir kez başlatmaktır.
+      const auth = firebase.auth();
+      const firestore = firebase.firestore();
+      const functions = firebase.functions(); // Eğer kullanıyorsanız
+      const storage = firebase.storage(); // Eğer kullanıyorsanız
+      // const db = firebase.firestore(); // db zaten firestore olarak tanımlandı, duplicate olmasın
+    </script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Özel stil dosyanız -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -78,7 +58,6 @@ const firebaseConfig = {
         </div>
     </header>
 
-    <!-- Genel Uygulama Modalı -->
     <div id="appModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -88,7 +67,6 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- Giriş Modalı -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -103,7 +81,6 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- Kayıt Modalı -->
     <div id="registerModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -121,7 +98,6 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- Şifre Sıfırlama Modalı -->
     <div id="forgotPasswordModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -135,9 +111,7 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- Ana Düzen (Sidebar ve İçerik Alanı) -->
     <div class="main-layout">
-        <!-- Sol Kenar Çubuğu (Sidebar) -->
         <div class="left-sidebar">
             <h2>Palmiye Kaptan</h2>
             <nav class="sidebar-nav">
@@ -151,16 +125,13 @@ const firebaseConfig = {
                     <li><button data-section="time-travel-section"><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</button></li>
                     <li><button data-section="destiny-route-section"><i class="fas fa-crystal-ball"></i> Kader Rotası</button></li>
                     <li><button data-section="ai-companion-section"><i class="fas fa-robot"></i> AI Yoldaşım</button></li>
-                    <!-- Korsan Sahnesi bölümü kaldırıldı -->
                     <li><button data-section="payment-section"><i class="fas fa-credit-card"></i> VIP Üyelik Al</button></li>
                     <li><button data-section="contact-us-section"><i class="fas fa-envelope"></i> Bize Ulaşın</button></li>
                 </ul>
             </nav>
         </div>
 
-        <!-- İçerik Alanı -->
         <div class="content-area">
-            <!-- Üst Bar (TatilPuan, UID, Ses, Dil Seçimi) -->
             <div class="top-bar">
                 <div class="info-group">
                     <span id="tatilpuan-top"><i class="fas fa-star"></i> TatilPuan: 0 (Bronz)</span>
@@ -174,31 +145,26 @@ const firebaseConfig = {
                 <span id="slogan-top"></span>
             </div>
 
-            <!-- Sohbet Asistanı Bölümü -->
-<div id="chat-section" class="content-section active">
-    <h2><i class="fas fa-comments"></i> Sohbet Asistanı</h2>
-    
-    <!-- Burada sohbet mesajları görünecek -->
-    <div id="chat-box" class="chat-messages" aria-live="polite" aria-label="Sohbet kutusu" 
-         style="border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; background: #fafafa; border-radius: 5px;">
-    </div>
+            <div id="chat-section" class="content-section active">
+                <h2><i class="fas fa-comments"></i> Sohbet Asistanı</h2>
 
-    <!-- Yükleniyor göstergesi -->
-    <div class="loading-indicator" id="chat-loading" style="display:none;">
-        <i class="fas fa-spinner fa-spin"></i> Palmiye Kaptan düşünüyor...
-    </div>
+                <div id="chat-box" class="chat-messages" aria-live="polite" aria-label="Sohbet kutusu"
+                     style="border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; background: #fafafa; border-radius: 5px;">
+                </div>
 
-    <!-- Mesaj yazma alanı ve gönderme butonu -->
-    <div class="input-group" style="margin-top: 10px;">
-        <input type="text" id="user-input-chat" placeholder="Bir tatil sorusu yazın..." 
-               style="width: 80%; padding: 8px; font-size: 16px;"/>
-        <button id="send-button-chat" class="send-btn" style="padding: 8px 15px; font-size: 16px; margin-left: 5px;">
-            Gönder
-        </button>
-    </div>
-</div>
+                <div class="loading-indicator" id="chat-loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i> Palmiye Kaptan düşünüyor...
+                </div>
 
-            <!-- Tatil Avı (Mini Oyun) Bölümü -->
+                <div class="input-group" style="margin-top: 10px;">
+                    <input type="text" id="user-input-chat" placeholder="Bir tatil sorusu yazın..."
+                           style="width: 80%; padding: 8px; font-size: 16px;"/>
+                    <button id="send-button-chat" class="send-btn" style="padding: 8px 15px; font-size: 16px; margin-left: 5px;">
+                        Gönder
+                    </button>
+                </div>
+            </div>
+
             <div id="game-section" class="content-section">
                 <h2><i class="fas fa-gamepad"></i> Tatil Avı (Mini Oyun)</h2>
                 <div class="feature-section">
@@ -211,7 +177,6 @@ const firebaseConfig = {
                 </div>
             </div>
 
-            <!-- Sanal Tatil Planı Bölümü -->
             <div id="virtual-holiday-section" class="content-section">
                 <h2><i class="fas fa-globe-americas"></i> Sanal Tatil Planı</h2>
                 <div class="feature-section">
@@ -242,7 +207,6 @@ const firebaseConfig = {
                 </div>
             </div>
 
-            <!-- AI Fotoğraf Stüdyosu Bölümü -->
             <div id="ai-photo-studio-section" class="content-section">
                 <h2><i class="fas fa-paint-brush"></i> AI Fotoğraf Stüdyosu</h2>
                 <div class="feature-section" id="ai-photo-access-check">
@@ -278,7 +242,6 @@ const firebaseConfig = {
                 </div>
             </div>
 
-            <!-- VIP A'dan Z'ye Tur Planlayıcı Bölümü -->
             <div id="vip-planner-section" class="content-section">
                 <h2><i class="fas fa-plane-departure"></i> VIP A'dan Z'ye Tur Planlayıcı</h2>
                 <div class="feature-section" id="vip-access-check">
@@ -340,7 +303,6 @@ const firebaseConfig = {
             </div>
         </div>
 
-        <!-- Üyelik Bilgileri Bölümü -->
         <div id="user-info-section" class="content-section">
             <h2><i class="fas fa-user-circle"></i> Üyelik Bilgileri</h2>
             <div class="feature-section">
@@ -388,7 +350,6 @@ const firebaseConfig = {
             </div>
         </div>
 
-        <!-- Zamanda Yolculuk Tatili Bölümü -->
         <div id="time-travel-section" class="content-section">
             <h2><i class="fas fa-hourglass-half"></i> Zamanda Yolculuk Tatili</h2>
             <div class="feature-section" id="time-travel-access-check">
@@ -411,7 +372,6 @@ const firebaseConfig = {
             <div id="time-travel-output" class="plan-output" style="display: none;"></div>
         </div>
 
-        <!-- Kader Rotası Bölümü -->
         <div id="destiny-route-section" class="content-section">
             <h2><i class="fas fa-crystal-ball"></i> Kader Rotası</h2>
             <div class="feature-section">
@@ -434,7 +394,6 @@ const firebaseConfig = {
             </div>
         </div>
 
-        <!-- AI Yoldaşım Bölümü -->
         <div id="ai-companion-section" class="content-section">
             <h2><i class="fas fa-robot"></i> AI Yoldaşım</h2>
             <div class="feature-section">
@@ -457,7 +416,6 @@ const firebaseConfig = {
             </div>
         </div>
 
-        <!-- VIP Üyelik Al Bölümü -->
         <div id="payment-section" class="content-section">
             <h2><i class="fas fa-credit-card"></i> VIP Üyelik Al</h2>
             <div class="feature-section">
@@ -485,33 +443,30 @@ const firebaseConfig = {
                         <input type="text" id="cvv" placeholder="XXX" maxlength="4" />
                     </div>
                     <label for="card-holder-name">Kart Sahibinin Adı:</label>
-                        <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
-                        <button id="complete-payment-btn">Ödemeyi Tamamla (Demo)</button>
-                    </div>
+                    <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
+                    <button id="complete-payment-btn">Ödemeyi Tamamla (Demo)</button>
                 </div>
-            </div>
-
-            <!-- Bize Ulaşın Bölümü -->
-            <div id="contact-us-section" class="content-section">
-                <h2><i class="fas fa-envelope"></i> Bize Ulaşın</h2>
-                <div class="feature-section">
-                    <h3>Sorularınız veya Destek Talepleriniz İçin</h3>
-                    <p>Her türlü soru, öneri veya destek talebiniz için bize yazmaktan çekinmeyin. Ekibimiz en kısa sürede size geri dönecektir.</p>
-                    <label for="contact-subject">Konu:</label>
-                    <input type="text" id="contact-subject" placeholder="Örn: VIP üyelik hakkında soru" />
-                    <label for="contact-email">E-posta Adresiniz:</label>
-                    <input type="email" id="contact-email" placeholder="Örn: adiniz@ornek.com" />
-                    <label for="contact-message">Mesajınız:</label>
-                    <textarea id="contact-message" rows="5" placeholder="Detaylı mesajınızı buraya yazın..."></textarea>
-                    <label for="contact-file">Dosya Ekle (Opsiyonel):</label>
-                    <input type="file" id="contact-file" />
-                    <button id="send-contact-form-btn">Gönder</button>
-                </div>
-                <div class="loading-indicator" id="contact-loading"><i class="fas fa-spinner fa-spin"></i> Mesajınız gönderiliyor...</div>
             </div>
         </div>
 
-        <!-- Sağ Kenar Çubuğu (Reklamlar ve Yönetici Mesajı) -->
+        <div id="contact-us-section" class="content-section">
+            <h2><i class="fas fa-envelope"></i> Bize Ulaşın</h2>
+            <div class="feature-section">
+                <h3>Sorularınız veya Destek Talepleriniz İçin</h3>
+                <p>Her türlü soru, öneri veya destek talebiniz için bize yazmaktan çekinmeyin. Ekibimiz en kısa sürede size geri dönecektir.</p>
+                <label for="contact-subject">Konu:</label>
+                <input type="text" id="contact-subject" placeholder="Örn: VIP üyelik hakkında soru" />
+                <label for="contact-email">E-posta Adresiniz:</label>
+                <input type="email" id="contact-email" placeholder="Örn: adiniz@ornek.com" />
+                <label for="contact-message">Mesajınız:</label>
+                <textarea id="contact-message" rows="5" placeholder="Detaylı mesajınızı buraya yazın..."></textarea>
+                <label for="contact-file">Dosya Ekle (Opsiyonel):</label>
+                <input type="file" id="contact-file" />
+                <button id="send-contact-form-btn">Gönder</button>
+            </div>
+            <div class="loading-indicator" id="contact-loading"><i class="fas fa-spinner fa-spin"></i> Mesajınız gönderiliyor...</div>
+        </div>
+
         <div class="right-sidebar">
             <div class="admin-ad-message" id="admin-display-message">
                 <h4>Yönetici Mesajı</h4>
@@ -531,6 +486,6 @@ const firebaseConfig = {
         <p>&copy; <span id="currentYear"></span> TatilKaptani.com - Tüm Hakları Saklıdır.</p>
     </footer>
 
-    <!-- Ana JavaScript dosyanız -->
-   </body>
+    <script src="index.js"></script>
+</body>
 </html>
