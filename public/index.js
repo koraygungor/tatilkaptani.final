@@ -2,8 +2,7 @@
     //     button.addEventListener('click', function() {
     //         alert(`${this.textContent} butonuna basıldı!`);
     //         console.log('Button clicked:', this.id || this.textContent);
-    //     }
-// Remove this empty closing bracket as it has no matching opening bracket
+    //     });
     // });
 // NOT: Firebae SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
@@ -1198,63 +1197,66 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
     }
 
 
-    async function askNextGameQuestion() {
-        if (currentQuestionIndex < 3) { // Toplam 3 soru soralım
-            gameOutput.innerHTML += `<p><i class="fas fa-spinner fa-spin"></i> Palmiye Kaptan yeni soru hazırlıyor...</p>`;
-            gameAnswerInput.value = "";
-            gameAnswerInput.focus();
-            try {
-                const aiResponse = await window.callOpenRouterAI(
-                    `Create a short trivia question about travel, geography, or culture with 3 multiple-choice options (A, B, C) and a single correct answer.
-                    Format the response as 'Soru: [Question Text] Seçenekler: (A) [Option A] (B) [Option B] (C) [Option C] Cevap: [Correct Option Letter (e.g.: A)]'.
-                    Ensure options are clearly labeled (A), (B), (C). Provide in Turkish.`,
-                    "openai/gpt-3.5-turbo",
-                    null // Bu küçük çağrı için özel yükleme göstergesi yok
-                );
+    // 1. Soru soran fonksiyon
+async function askNextGameQuestion() {
+    if (currentQuestionIndex < 3) { // Toplam 3 soru soralım
+        gameOutput.innerHTML += `<p><i class="fas fa-spinner fa-spin"></i> Palmiye Kaptan yeni soru hazırlıyor...</p>`;
+        gameAnswerInput.value = "";
+        gameAnswerInput.focus();
+        try {
+            const aiResponse = await window.callOpenRouterAI(
+                `Create a short trivia question about travel, geography, or culture with 3 multiple-choice options (A, B, C) and a single correct answer.
+                Format the response as 'Soru: [Question Text] Seçenekler: (A) [Option A] (B) [Option B] (C) [Option C] Cevap: [Correct Option Letter (e.g.: A)]'.
+                Ensure options are clearly labeled (A), (B), (C). Provide in Turkish.`,
+                "openai/gpt-3.5-turbo",
+                null // Bu küçük çağrı için özel yükleme göstergesi yok
+            );
 
-                const questionMatch = aiResponse.match(/Soru:\s*(.*?)\s*Seçenekler:\s*(.*?)\s*Cevap:\s*([A-C])/i);
-                if (questionMatch && questionMatch.length === 4) {
-                    const questionText = questionMatch[1].trim();
-                    const optionsText = questionMatch[2].trim();
-                    const correctAnswer = questionMatch[3].trim().toUpperCase();
+            const questionMatch = aiResponse.match(/Soru:\s*(.*?)\s*Seçenekler:\s*(.*?)\s*Cevap:\s*([A-C])/i);
+            if (questionMatch && questionMatch.length === 4) {
+                const questionText = questionMatch[1].trim();
+                const optionsText = questionMatch[2].trim();
+                const correctAnswer = questionMatch[3].trim().toUpperCase();
 
-                    // Seçenekleri daha sağlam bir şekilde ayrıştır
-                    const optionsArray = [];
-                    const optionRegex = /\(([A-C])\)\s*([^)(]+)/g; // (A) Metin, (B) Metin eşleştir
-                    let match;
-                    while ((match = optionRegex.exec(optionsText)) !== null) {
-                        optionsArray.push(`(${match[1].toUpperCase()}) ${match[2].trim()}`);
-                    }
-                    if (optionsArray.length === 0 && optionsText) { // Regex başarısız olursa, yaygın ayırıcılarla böl
-                        const rawOptions = optionsText.split(/ \(B\) | \(C\) /).map(s => s.trim());
-                        if (rawOptions[0]) optionsArray.push(`(A) ${rawOptions[0].replace('(A) ', '')}`);
-                        if (rawOptions[1]) optionsArray.push(`(B) ${rawOptions[1].replace('(B) ', '')}`);
-                        if (rawOptions[2]) optionsArray.push(`(C) ${rawOptions[2].replace('(C) ', '')}`);
-                    }
-
-                    currentGameQuestion = {
-                        question: questionText,
-                        options: optionsArray.length > 0 ? optionsArray : [optionsText], // Ayrıştırılmış seçenekleri veya yedeği kullan
-                        answer: correctAnswer,
-                        points: 20 + (currentQuestionIndex * 5)
-                    };
-
-                    gameOutput.innerHTML += `<p><strong>Palmiye Kaptan:</strong> Soru ${currentQuestionIndex + 1}: ${currentGameQuestion.question}<br>${currentGameQuestion.options.join("<br>")}</p>`;
-                    window.speak(`Soru ${currentQuestionIndex + 1}: ${currentGameQuestion.question} ${currentGameQuestion.options.join(" ")}`);
-                } else {
-                    gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Bir sorun oluştu, soru oluşturulamadı. Lütfen tekrar deneyin. Detay: ${aiResponse}</p>`;
-                    window.speak("Bir sorun oluştu, soru oluşturulamadı.");
-                    endGame();
+                // Seçenekleri ayrıştır
+                const optionsArray = [];
+                const optionRegex = /\(([A-C])\)\s*([^)(]+)/g;
+                let match;
+                while ((match = optionRegex.exec(optionsText)) !== null) {
+                    optionsArray.push(`(${match[1].toUpperCase()}) ${match[2].trim()}`);
                 }
-            } catch (error) {
-                console.error("Oyun sorusu oluşturulurken hata:", error);
-                gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Soru oluşturulurken bir hata oluştu: ${error.message}.</p>`;
-                window.speak("Soru oluşturulurken bir hata oluştu.");
+                if (optionsArray.length === 0 && optionsText) {
+                    const rawOptions = optionsText.split(/ \(B\) | \(C\) /).map(s => s.trim());
+                    if (rawOptions[0]) optionsArray.push(`(A) ${rawOptions[0].replace('(A) ', '')}`);
+                    if (rawOptions[1]) optionsArray.push(`(B) ${rawOptions[1].replace('(B) ', '')}`);
+                    if (rawOptions[2]) optionsArray.push(`(C) ${rawOptions[2].replace('(C) ', '')}`);
+                }
+
+                currentGameQuestion = {
+                    question: questionText,
+                    options: optionsArray.length > 0 ? optionsArray : [optionsText],
+                    answer: correctAnswer,
+                    points: 20 + (currentQuestionIndex * 5)
+                };
+
+                gameOutput.innerHTML += `<p><strong>Palmiye Kaptan:</strong> Soru ${currentQuestionIndex + 1}: ${currentGameQuestion.question}<br>${currentGameQuestion.options.join("<br>")}</p>`;
+                window.speak(`Soru ${currentQuestionIndex + 1}: ${currentGameQuestion.question} ${currentGameQuestion.options.join(" ")}`);
+            } else {
+                gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Bir sorun oluştu, soru oluşturulamadı. Lütfen tekrar deneyin. Detay: ${aiResponse}</p>`;
+                window.speak("Bir sorun oluştu, soru oluşturulamadı.");
                 endGame();
             }
+        } catch (error) {
+            console.error("Oyun sorusu oluşturulurken hata:", error);
+            gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Soru oluşturulurken bir hata oluştu: ${error.message}.</p>`;
+            window.speak("Soru oluşturulurken bir hata oluştu.");
+            endGame();
         }
+    }
+}
 
-        async function handleGameAnswer(answer) {
+// 2. Cevabı işleyen fonksiyon
+async function handleGameAnswer(answer) {
     if (!currentGameQuestion) {
         gameOutput.innerHTML += `<p style="color: red;"><strong>Palmiye Kaptan:</strong> Henüz bir soru yok. Lütfen oyunu başlatın.</p>`;
         return;
@@ -1263,7 +1265,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
     const userAnswer = answer.trim().toUpperCase();
     const correctAnswer = currentGameQuestion.answer.trim().toUpperCase();
 
-    gameAnswerInput.value = ""; // Girişi hemen temizle
+    gameAnswerInput.value = ""; // Girişi temizle
 
     if (userAnswer === correctAnswer) {
         gameOutput.innerHTML += `<p style="color: green;"><strong>Palmiye Kaptan:</strong> Tebrikler! Doğru cevap. (+${currentGameQuestion.points} PalmCoin)</p>`;
@@ -1289,6 +1291,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
     }
 }
 
+// 3. Oyunu bitiren fonksiyon
 function endGame() {
     gameActive = false;
     gameOutput.innerHTML += `<p><strong>Palmiye Kaptan:</strong> Oyun bitti! Toplam <strong>${gameScore} PalmCoin</strong> kazandın! TatilPuan'ın güncellendi.</p>`;
@@ -1300,8 +1303,6 @@ function endGame() {
     
     window.displayMembershipInfo();
 }
-
-
         // Sanal tur dakika maliyeti güncelleme dinleyicisi
         if (virtualDurationMinutesInput) {
             virtualDurationMinutesInput.addEventListener("input", () => {
@@ -1962,54 +1963,54 @@ function endGame() {
 
         // Bize Ulaşın formu gönder butonu
         if (sendContactFormBtn) {
-            sendContactFormBtn.onclick = async () => {
-                const subject = contactSubjectInput.value.trim();
-                const email = contactEmailInput.value.trim();
-                const message = contactMessageInput.value.trim();
-                const file = contactFileInput.files[0]; // İlk dosyayı al
+    sendContactFormBtn.onclick = async () => {
+        const subject = contactSubjectInput.value.trim();
+        const email = contactEmailInput.value.trim();
+        const message = contactMessageInput.value.trim();
+        const file = contactFileInput.files[0]; // İlk dosyayı al
 
-                if (!subject || !email || !message) {
-                    window.showModal("Eksik Bilgi", "Lütfen Konu, E-posta ve Mesaj alanlarını doldurun.");
-                    return;
-                }
+        if (!subject || !email || !message) {
+            window.showModal("Eksik Bilgi", "Lütfen Konu, E-posta ve Mesaj alanlarını doldurun.");
+            return;
+        }
 
-                contactLoading.style.display = 'block';
+        contactLoading.style.display = 'block';
 
-                try {
-                  
-                    const sendContactEmailCallable = firebase.functions().httpsCallable('sendContactEmail');
+        try {
+            const sendContactEmailCallable = firebase.functions().httpsCallable('sendContactEmail');
 
-                    let fileDownloadUrl = null;
-                    if (file) {
-                        // Dosyayı Firebase Storage'a yükle
-                        const storageRef = storage.ref();
-                        const fileRef = storageRef.child(`contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`);
-                        const snapshot = await fileRef.put(file);
-                        fileDownloadUrl = await snapshot.ref.getDownloadURL();
-                        console.log("Dosya yüklendi:", fileDownloadUrl);
-                    }
-
-                    await sendContactEmailCallable({
-                        subject: subject,
-                        fromEmail: email,
-                        message: message,
-                        attachmentUrl: fileDownloadUrl // Dosya URL'sini Cloud Function'a gönder
-                    });
-
-                    window.showModal("Başarılı", "Mesajınız başarıyla gönderildi. En kısa sürede size geri döneceğiz.");
-                    // Formu temizle
-                    contactSubjectInput.value = '';
-                    contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
-                    contactMessageInput.value = '';
-                    if (contactFileInput) contactFileInput.value = ''; // Dosya inputunu temizle
-                } catch (error) {
-                    console.error("Mesaj gönderilirken hata oluştu:", error);
-                    window.showModal("Hata", `Mesajınız gönderilirken bir hata oluştu: ${error.message}. Lütfen daha sonra tekrar deneyin.`);
-                } finally {
-                contactLoading.style.display = 'none';
+            let fileDownloadUrl = null;
+            if (file) {
+                // Dosyayı Firebase Storage'a yükle
+                const storageRef = storage.ref();
+                const fileRef = storageRef.child(`contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`);
+                const snapshot = await fileRef.put(file);
+                fileDownloadUrl = await snapshot.ref.getDownloadURL();
+                console.log("Dosya yüklendi:", fileDownloadUrl);
             }
-        };
-    }
+
+            await sendContactEmailCallable({
+                subject: subject,
+                fromEmail: email,
+                message: message,
+                attachmentUrl: fileDownloadUrl // Dosya URL'sini Cloud Function'a gönder
+            });
+
+            window.showModal("Başarılı", "Mesajınız başarıyla gönderildi. En kısa sürede size geri döneceğiz.");
+            // Formu temizle
+            contactSubjectInput.value = '';
+            contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
+            contactMessageInput.value = '';
+            if (contactFileInput) contactFileInput.value = ''; // Dosya inputunu temizle
+        } catch (error) {
+            console.error("Mesaj gönderilirken hata oluştu:", error);
+            window.showModal("Hata", `Mesajınız gönderilirken bir hata oluştu: ${error.message}. Lütfen daha sonra tekrar deneyin.`);
+        } finally {
+            contactLoading.style.display = 'none';
+        }
+    }; // <-- Burada sendContactFormBtn.onclick fonksiyonu kapanıyor
+} // <-- Burada if (sendContactFormBtn) bloğu kapanıyor
+
 window.loadAdminMessage = async function() {
     const adminMessageRef = window.getAdminMessageRef();
     if (!adminMessageRef) {
@@ -2034,27 +2035,6 @@ window.loadAdminMessage = async function() {
         console.error("Yönetici mesajı yüklenirken hata:", error);
     });
 }
-window.loadAdminMessage = async function() {
-    const adminMessageRef = window.getAdminMessageRef();
-    if (!adminMessageRef) {
-        console.log("Yönetici mesajı referansı mevcut değil.");
-        return;
-    }
-
-    // Listen for real-time updates to admin message
-    adminMessageRef.onSnapshot((docSnap) => {
-        if (docSnap.exists) {
-            const data = docSnap.data();
-            if (adminDisplayMessageEl) {
-                adminDisplayMessageEl.textContent = data.message || "Yönetici mesajı bulunamadı.";
-            }
-        } else {
-            console.log("Yönetici mesajı bulunamadı.");
-            if (adminDisplayMessageEl) {
-                adminDisplayMessageEl.textContent = "Yönetici mesajı bulunamadı.";
-            }
-        }
-    }, (error) => {
-        console.error("Yönetici mesajı yüklenirken hata:", error);
-    });
+}
+}
 }
