@@ -1,9 +1,9 @@
 // document.querySelectorAll('button').forEach(button => {
-    //     button.addEventListener('click', function() {
-    //         alert(`${this.textContent} butonuna basıldı!`);
-    //         console.log('Button clicked:', this.id || this.textContent);
-    //     });
-    // });
+//     button.addEventListener('click', function() {
+//         alert(`${this.textContent} butonuna basıldı!`);
+//         console.log('Button clicked:', this.id || this.textContent);
+//     });
+// });
 // NOT: Firebae SDK'ları HTML dosyasında <head> veya <body> etiketleri içinde yüklenmelidir.
 
 // Sabitler
@@ -11,7 +11,6 @@ const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
 
-<<<<<<< HEAD
 // Firebase SDK değişkenlerini burada tanımlayın, aksi takdirde 'firebase is not defined' hataları alabilirsiniz.
 // HTML dosyanızda Firebase SDK'larının yüklendiğinden emin olun (örn: <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>)
 // ve Firebase projenizi yapılandırdığınızdan emin olun (firebase.initializeApp(firebaseConfig)).
@@ -20,9 +19,6 @@ const firestore = firebase.firestore();
 const functions = firebase.functions();
 const storage = firebase.storage();
 const virtualOutputStory = document.getElementById("virtual-output-story"); // Bu elementin HTML'de olduğundan emin olun
-=======
-
->>>>>>> a8beba6b982c5fa66ce630807ed406a4a90b639a
 
 
 // Global Değişkenler
