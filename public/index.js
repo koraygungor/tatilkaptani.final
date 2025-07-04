@@ -2009,4 +2009,4 @@ function endGame() {
             }
         };
     }
-}); // document.addEventListener DOMContentLoaded doğru şekilde kapandı
+}); // Close DOMContentLoaded event listener
