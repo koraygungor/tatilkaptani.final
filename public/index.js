@@ -13,10 +13,10 @@ const VIP_PLAN_CHAT_COST = 10;
 
 // Firebase SDK değişkenlerini burada tanımlayın, aksi takdirde 'firebase is not defined' hataları alabilirsiniz.
 // Bu değişkenler HTML dosyasında global olarak tanımlanmıştır.
-// const auth = firebase.auth();
-// const firestore = firebase.firestore();
-// const functions = firebase.functions();
-// const storage = firebase.storage();
+// const auth = firebase.auth(); // HTML'de başlatıldığı için burada yorumda kalır.
+// const firestore = firebase.firestore(); // HTML'de başlatıldığı için burada yorumda kalır.
+// const functions = firebase.functions(); // HTML'de başlatıldığı için burada yorumda kalır.
+// const storage = firebase.storage(); // HTML'de başlatıldığı için burada yorumda kalır.
 const virtualOutputStory = document.getElementById("virtual-output-story");
 
 // Global Değişkenler
@@ -166,7 +166,8 @@ const adminDisplayMessageEl = document.getElementById("admin-display-message");
 // Zamanda Yolculuk
 const timeTravelAccessCheck = document.getElementById("time-travel-access-check");
 const goToTimeTravelPaymentBtn = document.getElementById("go-to-time-travel-payment-btn");
-const timeTravelFormArea = document.getElementById("time-travel-form-area"); // Bu element HTML'de tanımlı değil, ancak kodda kullanılıyor.
+// HTML'de bu ID ile bir element olduğundan emin olun: <div id="time-travel-form-area">...</div>
+const timeTravelFormArea = document.getElementById("time-travel-form-area");
 const timeTravelEraInput = document.getElementById("time-travel-era");
 const timeTravelDurationInput = document.getElementById("time-travel-duration");
 const timeTravelCharacterInput = document.getElementById("time-travel-character");
@@ -207,117 +208,17 @@ const sendContactFormBtn = document.getElementById('send-contact-form-btn');
 const contactLoading = document.getElementById('contact-loading');
 
 
-// --- Uygulama Başlangıcı ve Genel Fonksiyonlar ---
-window.initializeAppFeatures = function() {
-    // Slogan güncellemesi kaldırıldığı için ilgili kodlar çıkarıldı.
-    // Artık bu fonksiyon boş, ama DOMContentLoaded'dan çağrılabilir.
-};
+// --- Genel UI ve Yardımcı Fonksiyonlar (DOMContentLoaded dışında tanımlanmalı) ---
 
 /**
  * Belirtilen modal elementini gizler.
  * @param {HTMLElement} modalElement - Gizlenecek modal element.
  */
-function hideModal(modalElement) {
+window.hideModal = function(modalElement) {
     if (modalElement) {
         modalElement.style.display = "none";
     }
-}
-window.hideModal = hideModal;
-
-/**
- * Uygulama başlatma fonksiyonu. Firebase kimlik doğrulama durumunu dinler
- * ve buna göre kullanıcı oturumunu yönetir (giriş yapmış, yapmamış, anonim).
- */
-async function initializeApp() {
-    // Firebase kimlik doğrulama durumunu dinle
-    auth.onAuthStateChanged(async (user) => {
-        const mainLayout = document.querySelector('.main-layout');
-
-        if (user) {
-            // Kullanıcı zaten oturum açmış (bu, e-posta/şifre, Google veya daha önce oluşturulmuş anonim oturum olabilir)
-            currentUserId = user.uid;
-            if (authButtons) authButtons.style.display = 'none';
-            if (loggedInUserSection) loggedInUserSection.style.display = 'flex';
-            if (usernameDisplay) usernameDisplay.textContent = user.displayName || user.email || 'Anonim Kullanıcı';
-            if (mainLayout) mainLayout.style.display = 'flex';
-
-            await loadUserProfile(); // Kullanıcı girişi sonrası profili yükle
-            loadAdminMessage(); // Yönetici mesajını yükle
-            loadAds(); // Reklamları yükle
-
-        } else {
-            // Kullanıcı oturum açmamış, anonim olarak oturum açmayı dene
-            console.log("Kullanıcı oturum açmamış, anonim olarak giriş deneniyor...");
-            try {
-                const anonCredential = await auth.signInAnonymously();
-                currentUserId = anonCredential.user.uid;
-                console.log("Anonim kullanıcı oturum açtı. UID:", currentUserId);
-
-                // Anonim kullanıcı için Firestore'da bir profil oluştur (yalnızca ilk kez)
-                const userProfileRef = firestore.collection('users').doc(currentUserId);
-                const doc = await userProfileRef.get();
-                if (!doc.exists) {
-                    await userProfileRef.set({
-                        username: "Anonim Kullanıcı",
-                        email: `anonim_${currentUserId.substring(0, 8)}@tatilkaptani.com`, // Benzersiz anonim e-posta
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        tatilPuanlari: 0,
-                        membershipLevel: 'Bronz',
-                        gameScore: 0,
-                        palmCoinHistory: [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }]
-                    });
-                    console.log("Anonim kullanıcı profili oluşturuldu.");
-                }
-
-                // UI'yi anonim kullanıcıya göre güncelle
-                if (authButtons) authButtons.style.display = 'none';
-                if (loggedInUserSection) loggedInUserSection.style.display = 'flex';
-                if (usernameDisplay) usernameDisplay.textContent = 'Anonim Kullanıcı';
-                if (mainLayout) mainLayout.style.display = 'flex';
-                await loadUserProfile(); // Anonim kullanıcı profilini yükle
-                loadAdminMessage();
-                loadAds();
-
-            } catch (error) {
-                console.error("Anonim oturum açma hatası:", error);
-                window.showModal("Hata", `Anonim oturum açılamadı: ${error.message}. Uygulamanın bazı özellikleri kısıtlı olabilir.`);
-
-                // Anonim oturum açılamazsa, kullanıcı ID'sini null yap ve giriş/kayıt UI'sini göster
-                currentUserId = null;
-                if (authButtons) authButtons.style.display = 'flex';
-                if (loggedInUserSection) loggedInUserSection.style.display = 'none';
-                if (mainLayout) {
-                    mainLayout.style.display = 'flex';
-                }
-            }
-        }
-
-        // Eğer hiçbir kullanıcı (ne kalıcı ne de anonim) oturum açamamışsa, UI'yi "Misafir" durumuna getir
-        if (!user && currentUserId === null) {
-            userName = "Misafir";
-            tatilPuan = 0;
-            userMembershipLevel = "Bronz";
-            gameScore = 0;
-            userEmail = "Ayarlanmadı";
-            palmCoinHistory = [];
-            displayMembershipInfo();
-            updateTatilPuanDisplay();
-            updatePalmCoinHistoryDisplay();
-            if (userIdDisplay) userIdDisplay.textContent = `UID: Misafir`;
-
-            // Açık tüm modalları kapat
-            hideModal(loginModal);
-            hideModal(registerModal);
-            hideModal(forgotPasswordModal);
-        }
-    });
-}
-
-// Sayfa yüklendiğinde başlatma fonksiyonunu çağırın
-document.addEventListener('DOMContentLoaded', () => {
-    initializeApp().catch(console.error); // Uygulamayı başlat
-});
-
+};
 
 /**
  * Metni sesli olarak okur.
@@ -372,7 +273,6 @@ window.updateTatilPuan = async function(points, activity = "Genel Aktivite") {
             });
             console.log("Profil başarıyla güncellendi!");
 
-            // Üyelik seviyesi değişmişse kullanıcıya bildir
             if (oldLevel !== userMembershipLevel) {
                 window.showModal("Tebrikler!", `Üyelik seviyeniz **${userMembershipLevel}** seviyesine yükseldi! Yeni özelliklere göz atın.`);
                 window.speak(`Tebrikler! Üyelik seviyeniz ${userMembershipLevel} seviyesine yükseldi!`);
@@ -381,11 +281,8 @@ window.updateTatilPuan = async function(points, activity = "Genel Aktivite") {
             console.log("Kullanıcı giriş yapmamış, güncelleme yapılmadı.");
         }
     }
-
-    // Bu fonksiyon TatilPuan güncellemesi içinde çağrılır
     await updateProfileIfNeeded();
 };
-
 
 /**
  * TatilPuan ve üyelik seviyesi gösterimini günceller.
@@ -417,7 +314,6 @@ window.displayMembershipInfo = function() {
 window.updatePalmCoinHistoryDisplay = function() {
     if (!palmCoinHistoryList) return;
     palmCoinHistoryList.innerHTML = '';
-    // Ters kronolojik sırayla göster
     palmCoinHistory.slice().reverse().forEach(entry => {
         const listItem = document.createElement("li");
         const date = new Date(entry.timestamp).toLocaleString();
@@ -454,17 +350,24 @@ window.showSection = function(sectionId) {
         activeButton.classList.add("active");
     }
 
-    // Özel bölüm kontrolleri
     if (sectionId === "vip-planner-section") {
-        window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("vip-planner-form-area"), "Altın");
-        window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("niche-vip-request-area"), "Altın");
+        if (document.getElementById("vip-access-check") && document.getElementById("vip-planner-form-area")) {
+            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("vip-planner-form-area"), "Altın");
+        }
+        if (document.getElementById("vip-access-check") && document.getElementById("niche-vip-request-area")) {
+            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("niche-vip-request-area"), "Altın");
+        }
         if (vipPlanChatArea) vipPlanChatArea.style.display = 'none';
         if (vipPlanOutput) vipPlanOutput.style.display = 'none';
         currentVipPlan = "";
     } else if (sectionId === "time-travel-section") {
-        window.checkVipAccess(document.getElementById("time-travel-access-check"), document.getElementById("time-travel-form-area"), "Altın");
+        if (document.getElementById("time-travel-access-check") && timeTravelFormArea) { // timeTravelFormArea kontrolü eklendi
+            window.checkVipAccess(document.getElementById("time-travel-access-check"), timeTravelFormArea, "Altın");
+        }
     } else if (sectionId === "ai-photo-studio-section") {
-        window.checkVipAccess(document.getElementById("ai-photo-access-check"), document.getElementById("ai-photo-form-area"), "Altın");
+        if (document.getElementById("ai-photo-access-check") && document.getElementById("ai-photo-form-area")) {
+            window.checkVipAccess(document.getElementById("ai-photo-access-check"), document.getElementById("ai-photo-form-area"), "Altın");
+        }
         if (generatedImagesContainer) generatedImagesContainer.innerHTML = '';
         if (downloadAllImagesBtn) downloadAllImagesBtn.style.display = 'none';
         if (aiPhotoOutput) aiPhotoOutput.style.display = 'none';
@@ -490,7 +393,6 @@ window.showSection = function(sectionId) {
         if (destinyRouteOutput) destinyRouteOutput.style.display = "none";
         if (realizeDestinyBtn) realizeDestinyBtn.style.display = "none";
     }
-    // "Bize Ulaşın" bölümü için temizlik (varsa)
     if (sectionId === "contact-us-section") {
         if (contactSubjectInput) contactSubjectInput.value = '';
         if (contactEmailInput) contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
@@ -531,12 +433,22 @@ window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo",
     if (loadingIndicator) loadingIndicator.style.display = "block";
 
     try {
+        // Firebase Functions henüz tanımlı olmayabilir, burada kontrol etmeliyiz.
+        if (typeof firebase === 'undefined' || !firebase.functions) {
+            throw new Error("Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
+        }
         const callAI = firebase.functions().httpsCallable('callOpenRouterAI');
         const result = await callAI({ prompt: prompt, model: model, chatHistory: currentChatHistory });
         return result.data.reply;
     } catch (error) {
         console.error("OpenRouter AI Cevap Hatası (Cloud Function):", error);
-        window.showModal("AI Hatası!", `Bir AI hatası oluştu: ${error.message}. Lütfen API anahtarınızı, internet bağlantınızı veya Cloud Functions ayarlarınızı kontrol edin.`);
+        let errorMessage = `Bir AI hatası oluştu: ${error.message}.`;
+        if (error.code === 'unavailable') {
+            errorMessage += " Sunucuya ulaşılamıyor. Lütfen internet bağlantınızı kontrol edin.";
+        } else if (error.code === 'unauthenticated') {
+            errorMessage += " Bu işlem için kimlik doğrulama gerekli. Lütfen giriş yapın.";
+        }
+        window.showModal("AI Hatası!", errorMessage + " Lütfen API anahtarınızı, internet bağlantınızı veya Cloud Functions ayarlarınızı kontrol edin.");
         return `Bir hata oluştu: ${error.message}`;
     } finally {
         if (loadingIndicator) loadingIndicator.style.display = "none";
@@ -553,12 +465,21 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
     if (loadingIndicator) loadingIndicator.style.display = "block";
 
     try {
+        if (typeof firebase === 'undefined' || !firebase.functions) {
+            throw new Error("Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
+        }
         const callImageAI = firebase.functions().httpsCallable('callImageGenerationAI');
         const result = await callImageAI({ promptText: promptText });
         return result.data.imageUrl;
     } catch (error) {
         console.error("Gemini Görsel Oluşturma AI Hatası (Cloud Function):", error);
-        window.showModal("Görsel Oluşturma Hatası!", `Görsel oluşturulurken bir sorun oluştu: ${error.message}.`);
+        let errorMessage = `Görsel oluşturulurken bir sorun oluştu: ${error.message}.`;
+        if (error.code === 'unavailable') {
+            errorMessage += " Sunucuya ulaşılamıyor. Lütfen internet bağlantınızı kontrol edin.";
+        } else if (error.code === 'unauthenticated') {
+            errorMessage += " Bu işlem için kimlik doğrulama gerekli. Lütfen giriş yapın.";
+        }
+        window.showModal("Görsel Oluşturma Hatası!", errorMessage);
         return null;
     } finally {
         if (loadingIndicator) loadingIndicator.style.display = "none";
@@ -566,8 +487,235 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 };
 
 
-// --- Event Listeners ---
+/**
+ * Mevcut kullanıcının Firestore profil referansını döndürür.
+ * @returns {firebase.firestore.DocumentReference|null} Kullanıcı profil belgesine referans veya null.
+ */
+window.getUserProfileRef = function() {
+    // firestore değişkeninin global olarak tanımlandığından veya HTML'de başlatıldığından emin olun
+    if (typeof firestore === 'undefined' || !currentUserId) {
+        console.warn("Firestore veya Kullanıcı ID'si hazır değil. Profil referansı alınamıyor.");
+        return null;
+    }
+    return firestore.collection('users').doc(currentUserId);
+};
+
+/**
+ * Kullanıcı profilini Firestore'dan yükler ve gerçek zamanlı güncellemeler için dinler.
+ */
+window.loadUserProfile = async function() {
+    const profileRef = window.getUserProfileRef();
+    if (!profileRef) {
+        console.log("Profil referansı mevcut değil, varsayılan bilgiler gösteriliyor.");
+        window.displayMembershipInfo();
+        window.updateTatilPuanDisplay();
+        if (userIdDisplay) userIdDisplay.textContent = `UID: ${currentUserId || 'Misafir'}`;
+        return;
+    }
+
+    profileRef.onSnapshot((docSnap) => {
+        if (docSnap.exists) {
+            const data = docSnap.data();
+            // auth.currentUser henüz tanımlı olmayabilir veya anonim kullanıcı için displayName/email boş olabilir.
+            // Bu nedenle userName ve userEmail için daha sağlam varsayılanlar ayarlandı.
+            userName = data.username || auth.currentUser?.displayName || "Misafir";
+            userEmail = data.email || auth.currentUser?.email || "Ayarlanmadı";
+            tatilPuan = data.tatilPuanlari || 0;
+            userMembershipLevel = data.membershipLevel || "Bronz";
+            gameScore = data.gameScore || 0;
+            palmCoinHistory = data.palmCoinHistory || [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }];
+            console.log("Kullanıcı profili Firestore'dan yüklendi:", data);
+        } else {
+            console.log("Kullanıcı profili bulunamadı, varsayılan oluşturuluyor.");
+            // Anonim kullanıcılar için bu kısım initializeApp içinde yönetildi.
+            // Ancak, normal kayıtlı kullanıcılar için de burada bir varsayılan oluşturulabilir.
+            // auth.currentUser'ın bu noktada tanımlı olduğundan emin olun.
+            if (auth.currentUser) {
+                window.updateUserProfile({
+                    username: auth.currentUser.displayName || auth.currentUser.email,
+                    email: auth.currentUser.email,
+                    tatilPuanlari: 0,
+                    membershipLevel: "Bronz",
+                    gameScore: 0,
+                    palmCoinHistory: [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }]
+                });
+            } else {
+                console.warn("Kullanıcı profili yok ve mevcut kullanıcı objesi de yok. Varsayılan profil oluşturulamadı.");
+            }
+        }
+        window.displayMembershipInfo();
+        window.updateTatilPuanDisplay();
+        window.updatePalmCoinHistoryDisplay();
+        if (userIdDisplay) userIdDisplay.textContent = `UID: ${currentUserId || 'Misafir'}`;
+    }, (error) => {
+        console.error("Kullanıcı profili yüklenirken hata:", error);
+        let errorMessage = `Kullanıcı verileri yüklenirken bir sorun oluştu: ${error.message}.`;
+        if (error.code === 'unavailable') {
+            errorMessage += " İnternet bağlantınızı kontrol edin.";
+        }
+        window.showModal("Hata", errorMessage);
+    });
+};
+
+/**
+ * Kullanıcı profilini Firestore'da günceller.
+ * @param {object} dataToUpdate - Güncellenecek veri objesi.
+ */
+window.updateUserProfile = async function(dataToUpdate) {
+    const profileRef = window.getUserProfileRef();
+    if (!profileRef) {
+        console.error("Profil referansı mevcut değil, güncelleme yapılamıyor.");
+        window.showModal("Hata", "Kullanıcı profili güncellenemedi: Oturum açın veya bağlantınızı kontrol edin.");
+        return;
+    }
+    try {
+        await profileRef.set(dataToUpdate, { merge: true });
+        console.log("Kullanıcı profili güncellendi:", dataToUpdate);
+    } catch (error) {
+        console.error("Kullanıcı profili güncellenirken hata:", error);
+        let errorMessage = `Kullanıcı verileri kaydedilirken bir sorun oluştu: ${error.message}.`;
+        if (error.code === 'unavailable') {
+            errorMessage += " İnternet bağlantınızı kontrol edin.";
+        }
+        window.showModal("Hata", errorMessage);
+    }
+};
+
+/**
+ * Reklam koleksiyonuna referans döndürür.
+ * @returns {firebase.firestore.CollectionReference|null} Reklam koleksiyonuna referans veya null.
+ */
+window.getAdsCollectionRef = function() {
+    if (typeof firestore === 'undefined') {
+        console.error("Firestore hazır değil.");
+        return null;
+    }
+    return firestore.collection('public').doc('data').collection('ads');
+};
+
+/**
+ * Yönetici mesajı belgesine referans döndürür.
+ * @returns {firebase.firestore.DocumentReference|null} Yönetici mesajı belgesine referans veya null.
+ */
+window.getAdminMessageRef = function() {
+    if (typeof firestore === 'undefined') {
+        console.error("Firestore hazır değil.");
+        return null;
+    }
+    return firestore.collection('public').doc('data').collection('admin').doc("message");
+};
+
+/**
+ * Dinamik reklamları Firestore'dan yükler.
+ */
+window.loadAds = async function() {
+    const adsCollectionRef = window.getAdsCollectionRef();
+    if (!adsCollectionRef) {
+        console.log("Reklam koleksiyonu referansı mevcut değil.");
+        return;
+    }
+    /*
+    try {
+        const snapshot = await adsCollectionRef.get();
+        const ads = snapshot.docs.map(doc => doc.data());
+        const dynamicAdsContainer = document.getElementById('dynamic-ads-container');
+        if (dynamicAdsContainer) {
+            dynamicAdsContainer.innerHTML = '';
+            ads.forEach(ad => {
+                const adElement = document.createElement('a');
+                adElement.href = ad.url;
+                adElement.target = '_blank';
+                adElement.classList.add('ad-area-dynamic');
+                adElement.innerHTML = `<img src="${ad.imageUrl}" alt="${ad.title}"><p>${ad.text}</p>`;
+                dynamicAdsContainer.appendChild(adElement);
+            });
+        }
+    } catch (error) {
+        console.error("Dinamik reklamlar yüklenirken hata:", error);
+    }
+    */
+};
+
+/**
+ * Yönetici mesajını Firestore'dan yükler ve gerçek zamanlı güncellemeler için dinler.
+ */
+window.loadAdminMessage = async function() {
+    const adminMessageRef = window.getAdminMessageRef();
+    if (!adminMessageRef) {
+        console.log("Yönetici mesajı referansı mevcut değil.");
+        if (adminDisplayMessageEl && adminDisplayMessageEl.querySelector('p')) {
+            adminDisplayMessageEl.querySelector('p').textContent = "Yönetici mesajı yüklenemedi: Veri hazır değil.";
+        }
+        return;
+    }
+
+    adminMessageRef.onSnapshot((docSnap) => {
+        if (adminDisplayMessageEl) {
+            const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
+            if (adminDisplayMessageP) {
+                if (docSnap.exists && docSnap.data().message) {
+                    adminDisplayMessageP.textContent = docSnap.data().message;
+                } else {
+                    adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
+                }
+            }
+        }
+    }, (error) => {
+        console.error("Yönetici mesajı yüklenirken hata:", error);
+        if (adminDisplayMessageEl && adminDisplayMessageEl.querySelector('p')) {
+            let errorMessage = `Yönetici mesajı yüklenemedi: ${error.message}.`;
+            if (error.code === 'permission-denied') {
+                errorMessage += " Lütfen Firebase güvenlik kurallarınızı kontrol edin (public/data/admin okuma izni).";
+            } else if (error.code === 'unavailable') {
+                 errorMessage += " İnternet bağlantınızı kontrol edin.";
+            }
+            adminDisplayMessageEl.querySelector('p').textContent = errorMessage;
+        }
+    });
+};
+
+/**
+ * Yönetici mesajını bir Cloud Function aracılığıyla günceller.
+ * @param {string} message - Güncellenecek mesaj metni.
+ */
+window.updateAdminMessage = async function(message) {
+    if (typeof firebase === 'undefined' || !firebase.functions) {
+        window.showModal("Hata", "Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
+        return;
+    }
+    const updateAdminMessageCallable = firebase.functions().httpsCallable('updateAdminMessage');
+    const adminMessageLoadingEl = document.getElementById("admin-message-loading");
+
+    if (adminMessageLoadingEl) adminMessageLoadingEl.style.display = 'block';
+    try {
+        const result = await updateAdminMessageCallable({ message: message });
+        console.log("Yönetici mesajı başarıyla güncellendi (Cloud Function):", result.data);
+        window.showModal("Başarılı", result.data.message);
+    } catch (error) {
+        console.error("Yönetici mesajı güncellenirken Cloud Function hatası:", error);
+        let errorMessage = `Yönetici mesajı güncellenirken bir sorun oluştu: ${error.message}.`;
+        if (error.code === 'permission-denied') {
+            errorMessage += " Yetkiniz olmayabilir veya güvenlik kuralları engelliyor olabilir.";
+        } else if (error.code === 'unauthenticated') {
+            errorMessage += " Bu işlemi gerçekleştirmek için giriş yapmalısınız.";
+        } else if (error.code === 'unavailable') {
+            errorMessage += " İnternet bağlantınızı kontrol edin.";
+        }
+        window.showModal("Hata", errorMessage);
+    } finally {
+        if (adminMessageLoadingEl) adminMessageLoadingEl.style.display = "none";
+    }
+};
+
+// --- Uygulama Başlangıcı ve Genel Event Listeners (DOMContentLoaded içinde olmalı) ---
+window.initializeAppFeatures = function() {
+    // Bu fonksiyon şu an boş, ancak DOMContentLoaded'dan çağrılıyor.
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
+    // Uygulamayı başlat
+    initializeApp().catch(console.error);
+
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
     const companionChatBox = document.getElementById("companion-chat-box");
@@ -981,7 +1129,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
             gameScore += currentGameQuestion.points;
 
             if (currentUserId) {
-                await window.updateUserProfile({ gameScore: gameScore });
+                window.updateUserProfile({ gameScore: gameScore });
             }
 
             await window.updateTatilPuan(currentGameQuestion.points, `Tatil Avı Oyunu (Soru ${currentQuestionIndex + 1})`);
@@ -1552,7 +1700,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
 
     if (createCompanionBtn) {
         createCompanionBtn.onclick = async () => {
-            const companionName = companionNameInput.value.trim(); // companionInput yerine companionNameInput kullanıldı
+            const companionName = companionNameInput.value.trim();
             const personality = companionPersonalitySelect.value;
 
             if (!companionName) {
@@ -1581,7 +1729,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
 
     if (sendCompanionMessageBtn) {
         sendCompanionMessageBtn.onclick = async () => {
-            let userMessage = companionInput.value.trim(); // userMessage tanımlandı
+            let userMessage = companionInput.value.trim();
             if (!userMessage) return;
 
             window.displayMessage("user", userMessage, companionChatBox);
@@ -1641,11 +1789,15 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
             contactLoading.style.display = 'block';
 
             try {
+                // storage objesi HTML'de başlatıldığı için doğrudan kullanılabilir.
+                if (typeof firebase === 'undefined' || !firebase.functions || !firebase.storage) {
+                    throw new Error("Firebase SDK'ları (Functions veya Storage) yüklenmemiş veya başlatılmamış.");
+                }
                 const sendContactEmailCallable = firebase.functions().httpsCallable('sendContactEmail');
 
                 let fileDownloadUrl = null;
                 if (file) {
-                    const storageRef = storage.ref();
+                    const storageRef = firebase.storage().ref(); // storage objesi HTML'den geliyorsa böyle kullanılmalı
                     const fileRef = storageRef.child(`contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`);
                     const snapshot = await fileRef.put(file);
                     fileDownloadUrl = await snapshot.ref.getDownloadURL();
@@ -1673,43 +1825,3 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
         };
     }
 });
-
-// window.loadAdminMessage fonksiyonu, DOMContentLoaded bloğunun dışında tanımlanmalıydı,
-// çünkü bu fonksiyon çağrılıyor ama kendi başına bir olay dinleyicisi değil.
-// Ancak, eğer `adminDisplayMessageEl` içinde `querySelector('p')` kullanılıyorsa,
-// bu fonksiyonun DOM tamamen yüklendikten sonra çağrılması önemlidir.
-// Bu fonksiyon orijinal olarak DOMContentLoaded dışında tanımlanmıştı, bu doğru bir yaklaşımdır.
-// Bu yüzden, aşağıdaki tanım bloğun dışındadır.
-
-window.loadAdminMessage = async function() {
-    const adminMessageRef = window.getAdminMessageRef();
-    if (!adminMessageRef) {
-        console.log("Yönetici mesajı referansı mevcut değil.");
-        if (adminDisplayMessageEl && adminDisplayMessageEl.querySelector('p')) {
-            adminDisplayMessageEl.querySelector('p').textContent = "Yönetici mesajı yüklenemedi: Veri hazır değil.";
-        }
-        return;
-    }
-
-    adminMessageRef.onSnapshot((docSnap) => {
-        if (adminDisplayMessageEl) {
-            const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
-            if (adminDisplayMessageP) {
-                if (docSnap.exists && docSnap.data().message) {
-                    adminDisplayMessageP.textContent = docSnap.data().message;
-                } else {
-                    adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
-                }
-            }
-        }
-    }, (error) => {
-        console.error("Yönetici mesajı yüklenirken hata:", error);
-        if (adminDisplayMessageEl && adminDisplayMessageEl.querySelector('p')) {
-            let errorMessage = `Yönetici mesajı yüklenemedi: ${error.message}.`;
-            if (error.code === 'permission-denied') {
-                errorMessage += " Lütfen Firebase güvenlik kurallarınızı kontrol edin (public/data/admin okuma izni).";
-            }
-            adminDisplayMessageEl.querySelector('p').textContent = errorMessage;
-        }
-    });
-};
