@@ -237,13 +237,12 @@ window.hideModal = hideModal;
  * Kullanıcının oturum açmasını veya anonim olarak devam etmesini sağlar.
  */
 async function main() {
-  // Kullanıcı zaten giriş yapmışsa profil yükle
-  if (auth.currentUser) {
-    currentUserId = auth.currentUser.uid;
-  await loadUserProfile();
-  const reply = await window.callOpenRouterAI(prompt, model, loadingElement, history);
-  // vs...
-  }
+    if (auth.currentUser) {
+        currentUserId = auth.currentUser.uid;
+        await loadUserProfile();
+        const reply = await window.callOpenRouterAI(prompt, model, loadingElement, history);
+        // vs...
+    }
 }
 // Sayfa yüklendiğinde çalıştır
 document.addEventListener('DOMContentLoaded', () => {
