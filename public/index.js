@@ -79,6 +79,7 @@ const appModal = document.getElementById("appModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalMessage = document.getElementById("modalMessage");
 const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+const app = initializeApp(firebaseConfig);
 
 // Giriş/Kayıt Modalları
 const loginModal = document.getElementById('loginModal');

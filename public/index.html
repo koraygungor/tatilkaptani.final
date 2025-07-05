@@ -6,15 +6,12 @@
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
 
     <script type="module">
-        // Firebase'in temel uygulamasını başlatmak için gerekli
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-
-        // Kullanılacak Firebase servislerinin referanslarını almak için gerekli
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-        import { getFirestore, FieldValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-        import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-
+        // Firebase modülleri importları
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+    import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
         // Web uygulamanızın Firebase konfigürasyonu
         const firebaseConfig = {
@@ -27,19 +24,11 @@
             measurementId: "G-0BQJQ25XX1"
         };
 
-        // Firebase Uygulamasını Başlatma
-        const app = initializeApp(firebaseConfig);
-
-        // Kullanılacak Firebase servislerini global olarak erişilebilir hale getirme.
-        // `index.js` dosyanızda `import` ifadelerini kullandığınız için
-        // bu servisleri `window` objesine atayarak global erişim sağlıyoruz.
-        // Bu, `index.js` içinde `auth`, `firestore`, `functions`, `storage`'ı direkt kullanmanıza olanak tanır.
-        window.auth = getAuth(app);
-        window.firestore = getFirestore(app);
-        window.functions = getFunctions(app); // Eğer Cloud Functions kullanıyorsanız
-        window.storage = getStorage(app);     // Eğer Cloud Storage kullanıyorsanız
-        // firestore.FieldValue.serverTimestamp() için FieldValue'yu da global yapalım veya index.js'te import edelim
-        window.firestore.FieldValue = FieldValue;
+       // Firebase servislerini global hale getir
+         window.auth = getAuth(app);
+         window.firestore = getFirestore(app);
+         window.functions = getFunctions(app);
+         window.storage = getStorage(app);
 
 
         // Cloud Functions bölgenizi ayarlayın. Bu, fonksiyonlarınızın dağıtıldığı bölge olmalıdır.
@@ -47,7 +36,8 @@
         // window.functions.useEmulator('http://localhost:5001');
         // Fonksiyonlarınızın dağıtıldığı gerçek bölgeyi buraya yazın (örneğin 'europe-west1', 'us-central1' vb.)
         window.functions.region = 'europe-west1';
-
+         // serverTimestamp fonksiyonunu da global yap
+         window.serverTimestamp = serverTimestamp;
 
         // index.js dosyasında kullanılan global yardımcı fonksiyonları burada tanımlıyoruz.
         // Bu sayede index.js yüklenmeden önce bile bu fonksiyonlar tanımlı olacak ve hatalar önlenecek.
@@ -61,7 +51,7 @@
         window.displayMessage = function(sender, message, targetElement) {
             const messageElement = document.createElement("div");
             messageElement.classList.add("chat-message", sender);
-            messageElement.innerHTML = `<p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>`;
+            messageElement.innerHTML = <p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>;
             targetElement.appendChild(messageElement);
             targetElement.scrollTop = targetElement.scrollHeight; // En alta kaydır
         };
