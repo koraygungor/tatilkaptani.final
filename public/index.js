@@ -207,7 +207,7 @@ const companionLoading = document.getElementById("companion-loading");
 
 // Ödeme
 const cardNumberInput = document.getElementById("card-number");
-const expiryDateInput = document = document.getElementById("expiry-date"); // Düzeltildi
+const expiryDateInput = document.getElementById("expiry-date"); // Corrected
 const cvvInput = document.getElementById("cvv");
 const cardHolderNameInput = document.getElementById("card-holder-name");
 const completePaymentBtn = document.getElementById("complete-payment-btn");
