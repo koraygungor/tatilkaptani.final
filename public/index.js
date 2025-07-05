@@ -673,19 +673,19 @@ window.loadAdminMessage = async function() {
         return;
     }
 
-    adminMessageRef.onSnapshot((docSnap) => {
-        if (adminDisplayMessageEl) {
-            const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
-            if (adminDisplayMessageP) {
-                if (docSnap.exists && docSnap.data().message) {
-                    adminDisplayMessageP.textContent = docSnap.data().message;
-                } else {
-                    adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
-                }
+   onSnapshot(adminMessageRef, (docSnap) => {
+    if (adminDisplayMessageEl) {
+        const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
+        if (adminDisplayMessageP) {
+            if (docSnap.exists() && docSnap.data().message) {
+                adminDisplayMessageP.textContent = docSnap.data().message;
+            } else {
+                adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
             }
         }
-    }, (error) => {
-        console.error("Yönetici mesajı yüklenirken hata:", error);
+    }
+}, (error) => {
+    console.error("Admin mesajı dinlenirken hata oluştu:", error);
         if (adminDisplayMessageEl && adminDisplayMessageEl.querySelector('p')) {
             let errorMessage = `Yönetici mesajı yüklenemedi: ${error.message}.`;
             if (error.code === 'permission-denied') {
