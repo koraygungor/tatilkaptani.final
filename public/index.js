@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Firebase Auth durum değişikliklerini dinle
     // auth objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
-    onAuthStateChanged(auth, async (user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
             // Kullanıcı giriş yapmış
             currentUserId = user.uid;
