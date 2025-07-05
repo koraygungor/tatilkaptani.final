@@ -28,7 +28,7 @@ const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
 // HTML'den global olarak tanımlandığı varsayıldığı için 'firebase.firestore()' yerine direkt 'firestore' kullanılır
-// const firestore = firebase.firestore(); // Bu satıra artık gerek yok, çünkü global 'firestore' objesi mevcut.
+// const firestore = firebase.firestore(); 
 
 const virtualOutputStory = document.getElementById("virtual-output-story");
 
