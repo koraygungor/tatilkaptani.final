@@ -9,6 +9,7 @@ import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 import { doc, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 const messageDocRef = doc(
   collection(doc(collection(firestore, 'public'), 'data'), 'admin'),
