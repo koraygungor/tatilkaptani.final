@@ -1,5 +1,3 @@
-// Firebase config nesnesi ve başlatma kodu HTML'de bulunduğu için bu kısım burada kaldırılmıştır.
-// Artık global 'firebase', 'auth', 'firestore', 'functions', 'storage' objelerini doğrudan kullanabilirsiniz.
 
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
