@@ -7,8 +7,7 @@
 
 // Firebase config nesnesi
 const firebaseConfig = {
-  apiKey: "
-AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
+  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
   // diğer config bilgileri
 };
 
