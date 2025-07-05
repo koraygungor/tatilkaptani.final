@@ -1,5 +1,3 @@
-// Firebase zaten HTML'de başlatıldıysa, buradan direkt global `firebase` objesini kullanabilirsin
-
 // Firebase config nesnesi ve başlatma kodu HTML'de bulunduğu için bu kısım burada kaldırılmıştır.
 // Artık global 'firebase', 'auth', 'firestore', 'functions', 'storage' objelerini doğrudan kullanabilirsiniz.
 
