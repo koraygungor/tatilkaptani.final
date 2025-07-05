@@ -6,12 +6,12 @@
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
 
     <script type="module">
-        // Firebase modülleri importları
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-    import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-    import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
-    import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+  // Firebase modülleri importları
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+  import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+  import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
         // Web uygulamanızın Firebase konfigürasyonu
         const firebaseConfig = {
@@ -24,6 +24,13 @@
             measurementId: "G-0BQJQ25XX1"
         };
 
+        // Firebase uygulamasını başlat
+        const app = initializeApp(firebaseConfig);
+         // Servisleri başlat
+        const auth = getAuth(app);
+        const firestore = getFirestore(app);
+        const functions = getFunctions(app);
+        const storage = getStorage(app);
        // Firebase servislerini global hale getir
          window.auth = getAuth(app);
          window.firestore = getFirestore(app);
