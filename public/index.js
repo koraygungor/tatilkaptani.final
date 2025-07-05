@@ -1,8 +1,14 @@
+// Firebase zaten HTML'de başlatıldıysa, buradan direkt global `firebase` objesini kullanabilirsin
+
+// Firebase config nesnesi ve başlatma kodu HTML'de bulunduğu için bu kısım burada kaldırılmıştır.
+// Artık global 'firebase', 'auth', 'firestore', 'functions', 'storage' objelerini doğrudan kullanabilirsiniz.
+
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
-const firestore = firebase.firestore();
+// HTML'den global olarak tanımlandığı varsayıldığı için 'firebase.firestore()' yerine direkt 'firestore' kullanılır
+// const firestore = firebase.firestore(); // Bu satıra artık gerek yok, çünkü global 'firestore' objesi mevcut.
 
 const virtualOutputStory = document.getElementById("virtual-output-story");
 
@@ -181,7 +187,7 @@ const companionLoading = document.getElementById("companion-loading");
 
 // Ödeme
 const cardNumberInput = document.getElementById("card-number");
-const expiryDateInput = document.getElementById("expiry-date");
+const expiryDateInput = document = document.getElementById("expiry-date"); // Düzeltildi
 const cvvInput = document.getElementById("cvv");
 const cardHolderNameInput = document.getElementById("card-holder-name");
 const completePaymentBtn = document.getElementById("complete-payment-btn");
@@ -704,7 +710,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Firebase Auth durum değişikliklerini dinle
     // auth objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
-    firebase.auth().onAuthStateChanged(async (user) => {
+    // firebase.auth().onAuthStateChanged yerine direkt onAuthStateChanged(auth, ...) kullanılır.
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
             // Kullanıcı giriş yapmış
             currentUserId = user.uid;
