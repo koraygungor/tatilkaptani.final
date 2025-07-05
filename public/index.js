@@ -1,9 +1,21 @@
 // Firebase SDK değişkenlerini burada tanımlayın, aksi takdirde 'firebase is not defined' hataları alabilirsiniz.
-// BU DEĞİŞKENLER ARTIK HTML DOSYASINDA GLOBAL OLARAK BAŞLATILDIĞI İÇİN BURADAN İMPORT SATIRLARI VE TANIMLAMALARI SİLİNDİ.
+// BU DEĞİKENLER ARTIK HTML DOSYASINDA GLOBAL OLARAK BAŞLATILDIĞI İÇİN BURADAN İMPORT SATIRLARI VE TANIMLAMALARI SİLİNDİ.
 // const auth = firebase.auth(); // HTML'de başlatıldığı için burada yorumda kalır.
 // const firestore = firebase.firestore(); // HTML'de başlatıldığı için burada yorumda kalır.
 // const functions = firebase.functions(); // HTML'de başlatıldığı için burada yorumda kalır.
 // const storage = firebase.storage(); // HTML'de başlatıldığı için burada yorumda kalır.
+
+// Firebase config nesnesi
+const firebaseConfig = {
+  apiKey: "
+AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
+  // diğer config bilgileri
+};
+
+// Firebase'i başlat
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
@@ -700,7 +712,7 @@ window.initializeAppFeatures = function() {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // initializeApp().catch(console.error); // BU SATIR SİLİNDİ! Firebase HTML'de zaten başlatıldı.
+    firebase.initializeApp();
 
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
