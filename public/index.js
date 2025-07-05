@@ -1,9 +1,4 @@
-// Firebase SDK değişkenlerini burada tanımlayın, aksi takdirde 'firebase is not defined' hataları alabilirsiniz.
-// BU DEĞİKENLER ARTIK HTML DOSYASINDA GLOBAL OLARAK BAŞLATILDIĞI İÇİN BURADAN İMPORT SATIRLARI VE TANIMLAMALARI SİLİNDİ.
-// const auth = firebase.auth(); // HTML'de başlatıldığı için burada yorumda kalır.
-// const firestore = firebase.firestore(); // HTML'de başlatıldığı için burada yorumda kalır.
-// const functions = firebase.functions(); // HTML'de başlatıldığı için burada yorumda kalır.
-// const storage = firebase.storage(); // HTML'de başlatıldığı için burada yorumda kalır.
+// Firebase zaten HTML'de başlatıldıysa, buradan direkt global `firebase` objesini kullanabilirsin
 
 // Firebase config nesnesi
 const firebaseConfig = {...};
