@@ -5,92 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
 
-    <!-- Firebase SDK'ları (Uyumluluk Katmanı - v9) -->
-    <!-- Bu scriptler, firebase.initializeApp() ve firebase.auth() gibi eski sözdizimini kullanmanızı sağlar. -->
-    <!-- Firebase SDK'larını yüklediğinizden emin olun -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script type="module">
+        // Firebase'in temel uygulamasını başlatmak için gerekli
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 
-    <script>
-      // Web uygulamanızın Firebase konfigürasyonu
-      // Bu bilgiler Firebase Konsolu'ndan alınmıştır.
-      const firebaseConfig = {
-        apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
-        authDomain: "tatilkaptanifinal.firebaseapp.com",
-        projectId: "tatilkaptanifinal",
-        storageBucket: "tatilkaptanifinal.appspot.com",
-        messagingSenderId: "748801975441",
-        appId: "1:748801975441:web:cc26b7b825fafe44658b30",
-        measurementId: "G-0BQJQ25XX1"
-      };
+        // Kullanılacak Firebase servislerinin referanslarını almak için gerekli
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+        import { getFirestore, FieldValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+        import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
-      // Firebase Uygulamasını Başlatma
-      firebase.initializeApp(firebaseConfig);
 
-      // Kullanılacak Firebase servislerini global olarak erişilebilir hale getirme.
-      // 'var' kullanarak veya 'window.' önekiyle tanımlayarak index.js dosyasından erişilebilir olmasını sağlıyoruz.
-      var auth = firebase.auth();
-      var firestore = firebase.firestore();
-      var functions = firebase.functions();
-      var storage = firebase.storage();
+        // Web uygulamanızın Firebase konfigürasyonu
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
+            authDomain: "tatilkaptanifinal.firebaseapp.com",
+            projectId: "tatilkaptanifinal",
+            storageBucket: "tatilkaptanifinal.appspot.com",
+            messagingSenderId: "748801975441",
+            appId: "1:748801975441:web:cc26b7b825fafe44658b30",
+            measurementId: "G-0BQJQ25XX1"
+        };
 
-      // Cloud Functions bölgesini ayarlayın (fonksiyonlarınızın dağıtıldığı bölgeye göre ayarlanmalı)
-      // Eğer fonksiyonlarınız 'us-central1' dışında bir bölgede ise burayı güncelleyin.
-      // functions.useEmulator('http://localhost:5001'); // Eğer yerel emülatör kullanıyorsanız, bu satırı aktif bırakın
-      // Canlı dağıtımda (Netlify gibi) bu satırı ve aşağıdaki 'functions.region' satırını YORUM SATIRI yapın veya SİLİN.
-      // functions.region = 'europe-west1'; // Örneğin, eğer fonksiyonlarınız bu bölgede dağıtıldıysa, burayı kullanın.
+        // Firebase Uygulamasını Başlatma
+        const app = initializeApp(firebaseConfig);
 
-      // index.js dosyasında kullanılan global yardımcı fonksiyonları burada tanımlıyoruz.
-      // Bu sayede index.js yüklendiğinde bu fonksiyonlar zaten tanımlı olacak.
+        // Kullanılacak Firebase servislerini global olarak erişilebilir hale getirme.
+        // `index.js` dosyanızda `import` ifadelerini kullandığınız için
+        // bu servisleri `window` objesine atayarak global erişim sağlıyoruz.
+        // Bu, `index.js` içinde `auth`, `firestore`, `functions`, `storage`'ı direkt kullanmanıza olanak tanır.
+        window.auth = getAuth(app);
+        window.firestore = getFirestore(app);
+        window.functions = getFunctions(app); // Eğer Cloud Functions kullanıyorsanız
+        window.storage = getStorage(app);     // Eğer Cloud Storage kullanıyorsanız
+        // firestore.FieldValue.serverTimestamp() için FieldValue'yu da global yapalım veya index.js'te import edelim
+        window.firestore.FieldValue = FieldValue;
 
-      /**
-       * Sohbet kutusuna mesaj ekler.
-       * @param {string} sender - Mesajı gönderen ('user' veya 'ai').
-       * @param {string} message - Gösterilecek mesaj metni.
-       * @param {HTMLElement} targetElement - Mesajın ekleneceği DOM elementi (örn: chat-box).
-       */
-      window.displayMessage = function(sender, message, targetElement) {
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("chat-message", sender);
-        messageElement.innerHTML = `<p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>`;
-        targetElement.appendChild(messageElement);
-        targetElement.scrollTop = targetElement.scrollHeight; // En alta kaydır
-      };
 
-      /**
-       * Genel uygulama modalını gösterir.
-       * @param {string} title - Modal başlığı.
-       * @param {string} message - Modal içeriği (HTML içerebilir).
-       */
-      window.showModal = function(title, message) {
-        const appModal = document.getElementById("appModal");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalMessage = document.getElementById("modalMessage");
+        // Cloud Functions bölgenizi ayarlayın. Bu, fonksiyonlarınızın dağıtıldığı bölge olmalıdır.
+        // Emulator kullanıyorsanız aşağıdaki satırı aktif edin. Canlı dağıtımda yorum satırı kalsın.
+        // window.functions.useEmulator('http://localhost:5001');
+        // Fonksiyonlarınızın dağıtıldığı gerçek bölgeyi buraya yazın (örneğin 'europe-west1', 'us-central1' vb.)
+        window.functions.region = 'europe-west1';
 
-        if (appModal && modalTitle && modalMessage) {
-          modalTitle.textContent = title;
-          modalMessage.innerHTML = message; // HTML içeriği için innerHTML kullanıldı
-          appModal.style.display = "flex";
-        }
-      };
 
-      /**
-       * Belirtilen modal elementini gizler.
-       * @param {HTMLElement} modalElement - Gizlenecek modal element.
-       */
-      window.hideModal = function(modalElement) {
-        if (modalElement) {
-          modalElement.style.display = "none";
-        }
-      };
+        // index.js dosyasında kullanılan global yardımcı fonksiyonları burada tanımlıyoruz.
+        // Bu sayede index.js yüklenmeden önce bile bu fonksiyonlar tanımlı olacak ve hatalar önlenecek.
+
+        /**
+         * Sohbet kutusuna mesaj ekler.
+         * @param {string} sender - Mesajı gönderen ('user' veya 'ai').
+         * @param {string} message - Gösterilecek mesaj metni.
+         * @param {HTMLElement} targetElement - Mesajın ekleneceği DOM elementi (örn: chat-box).
+         */
+        window.displayMessage = function(sender, message, targetElement) {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("chat-message", sender);
+            messageElement.innerHTML = `<p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>`;
+            targetElement.appendChild(messageElement);
+            targetElement.scrollTop = targetElement.scrollHeight; // En alta kaydır
+        };
+
+        /**
+         * Genel uygulama modalını gösterir.
+         * @param {string} title - Modal başlığı.
+         * @param {string} message - Modal içeriği (HTML içerebilir).
+         */
+        window.showModal = function(title, message) {
+            const appModal = document.getElementById("appModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalMessage = document.getElementById("modalMessage");
+
+            if (appModal && modalTitle && modalMessage) {
+              modalTitle.textContent = title;
+              modalMessage.innerHTML = message; // HTML içeriği için innerHTML kullanıldı
+              appModal.style.display = "flex";
+            }
+        };
+
+        /**
+         * Belirtilen modal elementini gizler.
+         * @param {HTMLElement} modalElement - Gizlenecek modal element.
+         */
+        window.hideModal = function(modalElement) {
+            if (modalElement) {
+              modalElement.style.display = "none";
+            }
+        };
     </script>
 
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Kendi CSS dosyanız -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -536,8 +540,6 @@
         <p>&copy; <span id="currentYear"></span> TatilKaptani.com - Tüm Hakları Saklıdır.</p>
     </footer>
 
-    <!-- Kendi JavaScript dosyanız -->
-    <!-- Bu script, Firebase SDK'ları yüklendikten ve global değişkenler tanımlandıktan sonra çalışmalıdır. -->
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

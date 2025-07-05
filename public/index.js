@@ -1,7 +1,27 @@
-// Firebase zaten HTML'de başlatıldıysa, buradan direkt global `firebase` objesini kullanabilirsin
+// Firebase v9 Modüler SDK import'ları
+// Eğer app objeniz global olarak HTML'de tanımlanıyorsa, getAuth, getFirestore gibi fonksiyonları kullanarak
+// auth, firestore, functions, storage objelerini JS'te de tanımlamanız gerekir.
 
-// Firebase config nesnesi ve başlatma kodu HTML'de bulunduğu için bu kısım burada kaldırılmıştır.
-// Artık global 'firebase', 'auth', 'firestore', 'functions', 'storage' objelerini doğrudan kullanabilirsiniz.
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getFirestore, collection, doc, setDoc, FieldValue, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+
+
+// Eğer Firebase app'inizi HTML'de initialize edip 'app' değişkenini global yapıyorsanız,
+// bu Firebase servislerini de JS içinde bu 'app' objesinden almanız gerekir:
+// Bu satırların, DOMContentLoaded dışındaki global değişken tanımlamalarının hemen altında olması iyi olur.
+
+// const auth = getAuth(app); // Eğer 'app' objesi HTML'den geliyorsa bu şekilde tanımlayın
+// const firestore = getFirestore(app);
+// const functions = getFunctions(app);
+// const storage = getStorage(app);
+
+// Not: Eğer 'auth', 'firestore', 'functions', 'storage' değişkenleri zaten HTML'de global olarak tanımlanmışsa,
+// yukarıdaki 'const auth = getAuth(app);' gibi satırları eklemeye gerek olmayabilir.
+// Ancak import satırları (onAuthStateChanged, FieldValue, vb. için) KESİNLİKLE gereklidir.
+// Örneğin, "firestore.FieldValue.serverTimestamp()" kullanıyorsunuz, FieldValue'yu import etmelisiniz.
+// Aksi halde "FieldValue is not defined" hatası alırsınız.
 
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
