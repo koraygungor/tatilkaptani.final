@@ -51,7 +51,7 @@
         window.displayMessage = function(sender, message, targetElement) {
             const messageElement = document.createElement("div");
             messageElement.classList.add("chat-message", sender);
-            messageElement.innerHTML = <p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>;
+            messageElement.innerHTML = `<p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>`;
             targetElement.appendChild(messageElement);
             targetElement.scrollTop = targetElement.scrollHeight; // En alta kaydır
         };
