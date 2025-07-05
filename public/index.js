@@ -1,4 +1,3 @@
-
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
