@@ -627,7 +627,7 @@ window.getAdminMessageRef = function() {
   ),
   'message'
 );
-
+};
 /**
  * Dinamik reklamları Firestore'dan yükler.
  */
@@ -1902,4 +1902,4 @@ if (file) {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
-};
+});
