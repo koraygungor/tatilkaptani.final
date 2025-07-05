@@ -1,15 +1,7 @@
 // Firebase zaten HTML'de başlatıldıysa, buradan direkt global `firebase` objesini kullanabilirsin
 
-// Firebase config nesnesi
-const firebaseConfig = {...};
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-};
-
-// Firebase'i başlat
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// Firebase config nesnesi ve başlatma kodu HTML'de bulunduğu için bu kısım burada kaldırılmıştır.
+// Artık global 'firebase', 'auth', 'firestore', 'functions', 'storage' objelerini doğrudan kullanabilirsiniz.
 
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
@@ -660,7 +652,7 @@ window.loadAdminMessage = async function() {
             if (error.code === 'permission-denied') {
                 errorMessage += " Lütfen Firebase güvenlik kurallarınızı kontrol edin (public/data/admin okuma izni).";
             } else if (error.code === 'unavailable') {
-                 errorMessage += " İnternet bağlantınızı kontrol edin.";
+                errorMessage += " İnternet bağlantınızı kontrol edin.";
             }
             adminDisplayMessageEl.querySelector('p').textContent = errorMessage;
         }
@@ -706,7 +698,7 @@ window.initializeAppFeatures = function() {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    firebase.initializeApp();
+    // Firebase.initializeApp() artık HTML içinde yapıldığı için bu satıra gerek kalmadı.
 
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
@@ -1649,7 +1641,8 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                                  Describe the atmosphere, important events, clothing, food, and potential interactions of that era in a detailed, immersive, and imaginative way.
                                  ${character ? `In this journey, specifically include an opportunity to meet or interact with "${character}".` : ''}
                                  ${focus ? `The theme "${focus}" should be prominent as a focal point.` : ''}
-                                 The story should be engaging and include an image link relevant to that period (e.                                 Provide the response in Turkish. Focus on details.`;
+                                 The story should be engaging and include an image link relevant to that period (e.g.: an Unsplash or Pixabay link).
+                                 Provide the response in Turkish. Focus on details.`;
 
             const reply = await window.callOpenRouterAI(prompt, "openai/gpt-3.5-turbo", timeTravelLoading);
             let storyContent = reply;
