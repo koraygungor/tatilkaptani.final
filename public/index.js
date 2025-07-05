@@ -7,6 +7,7 @@
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
+const firestore = firebase.firestore();
 
 const virtualOutputStory = document.getElementById("virtual-output-story");
 
