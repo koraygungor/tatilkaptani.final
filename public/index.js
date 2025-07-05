@@ -1,4 +1,4 @@
-// Firebase v9 Modüler SDK import'ları
+// Firebase v9+ (Modüler SDK) kullanımı – v10 uyumlu
 // Eğer app objeniz global olarak HTML'de tanımlanıyorsa, getAuth, getFirestore gibi fonksiyonları kullanarak
 // auth, firestore, functions, storage objelerini JS'te de tanımlamanız gerekir.
 
@@ -7,7 +7,7 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
 // Eğer Firebase app'inizi HTML'de initialize edip 'app' değişkenini global yapıyorsanız,
 // bu Firebase servislerini de JS içinde bu 'app' objesinden almanız gerekir:
@@ -603,14 +603,18 @@ window.getAdsCollectionRef = function() {
 
 /**
  * Yönetici mesajı belgesine referans döndürür.
- * @returns {firebase.firestore.DocumentReference|null} Yönetici mesajı belgesine referans veya null.
+ * @returns {DocumentReference|null} Yönetici mesajı belgesine referans veya null.
  */
 window.getAdminMessageRef = function() {
     if (typeof firestore === 'undefined') {
         console.error("Firestore hazır değil.");
         return null;
     }
-    return firestore.collection('public').doc('data').collection('admin').doc("message");
+
+    return doc(
+        collection(doc(collection(firestore, 'public'), 'data'), 'admin'),
+        'message'
+    );
 };
 
 /**
@@ -1853,12 +1857,12 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                 const sendContactEmailCallable = functions.httpsCallable('sendContactEmail'); // Doğrudan 'functions' kullanıldı
 
                 let fileDownloadUrl = null;
-                if (file) {
-                    const storageRef = storage.ref(); // Doğrudan global storage objesi kullanıldı
-                    const fileRef = storageRef.child(`contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`);
-                    const snapshot = await fileRef.put(file);
-                    fileDownloadUrl = await snapshot.ref.getDownloadURL();
-                    console.log("Dosya yüklendi:", fileDownloadUrl);
+if (file) {
+    const filePath = `contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`;
+    const fileRef = ref(storage, filePath); // Doğrudan ref(storage, path) şeklinde
+    const snapshot = await uploadBytes(fileRef, file); // put yerine uploadBytes
+    fileDownloadUrl = await getDownloadURL(fileRef); // snapshot.ref.getDownloadURL() yerine
+    console.log("Dosya yüklendi:", fileDownloadUrl)
                 }
 
                 await sendContactEmailCallable({
