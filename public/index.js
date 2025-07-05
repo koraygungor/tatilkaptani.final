@@ -3,13 +3,15 @@
 // auth, firestore, functions, storage objelerini JS'te de tanımlamanız gerekir.
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-import { doc, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+
+import { getFirestore, doc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 
 const messageDocRef = doc(
   collection(doc(collection(firestore, 'public'), 'data'), 'admin'),
@@ -737,7 +739,6 @@ window.initializeAppFeatures = function() {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Firebase.initializeApp() artık HTML içinde yapıldığı için bu satıra gerek kalmadı.
 
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
