@@ -1902,4 +1902,4 @@ if (file) {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
-};
+})}
