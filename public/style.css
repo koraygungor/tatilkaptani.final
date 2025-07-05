@@ -6,9 +6,12 @@ body {
     background-size: cover;
 }
 
-/* Tüm yazı alt kısımlarını şeffaf yap */
-.message-container, .chat-input, .sidebar {
+ 1. Arka planlar şeffaf ve sade olsun */
+.message-container, .chat-input, .sidebar, header, .left-sidebar, .content-area, .chat-container {
     background-color: transparent !important;
+    box-shadow: none !important; /* Gölge varsa kaldır */
+    border: none !important; /* Kenarlık varsa kaldır */
+    color: black !important; /* Yazı rengi siyah */
 }
 
 /* Buton stillerini düzenle */
@@ -52,7 +55,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #a0dfff; /* Açık mavi hover */
+    color: #07a6f5; /* Açık mavi hover */
 }
 
 .user-actions {
@@ -266,12 +269,13 @@ footer {
     z-index: 1001; /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
-    justify-content: center;
-    align-items: center;
+  width: 100% !important; /* Sayfaya tam otursun */
+    max-height: calc(100vh - 120px); /* Header/footer hariç yüksekliği al */
+    overflow-y: auto; /* Kaydırma sadece chat içinde */
+    padding: 10px;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.1) !important; /* Çok hafif şeffaf beyaz */
 }
 
 .modal-content {
@@ -349,10 +353,19 @@ footer {
 }
 
 .sidebar button {
-    display: block;
-    width: 100%;
-    margin: 5px 0;
-    padding: 8px;
+      width: 100%;
+    margin: 3px 0;
+    padding: 10px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s;
+}
+.sidebar button:hover, .left-sidebar button:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
 }
 .main-layout {
     display: flex;
@@ -362,16 +375,16 @@ footer {
 }
 
 .left-sidebar {
-    width: 250px;
-    background-color: #e6f7ff; /* Açık mavi */
-    color: white;
-    padding: 20px 0;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    height: 100vh;
-    overflow-y: auto;
+     position: fixed !important;
+    top: 60px; /* Header altından başlasın */
+    left: 10px;
+    height: calc(100vh - 80px); /* Tam yükseklik, header ve footer için boşluk */
+    overflow-y: hidden !important; /* Yukarı aşağı kaydırmayı kapat */
+    width: auto;
+    max-width: 200px;
+    padding: 5px;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .left-sidebar h2 {
@@ -744,97 +757,25 @@ button.send-btn:active {
 
 /* Mobil Duyarlı Tasarım */
 @media (max-width: 768px) {
-    .main-layout {
-        flex-direction: column;
-    }
-
-    .left-sidebar {
-        width: 100%;
-        height: auto;
-        padding: 10px 0;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .left-sidebar h2 {
-        margin-bottom: 10px;
-    }
-
-    .sidebar-nav ul {
+    .sidebar, .left-sidebar {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow-y: visible !important;
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
         gap: 5px;
     }
-
-    .sidebar-nav li {
-        margin-bottom: 0;
+    .sidebar button, .left-sidebar button {
+        flex: 1 1 auto;
+        margin: 5px 2px;
     }
 
-    .sidebar-nav button {
-        padding: 10px 15px;
-        font-size: 0.9em;
-        gap: 5px;
-    }
-
-    .sidebar-nav button i {
-        font-size: 1em;
-    }
-
-    .content-area {
-        margin: 10px;
-        min-height: 70vh;
-    }
-
-    .top-bar {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .top-bar .info-group {
-        gap: 10px;
-    }
-
-    #slogan-top {
-        order: 1;
-        width: 100%;
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    .top-bar button {
-        padding: 6px 10px;
-        font-size: 0.8em;
-    }
-
-    .right-sidebar {
-        display: none;
-    }
-
-    .content-section {
-        padding: 15px;
-    }
-
-    #chat-box {
-        min-height: 150px;
-    }
-
-    input[type="text"],
-    button.send-btn {
-        font-size: 1em;
-        padding: 10px 15px;
-    }
-
-    .feature-form input[type="text"],
-    .feature-form input[type="number"],
-    .feature-form select,
-    .feature-form textarea,
-    .feature-form input[type="file"] {
-        width: calc(100% - 20px);
+    .chat-container {
+        max-height: none !important;
+        height: auto !important;
     }
 }
-
 /* KORSAN AİLESİ SAHNESİ CSS KODLARI EKLENDİ BURAYA */
 .korsan-sahne-container {
     /* Bu container, korsan sahnesini TatilKaptani.com'un feature-section'ına sığdırmak için */
