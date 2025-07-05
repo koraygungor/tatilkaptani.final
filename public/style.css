@@ -1,36 +1,22 @@
 /* Genel Stil Ayarları */
-/* Genel arka plan ve yazı rengi */
 body {
-    color: black; /* Tüm yazılar siyah */
-    background-image: url('img/background.jpg');
-    background-size: cover;
-}
-
- 1. Arka planlar şeffaf ve sade olsun */
-.message-container, .chat-input, .sidebar, header, .left-sidebar, .content-area, .chat-container {
-    background-color: transparent !important;
-    box-shadow: none !important; /* Gölge varsa kaldır */
-    border: none !important; /* Kenarlık varsa kaldır */
-    color: black !important; /* Yazı rengi siyah */
-}
-
-/* Buton stillerini düzenle */
-button {
-    background-color: rgba(0,0,0,0.1) !important;
-    color: black !important;
-}
-
-header, .sidebar, .announcements, .chat-container {
-    background-color: rgba(0, 0, 128, 0.8); /* Lacivert */
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7fa; /* Açık gri arka plan */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Sitenin tüm dikey alanı kaplaması için */
+    background-image: url('img/background.jpg'); /* Kendi yerel JPG dosyanızın yolu */
+    background-size: cover; /* Resmi tüm alanı kaplayacak şekilde boyutlandır */
+    background-attachment: fixed; /* Arkaplanın kaydırma ile sabit kalmasını sağlar */
+    background-position: center; /* Arkaplanı ortalar */
 }
 
 /* Header Stilleri */
 header {
-    background-color: #e6f7ff; /* Açık mavi */
+    background-color: rgba(0, 50, 100, 0.7); /* Koyu mavi, hafif şeffaf */
     color: white;
     padding: 1rem 2rem;
     display: flex;
@@ -55,7 +41,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #07a6f5; /* Açık mavi hover */
+    color: #a0dfff; /* Açık mavi hover */
 }
 
 .user-actions {
@@ -131,18 +117,23 @@ main {
 
 /* Sohbet Kapsayıcı Stilleri */
 .chat-container {
-    background-color: rgba(173, 216, 230, 0.25); /* Açık deniz mavisi, daha şeffaf */
-    padding: 20px;
+const sendChatBtn = document.getElementById("send-button-chat");
+if (sendChatBtn) {
+    sendChatBtn.addEventListener("click", handleChatSubmit);
+}<button id="send-button-chat">Gönder</button><button id="send-button-chat">Gönder</button>    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
+    padding: 15px; /* Daha az padding */
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    width: 50%;
-    margin: 0 auto;
-    max-height: 60vh;
-    overflow-y: auto;
-    backdrop-filter: blur(8px); /* Arka planı daha belirgin bulanıklaştır */
-    -webkit-backdrop-filter: blur(8px);
+    width: 60%; /* Daha küçük bir genişlik */
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    height: 60vh; /* Ekran yüksekliğinin %60'ı */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    /* opacity: 0; */ /* Başlangıçta gizli tutmaya gerek yok, aktif class ile yönetilecek */
+    /* transform: translateY(20px); */
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* .chat-container.visible { /* Aktif class showSection ile yönetiliyor */
@@ -157,7 +148,7 @@ main {
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.15); /* Mesaj alanı arka planı daha da şeffaf */
+    background-color: rgba(250, 250, 250, 0.7); /* Mesaj alanı arka planı şeffaflığı */
 }
 
 .message {
@@ -182,7 +173,6 @@ main {
     display: inline-block;
     max-width: 80%;
     word-wrap: break-word;
-    word-break: break-word; /* Uzun kelimeleri de böler */
 }
 
 .message.user span {
@@ -200,7 +190,7 @@ main {
 
 .chat-input input[type="text"] {
     flex-grow: 1;
-    padding: 12px;
+    padding: 10px; /* Daha az padding */
     border: 1px solid #ccc;
     border-radius: 25px;
     font-size: 1rem;
@@ -209,18 +199,18 @@ main {
     background-color: rgba(249, 253, 249, 0.7); /* Input arka planı şeffaflığı */
 }
 
-input[type="text"]:focus {
+.chat-input input[type="text"]:focus {
     border-color: #007bff;
 }
 
 .chat-input button {
-    padding: 12px 20px;
+    padding: 10px 15px; /* Daha küçük buton */
     background-color: #28a745; /* Yeşil gönder butonu */
     color: white;
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Daha küçük yazı boyutu */
     transition: background-color 0.3s ease;
 }
 
@@ -269,13 +259,12 @@ footer {
     z-index: 1001; /* Sit on top */
     left: 0;
     top: 0;
-  width: 100% !important; /* Sayfaya tam otursun */
-    max-height: calc(100vh - 120px); /* Header/footer hariç yüksekliği al */
-    overflow-y: auto; /* Kaydırma sadece chat içinde */
-    padding: 10px;
-    border-radius: 0;
-    box-shadow: none;
-    background-color: rgba(255, 255, 255, 0.1) !important; /* Çok hafif şeffaf beyaz */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -343,30 +332,6 @@ footer {
 }
 
 /* Sidebar (Menü) ve İçerik Alanı Stilleri */
-.sidebar {
-    position: fixed;
-    left: 10px;
-    top: 10px;
-    height: 95vh;
-    overflow-y: auto;
-    width: 200px;
-}
-
-.sidebar button {
-      width: 100%;
-    margin: 3px 0;
-    padding: 10px 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: rgba(0,0,0,0.05);
-    border-radius: 8px;
-    border: none;
-    transition: background-color 0.3s;
-}
-.sidebar button:hover, .left-sidebar button:hover {
-    background-color: rgba(0, 0, 0, 0.15);
-}
-}
 .main-layout {
     display: flex;
     min-height: calc(100vh - 100px); /* Header/footer yüksekliğine göre ayarlandı */
@@ -375,16 +340,14 @@ footer {
 }
 
 .left-sidebar {
-     position: fixed !important;
-    top: 60px; /* Header altından başlasın */
-    left: 10px;
-    height: calc(100vh - 80px); /* Tam yükseklik, header ve footer için boşluk */
-    overflow-y: hidden !important; /* Yukarı aşağı kaydırmayı kapat */
-    width: auto;
-    max-width: 200px;
-    padding: 5px;
-    background-color: transparent !important;
-    box-shadow: none !important;
+    width: 250px;
+    background-color: rgba(0, 77, 64, 0.95); /* Koyu çamur yeşili */
+    color: white;
+    padding: 20px 0;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
 }
 
 .left-sidebar h2 {
@@ -410,7 +373,7 @@ footer {
     background: none;
     border: none;
     color: white;
-    padding: 8px;
+    padding: 15px 20px;
     width: 100%;
     text-align: left;
     font-size: 1.1em;
@@ -419,7 +382,6 @@ footer {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 5px 0;
 }
 
 .sidebar-nav button:hover,
@@ -615,7 +577,7 @@ button.send-btn:active {
 }
 
 .feature-form .budget-options button {
-    background-color: rgba(0, 77, 64, 0.8); /* Koyu çamur yeşili - şeffaf */
+    background-color: #004d40;
     color: white;
     padding: 8px 15px;
     border: none;
@@ -623,8 +585,7 @@ button.send-btn:active {
     cursor: pointer;
     margin-right: 10px;
     margin-bottom: 10px;
-    opacity: 0.9;
-    transition: opacity 0.3s ease, background-color 0.3s ease;
+    opacity: 0.8; /* Butonların şeffaflığı */
 }
 
 .feature-form .budget-options button.selected {
@@ -757,25 +718,97 @@ button.send-btn:active {
 
 /* Mobil Duyarlı Tasarım */
 @media (max-width: 768px) {
-    .sidebar, .left-sidebar {
-        position: relative !important;
-        width: 100% !important;
-        height: auto !important;
-        overflow-y: visible !important;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-    .sidebar button, .left-sidebar button {
-        flex: 1 1 auto;
-        margin: 5px 2px;
+    .main-layout {
+        flex-direction: column;
     }
 
-    .chat-container {
-        max-height: none !important;
-        height: auto !important;
+    .left-sidebar {
+        width: 100%;
+        height: auto;
+        padding: 10px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .left-sidebar h2 {
+        margin-bottom: 10px;
+    }
+
+    .sidebar-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .sidebar-nav li {
+        margin-bottom: 0;
+    }
+
+    .sidebar-nav button {
+        padding: 10px 15px;
+        font-size: 0.9em;
+        gap: 5px;
+    }
+
+    .sidebar-nav button i {
+        font-size: 1em;
+    }
+
+    .content-area {
+        margin: 10px;
+        min-height: 70vh;
+    }
+
+    .top-bar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .top-bar .info-group {
+        gap: 10px;
+    }
+
+    #slogan-top {
+        order: 1;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .top-bar button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+
+    .right-sidebar {
+        display: none;
+    }
+
+    .content-section {
+        padding: 15px;
+    }
+
+    #chat-box {
+        min-height: 150px;
+    }
+
+    input[type="text"],
+    button.send-btn {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+
+    .feature-form input[type="text"],
+    .feature-form input[type="number"],
+    .feature-form select,
+    .feature-form textarea,
+    .feature-form input[type="file"] {
+        width: calc(100% - 20px);
     }
 }
+
 /* KORSAN AİLESİ SAHNESİ CSS KODLARI EKLENDİ BURAYA */
 .korsan-sahne-container {
     /* Bu container, korsan sahnesini TatilKaptani.com'un feature-section'ına sığdırmak için */
@@ -996,22 +1029,4 @@ button.send-btn:active {
 /* Korsan sahnesindeki body elementini override etmemesi için düzeltme */
 .korsan-sahne-container .scene-body-bg { /* Yeni sınıf, korsan sahnesinin body arkaplanını korumak için */
     background: linear-gradient(to bottom, #87ceeb 0%, #f0e68c 100%);
-}
-
-/* İlanların sağ tarafta olması için */
-.announcements {
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    width: 250px;
-}
-
-.ad-container, .admin-message {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    width: 300px;
-    background-color: rgba(0, 0, 128, 0.8);
-    color: white;
-    padding: 10px;
 }

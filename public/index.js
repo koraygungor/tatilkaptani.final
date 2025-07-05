@@ -78,8 +78,6 @@ const sloganTop = document.getElementById("slogan-top");
 const voiceToggleTop = document.getElementById("voice-toggle-top");
 const languageSelect = document.getElementById("language-select");
 const userIdDisplay = document.getElementById("user-id-display");
-const sidebarButtons = document.querySelectorAll(".sidebar-nav button");
-const contentSections = document.querySelectorAll(".content-section");
 
 // Modallar
 const appModal = document.getElementById("appModal");
@@ -348,70 +346,10 @@ window.updatePalmCoinHistoryDisplay = function() {
 window.showSection = function(sectionId) {
     contentSections.forEach(section => {
         section.classList.remove("active");
-        section.style.display = "none";
+        if (section.id === sectionId) {
+            section.classList.add("active");
+        }
     });
-
-    const activeSection = document.getElementById(sectionId);
-    if (activeSection) {
-        activeSection.classList.add("active");
-        activeSection.style.display = "flex";
-    }
-
-    sidebarButtons.forEach(button => button.classList.remove("active"));
-    const activeButton = document.querySelector(`.sidebar-nav button[data-section='${sectionId}']`);
-    if (activeButton) {
-        activeButton.classList.add("active");
-    }
-
-    if (sectionId === "vip-planner-section") {
-        if (document.getElementById("vip-access-check") && document.getElementById("vip-planner-form-area")) {
-            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("vip-planner-form-area"), "Altın");
-        }
-        if (document.getElementById("vip-access-check") && document.getElementById("niche-vip-request-area")) {
-            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("niche-vip-request-area"), "Altın");
-        }
-        if (vipPlanChatArea) vipPlanChatArea.style.display = 'none';
-        if (vipPlanOutput) vipPlanOutput.style.display = 'none';
-        currentVipPlan = "";
-    } else if (sectionId === "time-travel-section") {
-        if (document.getElementById("time-travel-access-check") && timeTravelFormArea) { // timeTravelFormArea kontrolü eklendi
-            window.checkVipAccess(document.getElementById("time-travel-access-check"), timeTravelFormArea, "Altın");
-        }
-    } else if (sectionId === "ai-photo-studio-section") {
-        if (document.getElementById("ai-photo-access-check") && document.getElementById("ai-photo-form-area")) {
-            window.checkVipAccess(document.getElementById("ai-photo-access-check"), document.getElementById("ai-photo-form-area"), "Altın");
-        }
-        if (generatedImagesContainer) generatedImagesContainer.innerHTML = '';
-        if (downloadAllImagesBtn) downloadAllImagesBtn.style.display = 'none';
-        if (aiPhotoOutput) aiPhotoOutput.style.display = 'none';
-        currentGeneratedImages = [];
-    } else if (sectionId === "user-info-section") {
-        window.displayMembershipInfo();
-        window.loadAdminMessage();
-        window.updatePalmCoinHistoryDisplay();
-    } else if (sectionId === "payment-section") {
-        if (cardNumberInput) cardNumberInput.value = '';
-        if (expiryDateInput) expiryDateInput.value = '';
-        if (cvvInput) cvvInput.value = '';
-        if (cardHolderNameInput) cardHolderNameInput.value = '';
-    } else if (sectionId === "virtual-holiday-section") {
-        if (virtualDurationMinutesInput && virtualTourCostEl) {
-            virtualTourCostEl.textContent = (parseInt(virtualDurationMinutesInput.value) * VIRTUAL_TOUR_COST_PER_MINUTE);
-        }
-        if (virtualHolidayOutput) virtualHolidayOutput.style.display = "none";
-        if (virtualImagesContainer) virtualImagesContainer.innerHTML = '';
-        if (sendVirtualImageEmailBtn) sendVirtualImageEmailBtn.style.display = 'none';
-        generatedVirtualImageUrl = '';
-    } else if (sectionId === "destiny-route-section") {
-        if (destinyRouteOutput) destinyRouteOutput.style.display = "none";
-        if (realizeDestinyBtn) realizeDestinyBtn.style.display = "none";
-    }
-    if (sectionId === "contact-us-section") {
-        if (contactSubjectInput) contactSubjectInput.value = '';
-        if (contactEmailInput) contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
-        if (contactMessageInput) contactMessageInput.value = '';
-        if (contactFileInput) contactFileInput.value = '';
-    }
 };
 
 /**
@@ -737,6 +675,9 @@ window.initializeAppFeatures = function() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Firebase.initializeApp() artık HTML içinde yapıldığı için bu satıra gerek kalmadı.
+
+    const sidebarButtons = document.querySelectorAll(".sidebar-nav button");
+    const contentSections = document.querySelectorAll(".content-section");
 
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
