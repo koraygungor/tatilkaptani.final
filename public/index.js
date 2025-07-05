@@ -3,20 +3,17 @@
 // auth, firestore, functions, storage objelerini JS'te de tanımlamanız gerekir.
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+import { doc, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-
-import { getFirestore, doc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-
-
-const messageDocRef = doc(
-  collection(doc(collection(firestore, 'public'), 'data'), 'admin'),
-  'message'
-);
+const publicCollection = collection(firestore, 'public');
+const dataDoc = doc(publicCollection, 'data');
+const adminCollection = collection(dataDoc, 'admin');
+const messageDocRef = doc(adminCollection, 'message');
 
 // Eğer Firebase app'inizi HTML'de initialize edip 'app' değişkenini global yapıyorsanız,
 // bu Firebase servislerini de JS içinde bu 'app' objesinden almanız gerekir:
@@ -630,7 +627,7 @@ window.getAdminMessageRef = function() {
   ),
   'message'
 );
-};
+
 /**
  * Dinamik reklamları Firestore'dan yükler.
  */
@@ -675,19 +672,19 @@ window.loadAdminMessage = async function() {
         return;
     }
 
-   onSnapshot(adminMessageRef, (docSnap) => {
-    if (adminDisplayMessageEl) {
-        const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
-        if (adminDisplayMessageP) {
-            if (docSnap.exists() && docSnap.data().message) {
-                adminDisplayMessageP.textContent = docSnap.data().message;
-            } else {
-                adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
+    adminMessageRef.onSnapshot((docSnap) => {
+        if (adminDisplayMessageEl) {
+            const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
+            if (adminDisplayMessageP) {
+                if (docSnap.exists && docSnap.data().message) {
+                    adminDisplayMessageP.textContent = docSnap.data().message;
+                } else {
+                    adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
+                }
             }
         }
-    }
-}, (error) => {
-    console.error("Admin mesajı dinlenirken hata oluştu:", error);
+    }, (error) => {
+        console.error("Yönetici mesajı yüklenirken hata:", error);
         if (adminDisplayMessageEl && adminDisplayMessageEl.querySelector('p')) {
             let errorMessage = `Yönetici mesajı yüklenemedi: ${error.message}.`;
             if (error.code === 'permission-denied') {
@@ -739,6 +736,7 @@ window.initializeAppFeatures = function() {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Firebase.initializeApp() artık HTML içinde yapıldığı için bu satıra gerek kalmadı.
 
     const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
     const companionInput = document.getElementById("companion-input");
@@ -1904,4 +1902,4 @@ if (file) {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
-});
+};
