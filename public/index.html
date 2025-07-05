@@ -36,7 +36,16 @@ window.auth = auth;
 window.firestore = firestore;
 window.functions = functions;
 window.storage = storage;
-
+// Kullanıcı durumunu dinle
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Kullanıcı giriş yaptı:", user.email);
+    // Buraya kullanıcı giriş yaptığında yapılacak işlemleri yazabilirsin
+  } else {
+    console.log("Kullanıcı çıkış yaptı.");
+    // Kullanıcı yoksa yapılacak işlemler
+  }
+});
 
         // Cloud Functions bölgenizi ayarlayın. Bu, fonksiyonlarınızın dağıtıldığı bölge olmalıdır.
         // Emulator kullanıyorsanız aşağıdaki satırı aktif edin. Canlı dağıtımda yorum satırı kalsın.
