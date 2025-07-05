@@ -8,6 +8,12 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase
 import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+import { doc, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+const messageDocRef = doc(
+  collection(doc(collection(firestore, 'public'), 'data'), 'admin'),
+  'message'
+);
 
 // Eğer Firebase app'inizi HTML'de initialize edip 'app' değişkenini global yapıyorsanız,
 // bu Firebase servislerini de JS içinde bu 'app' objesinden almanız gerekir:
@@ -611,11 +617,16 @@ window.getAdminMessageRef = function() {
         return null;
     }
 
-    return doc(
-        collection(doc(collection(firestore, 'public'), 'data'), 'admin'),
-        'message'
-    );
-};
+  return doc(
+  collection(
+    doc(
+      collection(firestore, 'public'),
+      'data'
+    ),
+    'admin'
+  ),
+  'message'
+);
 
 /**
  * Dinamik reklamları Firestore'dan yükler.
