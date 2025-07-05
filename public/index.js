@@ -6,9 +6,9 @@
 // const storage = firebase.storage(); // HTML'de başlatıldığı için burada yorumda kalır.
 
 // Firebase config nesnesi
-const firebaseConfig = {
-  apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
-  // diğer config bilgileri
+const firebaseConfig = {...};
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
 };
 
 // Firebase'i başlat
