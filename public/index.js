@@ -1,11 +1,10 @@
 // index.js
 
 // --- Firebase v9 Modüler SDK import'ları ---
-// Bu satırlar dosyanın en üstünde, diğer tüm JavaScript kodlarından önce yer almalıdır.
-// HTML dosyanızda 'type="module"' olarak yüklenen Firebase SDK'larına ve
-// window objesine atanan global servis objelerine (`auth`, `firestore`, `functions`, `storage`) dayanır.
+// Bu importlar, window objesine atanacak Firebase servislerinden direkt kullanılacak fonksiyonları getirir.
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { collection, doc, setDoc, FieldValue, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+// collection, doc, setDoc, onSnapshot, addDoc gibi fonksiyonları direkt kullanmak için import edin.
+import { collection, doc, setDoc, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { httpsCallable } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
@@ -14,9 +13,7 @@ const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
 
-const virtualOutputStory = document.getElementById("virtual-output-story");
-
-// Global Değişkenler
+// Global Değişkenler (Uygulama genelinde kullanılacak durum değişkenleri)
 let currentUserId = null;
 let voiceEnabled = true;
 let tatilPuan = 0;
@@ -34,35 +31,37 @@ let chatHistory = []; // Main chat history
 let aiCompanion = null;
 let companionChatHistory = []; // AI Yoldaş sohbet geçmişi
 
-let currentGameQuestion = null; // Aktif soruyu ve cevabı tutar
+let currentGameQuestion = null; // Aktif oyundaki soruyu ve cevabı tutar
 
 // --- DOM Elementleri ---
-// Header'daki login/register/logout butonları için tanımlar
+// Tüm DOM elementleri, betik yüklendiğinde bir kez tanımlanır.
+// Bu sayede tüm fonksiyonlar bu referanslara erişebilir.
+
+// Header ve Yetkilendirme Bölümleri
 const loginBtn = document.getElementById('loginBtn');
 const registerBtn = document.getElementById('registerBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const authButtons = document.getElementById('authButtons');
 const loggedInUserSection = document.getElementById('loggedInUser');
 const usernameDisplay = document.getElementById('usernameDisplay');
+const userIdDisplay = document.getElementById("user-id-display"); // UID göstergesi
 
-// Sohbet Asistanı
+// Sohbet Asistanı Bölümü
 const chatBox = document.getElementById("chat-box");
 const chatInput = document.getElementById("user-input-chat");
 const sendChatBtn = document.getElementById("send-button-chat");
 const chatLoading = document.getElementById("chat-loading");
-const tatilpuanTop = document.getElementById("tatilpuan-top");
-const sloganTop = document.getElementById("slogan-top");
-const voiceToggleTop = document.getElementById("voice-toggle-top");
-const languageSelect = document.getElementById("language-select");
-const userIdDisplay = document.getElementById("user-id-display");
+const tatilpuanTop = document.getElementById("tatilpuan-top"); // Üst bar TatilPuan göstergesi
+const sloganTop = document.getElementById("slogan-top"); // Üst bar slogan
+const voiceToggleTop = document.getElementById("voice-toggle-top"); // Ses açma/kapatma butonu
+const languageSelect = document.getElementById("language-select"); // Dil seçimi
 
-// Modallar
+// Modallar (Genel Uygulama, Giriş, Kayıt, Şifre Sıfırlama)
 const appModal = document.getElementById("appModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalMessage = document.getElementById("modalMessage");
 const modalConfirmBtn = document.getElementById("modalConfirmBtn");
 
-// Giriş/Kayıt Modalları
 const loginModal = document.getElementById('loginModal');
 const registerModal = document.getElementById('registerModal');
 const forgotPasswordModal = document.getElementById('forgotPasswordModal');
@@ -79,15 +78,15 @@ const resetEmailInput = document.getElementById('resetEmail');
 const performResetBtn = document.getElementById('performResetBtn');
 const resetMessage = document.getElementById('resetMessage');
 const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-const closeButtons = document.querySelectorAll('.close-button');
+const closeButtons = document.querySelectorAll('.close-button'); // Tüm modal kapatma butonları
 
-// Tatil Avı (Oyun)
+// Tatil Avı (Oyun) Bölümü
 const startGameBtn = document.getElementById("start-game-btn");
 const gameOutput = document.getElementById("game-output");
 const gameAnswerInput = document.getElementById("game-answer-input");
 const submitGameAnswerBtn = document.getElementById("submit-game-answer-btn");
 
-// Sanal Tatil Planı
+// Sanal Tatil Planı Bölümü
 const virtualCityInput = document.getElementById("virtual-city");
 const virtualDaysInput = document.getElementById("virtual-days");
 const virtualDurationMinutesInput = document.getElementById("virtual-duration-minutes");
@@ -97,12 +96,11 @@ const virtualTourCostEl = document.getElementById("virtual-tour-cost");
 const startVirtualBtn = document.getElementById("start-virtual-btn");
 const virtualHolidayOutput = document.getElementById("virtual-holiday-output");
 const virtualOutputTitle = document.getElementById("virtual-output-title");
-
 const virtualImagesContainer = document.getElementById("virtual-images-container");
 const sendVirtualImageEmailBtn = document.getElementById("send-virtual-image-email-btn");
 const virtualLoading = document.getElementById("virtual-loading");
 
-// AI Fotoğraf Stüdyosu
+// AI Fotoğraf Stüdyosu Bölümü
 const aiPhotoAccessCheck = document.getElementById("ai-photo-access-check");
 const goToAiPhotoPaymentBtn = document.getElementById("go-to-ai-photo-payment-btn");
 const aiPhotoFormArea = document.getElementById("ai-photo-form-area");
@@ -116,7 +114,7 @@ const generatedImagesContainer = document.getElementById("generated-images-conta
 const downloadAllImagesBtn = document.getElementById("download-all-images-btn");
 const downloadAllCostSpan = document.getElementById("download-all-cost");
 
-// VIP Planlayıcı
+// VIP Planlayıcı Bölümü
 const vipAccessCheck = document.getElementById("vip-access-check");
 const goToVipPaymentBtn = document.getElementById("go-to-vip-payment-btn");
 const vipPlannerFormArea = document.getElementById("vip-planner-form-area");
@@ -128,20 +126,20 @@ const vipTypeSelect = document.getElementById("vip-type");
 const generateVipPlanBtn = document.getElementById("generate-vip-plan-btn");
 const vipPlannerLoading = document.getElementById("vip-planner-loading");
 const vipPlanOutput = document.getElementById("vip-plan-output");
-let selectedBudget = "";
+let selectedBudget = ""; // Varsayılan boş bırakıldı, buton tıklamasıyla atanır
 const vipPlanChatArea = document.getElementById("vip-plan-chat-area");
 const vipPlanChatBox = document.getElementById("vip-plan-chat-box");
 const vipPlanInput = document.getElementById("vip-plan-input");
 const sendVipPlanMessageBtn = document.getElementById("send-vip-plan-message-btn");
 
-// Niş Tur Talebi
+// Niş Tur Talebi Bölümü
 const nicheTopicInput = document.getElementById("niche-topic");
 const nicheDetailsTextarea = document.getElementById("niche-details");
 const generateNichePlanBtn = document.getElementById("generate-niche-plan-btn");
 const nichePlanLoading = document.getElementById("niche-plan-loading");
 const nichePlanOutput = document.getElementById("niche-plan-output");
 
-// Kullanıcı Bilgileri
+// Kullanıcı Bilgileri Bölümü
 const displayUserId = document.getElementById("display-userid");
 const displayUsername = document.getElementById("display-username");
 const displayUserEmail = document.getElementById("display-user-email");
@@ -152,13 +150,13 @@ const displayGameScore = document.getElementById("display-game-score");
 const updateUsernameBtn = document.getElementById("update-username-btn");
 const palmCoinHistoryList = document.getElementById("palmcoin-history-list");
 
-// Yönetici Mesajı
+// Yönetici Mesajı Bölümü
 const adminMessageInput = document.getElementById("admin-message-input");
 const updateAdminMessageBtn = document.getElementById("update-admin-message-btn");
 const adminMessageLoading = document.getElementById("admin-message-loading");
 const adminDisplayMessageEl = document.getElementById("admin-display-message");
 
-// Zamanda Yolculuk
+// Zamanda Yolculuk Bölümü
 const timeTravelAccessCheck = document.getElementById("time-travel-access-check");
 const goToTimeTravelPaymentBtn = document.getElementById("go-to-time-travel-payment-btn");
 const timeTravelFormArea = document.getElementById("time-travel-form-area");
@@ -170,7 +168,7 @@ const startTimeTravelBtn = document.getElementById("start-time-travel-btn");
 const timeTravelLoading = document.getElementById("time-travel-loading");
 const timeTravelOutput = document.getElementById("time-travel-output");
 
-// Kader Rotası
+// Kader Rotası Bölümü
 const destinyAgeInput = document.getElementById("destiny-age");
 const destinyHobbyInput = document.getElementById("destiny-hobby");
 const destinyDreamInput = document.getElementById("destiny-dream");
@@ -180,13 +178,18 @@ const destinyLoading = document.getElementById("destiny-loading");
 const destinyRouteOutput = document.getElementById("destiny-route-output");
 const realizeDestinyBtn = document.getElementById("realize-destiny-btn");
 
-// AI Yoldaşım
+// AI Yoldaşım Bölümü
+// Bu elementler de global olarak tanımlanmalı
 const companionNameInput = document.getElementById("companion-name");
 const companionPersonalitySelect = document.getElementById("companion-personality");
 const createCompanionBtn = document.getElementById("create-companion-btn");
 const companionLoading = document.getElementById("companion-loading");
+const companionInput = document.getElementById("companion-input"); // AI Yoldaş inputu
+const companionChatBox = document.getElementById("companion-chat-box"); // AI Yoldaş sohbet kutusu
+const companionChatArea = document.getElementById("companion-chat-area"); // AI Yoldaş sohbet alanı (görüntülenen)
+const activeCompanionName = document.getElementById("active-companion-name"); // Aktif yoldaş adı göstergesi
 
-// Ödeme
+// Ödeme Bölümü
 const cardNumberInput = document.getElementById("card-number");
 const expiryDateInput = document.getElementById("expiry-date");
 const cvvInput = document.getElementById("cvv");
@@ -201,15 +204,15 @@ const contactFileInput = document.getElementById('contact-file');
 const sendContactFormBtn = document.getElementById('send-contact-form-btn');
 const contactLoading = document.getElementById('contact-loading');
 
-// Sidebar ve Content Section'lar (querySelectorAll ile alınır)
+// Sidebar ve Content Section'lar için genel referanslar
 const sidebarButtons = document.querySelectorAll(".sidebar-nav button");
 const contentSections = document.querySelectorAll(".content-section");
 
 
 // --- Genel UI ve Yardımcı Fonksiyonlar (DOMContentLoaded dışında tanımlanmalı) ---
 
-// window.hideModal, window.showModal, window.displayMessage fonksiyonları artık HTML içinde tanımlandı.
-// Bu sayede index.js yüklenmeden önce bile erişilebilirler ve "not defined" hatası vermezler.
+// window.hideModal, window.showModal, window.displayMessage fonksiyonları HTML içinde tanımlandı.
+// Bu sayede index.js yüklenmeden önce bile erişilebilirler.
 
 /**
  * Metni sesli olarak okur.
@@ -220,7 +223,13 @@ window.speak = function(text) {
     if (!languageSelectEl || !voiceEnabled || !window.speechSynthesis) return;
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = languageSelectEl.value + "-" + languageSelectEl.value.toUpperCase();
+    // Dil kodunu SpeechSynthesis için uygun formata getir (örn: "tr-TR", "en-US")
+    // Bu, HTML'deki language-select options'ı ile uyumlu olmalı.
+    let langCode = languageSelectEl.value;
+    if (langCode === 'tr') langCode = 'tr-TR';
+    else if (langCode === 'en') langCode = 'en-US';
+    
+    utterance.lang = langCode;
     speechSynthesis.speak(utterance);
 };
 
@@ -240,6 +249,7 @@ window.updateTatilPuan = async function(points, activity = "Genel Aktivite") {
         current: tatilPuan
     });
 
+    // Geçmişin son 20 kaydını tut
     if (palmCoinHistory.length > 20) {
         palmCoinHistory = palmCoinHistory.slice(palmCoinHistory.length - 20);
     }
@@ -305,6 +315,7 @@ window.displayMembershipInfo = function() {
 window.updatePalmCoinHistoryDisplay = function() {
     if (!palmCoinHistoryList) return;
     palmCoinHistoryList.innerHTML = '';
+    // En yeni kayıtları üstte göstermek için ters çevir
     palmCoinHistory.slice().reverse().forEach(entry => {
         const listItem = document.createElement("li");
         const date = new Date(entry.timestamp).toLocaleString();
@@ -331,7 +342,7 @@ window.showSection = function(sectionId) {
 
     const activeSection = document.getElementById(sectionId);
     if (activeSection) {
-        activeSection.style.display = "flex"; // Gösterilecek bölümü flex olarak ayarla
+        activeSection.style.display = "flex"; // Gösterilecek bölümü flex olarak ayarla (CSS'e göre)
         activeSection.classList.add("active"); // Aktif sınıfını ekle
     }
 
@@ -343,22 +354,24 @@ window.showSection = function(sectionId) {
 
     // Bölüme özel ek ayarlar
     if (sectionId === "vip-planner-section") {
-        if (document.getElementById("vip-access-check") && document.getElementById("vip-planner-form-area")) {
-            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("vip-planner-form-area"), "Altın");
+        if (vipAccessCheck && vipPlannerFormArea) {
+            window.checkVipAccess(vipAccessCheck, vipPlannerFormArea, "Altın");
         }
-        if (document.getElementById("vip-access-check") && document.getElementById("niche-vip-request-area")) {
-            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("niche-vip-request-area"), "Altın");
+        // Niche request alanı da VIP Planner section içindeyse onun da kontrolü
+        const nicheVipRequestArea = document.getElementById("niche-vip-request-area");
+        if (vipAccessCheck && nicheVipRequestArea) {
+             window.checkVipAccess(vipAccessCheck, nicheVipRequestArea, "Altın");
         }
         if (vipPlanChatArea) vipPlanChatArea.style.display = 'none';
         if (vipPlanOutput) vipPlanOutput.style.display = 'none';
         currentVipPlan = "";
     } else if (sectionId === "time-travel-section") {
-        if (document.getElementById("time-travel-access-check") && timeTravelFormArea) {
-            window.checkVipAccess(document.getElementById("time-travel-access-check"), timeTravelFormArea, "Altın");
+        if (timeTravelAccessCheck && timeTravelFormArea) {
+            window.checkVipAccess(timeTravelAccessCheck, timeTravelFormArea, "Altın");
         }
     } else if (sectionId === "ai-photo-studio-section") {
-        if (document.getElementById("ai-photo-access-check") && document.getElementById("ai-photo-form-area")) {
-            window.checkVipAccess(document.getElementById("ai-photo-access-check"), document.getElementById("ai-photo-form-area"), "Altın");
+        if (aiPhotoAccessCheck && aiPhotoFormArea) {
+            window.checkVipAccess(aiPhotoAccessCheck, aiPhotoFormArea, "Altın");
         }
         if (generatedImagesContainer) generatedImagesContainer.innerHTML = '';
         if (downloadAllImagesBtn) downloadAllImagesBtn.style.display = 'none';
@@ -426,6 +439,7 @@ window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo",
 
     try {
         // functions objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
+        // typeof functions kontrolü, functions objesinin yüklenip yüklenmediğini garanti eder.
         if (typeof functions === 'undefined' || !functions.httpsCallable) {
             throw new Error("Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
         }
@@ -452,12 +466,11 @@ window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo",
  * @param {string} promptText - Görsel oluşturma istemi.
  * @param {HTMLElement} loadingIndicator - Yükleme göstergesi elementi.
  * @returns {Promise<string|null>} Oluşturulan görselin URL'si veya null.
- */
+*/
 window.callImageGenerationAI = async function(promptText, loadingIndicator = null) {
     if (loadingIndicator) loadingIndicator.style.display = "block";
 
     try {
-        // functions objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
         if (typeof functions === 'undefined' || !functions.httpsCallable) {
             throw new Error("Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
         }
@@ -485,12 +498,11 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
  * @returns {import("firebase/firestore").DocumentReference|null} Kullanıcı profil belgesine referans veya null.
  */
 window.getUserProfileRef = function() {
-    // firestore değişkeni HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
     if (typeof firestore === 'undefined' || !currentUserId) {
         console.warn("Firestore veya Kullanıcı ID'si hazır değil. Profil referansı alınamıyor.");
         return null;
     }
-    // Modüler doc() kullanımı
+    // Modüler doc() kullanımı: doc(db, collectionPath, docId)
     return doc(firestore, 'users', currentUserId);
 };
 
@@ -510,8 +522,6 @@ window.loadUserProfile = async function() {
     onSnapshot(profileRef, (docSnap) => { // onSnapshot import edildiği için doğrudan kullanıldı
         if (docSnap.exists) {
             const data = docSnap.data();
-            // auth.currentUser henüz tanımlı olmayabilir veya anonim kullanıcı için displayName/email boş olabilir.
-            // Bu nedenle userName ve userEmail için daha sağlam varsayılanlar ayarlandı.
             userName = data.username || auth.currentUser?.displayName || "Misafir";
             userEmail = data.email || auth.currentUser?.email || "Ayarlanmadı";
             tatilPuan = data.tatilPuanlari || 0;
@@ -522,6 +532,7 @@ window.loadUserProfile = async function() {
         } else {
             console.log("Kullanıcı profili bulunamadı, varsayılan oluşturuluyor.");
             if (auth.currentUser) {
+                // Eğer kullanıcı varsa ve profili yoksa yeni bir tane oluştur
                 window.updateUserProfile({
                     username: auth.currentUser.displayName || auth.currentUser.email,
                     email: auth.currentUser.email,
@@ -581,7 +592,7 @@ window.getAdsCollectionRef = function() {
         console.error("Firestore hazır değil.");
         return null;
     }
-    // Modüler collection ve doc kullanımı
+    // Modüler collection ve doc kullanımı: collection(db, collectionPath, docId, subCollectionPath)
     return collection(doc(collection(firestore, 'public'), 'data'), 'ads');
 };
 
@@ -594,7 +605,7 @@ window.getAdminMessageRef = function() {
         console.error("Firestore hazır değil.");
         return null;
     }
-    // Modüler collection ve doc kullanımı
+    // Modüler collection ve doc kullanımı: doc(db, collectionPath, docId, subCollectionPath, subDocId)
     return doc(collection(doc(collection(firestore, 'public'), 'data'), 'admin'), 'message');
 };
 
@@ -609,6 +620,7 @@ window.loadAds = async function() {
     }
     /* Reklam yükleme kısmı şu an yorum satırı yapılmış durumda.
        Eğer aktif ederseniz, 'getDocs' fonksiyonunu da Firestore importlarına eklemeniz gerekir.
+       Örnek: import { collection, doc, setDoc, FieldValue, onSnapshot, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
     try {
         const snapshot = await getDocs(adsCollectionRef);
         const ads = snapshot.docs.map(doc => doc.data());
@@ -647,7 +659,8 @@ window.loadAdminMessage = async function() {
         if (adminDisplayMessageEl) {
             const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
             if (adminDisplayMessageP) {
-                if (docSnap.exists && docSnap.data().message) {
+                // docSnap.data()'nın varlığını ve message özelliğini daha güvenli kontrol et
+                if (docSnap.exists && docSnap.data() && docSnap.data().message !== undefined) {
                     adminDisplayMessageP.textContent = docSnap.data().message;
                 } else {
                     adminDisplayMessageP.textContent = "Yönetici mesajı bulunmamaktadır.";
@@ -711,22 +724,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Firebase Auth durum değişikliklerini dinle
     // auth objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
-    onAuthStateChanged(auth, async (user) => { // onAuthStateChanged import edildiği için doğrudan kullanıldı
+    onAuthStateChanged(auth, async (user) => { 
         if (user) {
             // Kullanıcı giriş yapmış
             currentUserId = user.uid;
-            userName = user.displayName || "Misafir"; // Varsayılan değer
-            userEmail = user.email || "Ayarlanmadı"; // Varsayılan değer
+            userName = user.displayName || "Misafir"; 
+            userEmail = user.email || "Ayarlanmadı"; 
 
             authButtons.style.display = 'none';
             loggedInUserSection.style.display = 'flex';
             usernameDisplay.textContent = userName;
             userIdDisplay.textContent = `UID: ${currentUserId}`;
 
-            await window.loadUserProfile(); // Kullanıcı profilini Firestore'dan yükle
-            window.loadAds(); // Reklamları yükle
-            window.loadAdminMessage(); // Yönetici mesajını yükle
-            window.showSection('chat-section'); // Varsayılan olarak sohbet bölümünü göster
+            await window.loadUserProfile(); 
+            window.loadAds(); 
+            window.loadAdminMessage(); 
+            window.showSection('chat-section'); 
             window.speak(`Hoş geldin ${userName || 'Misafir'}!`);
 
         } else {
@@ -738,7 +751,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             userMembershipLevel = "Bronz";
             gameScore = 0;
             palmCoinHistory = [];
-            aiCompanion = null; // AI yoldaşını sıfırla
+            aiCompanion = null; 
 
             authButtons.style.display = 'flex';
             loggedInUserSection.style.display = 'none';
@@ -748,8 +761,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.displayMembershipInfo();
             window.updateTatilPuanDisplay();
             window.updatePalmCoinHistoryDisplay();
-            window.showSection('chat-section'); // Varsayılan olarak sohbet bölümünü göster
-            window.loadAdminMessage(); // Yönetici mesajını yükle (giriş yapmayanlar için de)
+            window.showSection('chat-section'); 
+            window.loadAdminMessage(); 
             window.speak("Palmiye Kaptan'a hoş geldin. Sohbet etmek için giriş yapabilir veya kayıt olabilirsiniz!");
         }
     });
@@ -799,10 +812,10 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
 
             if (currentUserId) {
                 try {
-                    await addDoc(collection(firestore, 'users', currentUserId, 'chatHistory'), { // addDoc ve collection modüler kullanımı
+                    await addDoc(collection(firestore, 'users', currentUserId, 'chatHistory'), {
                         userMessage: userMessage,
                         aiReply: cleanReply,
-                        timestamp: window.serverTimestamp() // HTML'den global olarak tanımlandı
+                        timestamp: window.serverTimestamp()
                     });
                 } catch (e) {
                     console.error("Sohbet geçmişi Firestore'a kaydedilirken hata:", e);
@@ -865,7 +878,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
     if (chatInput) {
         chatInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
-                e.preventDefault(); // Varsayılan formu gönderme davranışını engelle
+                e.preventDefault(); 
                 handleSendMessage();
             }
         });
@@ -948,15 +961,15 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 await userCredential.user.updateProfile({ displayName: username });
 
-                await setDoc(doc(firestore, 'users', userCredential.user.uid), { // setDoc ve doc modüler kullanımı
+                await setDoc(doc(firestore, 'users', userCredential.user.uid), { 
                     username: username,
                     email: email,
-                    createdAt: window.serverTimestamp(), // HTML'den global olarak tanımlandı
+                    createdAt: window.serverTimestamp(), 
                     tatilPuanlari: 0,
                     membershipLevel: 'Bronz',
                     gameScore: 0,
                     palmCoinHistory: [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }]
-                }, { merge: true }); // merge ekleyerek mevcut doküman varsa üzerine yazmasını sağla
+                }, { merge: true });
 
                 registerMessage.textContent = 'Kayıt başarılı! Hoş geldiniz. Şimdi giriş yapabilirsiniz.';
                 registerMessage.style.color = 'green';

@@ -7,13 +7,14 @@
 
     <script type="module">
         // Firebase modülleri importları (HTML içinde)
+        // Bu importlar, window objesine atanacak Firebase servislerini sağlamak içindir.
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
         import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
         import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
         import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
-        // Web uygulamanızın Firebase konfigürasyonu
+        // Web uygulamanızın Firebase konfigürasyonu (Kendi anahtarlarınızla değiştirin)
         const firebaseConfig = {
             apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
             authDomain: "tatilkaptanifinal.firebaseapp.com",
@@ -24,24 +25,29 @@
             measurementId: "G-0BQJQ25XX1"
         };
 
-        // Firebase uygulamasını başlat ve servisleri global window objesine ata
+        // Firebase uygulamasını başlat ve servis referanslarını al
         const app = initializeApp(firebaseConfig);
-        window.auth = getAuth(app);
-        window.firestore = getFirestore(app);
-        window.functions = getFunctions(app); 
-        window.storage = getStorage(app);    
+        const auth = getAuth(app);
+        const firestore = getFirestore(app);
+        const functions = getFunctions(app); 
+        const storage = getStorage(app);    
+
+        // Firebase servis objelerini global window objesine ata
+        // Bu, index.js dosyasının bu objelere doğrudan erişmesini sağlar.
+        window.auth = auth;
+        window.firestore = firestore;
+        window.functions = functions;
+        window.storage = storage;
 
         // Cloud Functions bölgenizi ayarlayın. Bu, fonksiyonlarınızın dağıtıldığı bölge olmalıdır.
-        // Emulator kullanıyorsanız aşağıdaki satırı aktif edin. Canlı dağıtımda yorum satırı kalsın.
-        // window.functions.useEmulator('http://localhost:5001');
-        // Fonksiyonlarınızın dağıtıldığı gerçek bölgeyi buraya yazın (örneğin 'europe-west1', 'us-central1' vb.)
-       window.functions.region = 'us-central1'; // Fonksiyonlarınızın gerçek dağıtım bölgesi
+        // Konsol çıktınıza göre 'us-central1' doğru bölgedir.
+        window.functions.region = 'us-central1'; 
         
-        // serverTimestamp fonksiyonunu da global yap (Firestore'da doğrudan kullanılabilir)
+        // Firestore'daki FieldValue.serverTimestamp() fonksiyonuna kolay erişim için
         window.serverTimestamp = serverTimestamp;
 
-        // index.js dosyasında kullanılan global yardımcı fonksiyonları burada tanımlıyoruz.
-        // Bu sayede index.js yüklendikten sonra bu fonksiyonlara erişilebilir olacak.
+        // index.js dosyasında da kullanılan global yardımcı UI fonksiyonları
+        // Bu fonksiyonlar, index.js yüklenmeden önce bile çağrılabilir olmalıdır.
 
         /**
          * Sohbet kutusuna mesaj ekler.
@@ -348,7 +354,7 @@
             </div>
         </div>
 
-        <div id="user-info-section" class="content-section">
+            <div id="user-info-section" class="content-section">
             <h2><i class="fas fa-user-circle"></i> Üyelik Bilgileri</h2>
             <div class="feature-section">
                 <h3>Kullanıcı Profili</h3>
@@ -458,6 +464,15 @@
                     <button id="create-companion-btn">Yoldaşımı Oluştur</button>
                 </div>
                 <div class="loading-indicator" id="companion-loading"><i class="fas fa-spinner fa-spin"></i> Yoldaşınız yükleniyor...</div>
+                
+                <div id="companion-chat-area" style="margin-top: 20px; display: none;">
+                    <h3>Yoldaşınızla Sohbet Edin</h3>
+                    <div id="companion-chat-box" class="chat-messages" style="max-height: 200px;"></div>
+                    <div class="input-group">
+                        <input type="text" id="companion-input" placeholder="Yoldaşınıza bir şey söyleyin..." />
+                        <button id="send-companion-message-btn" class="send-btn">Gönder</button>
+                    </div>
+                </div>
             </div>
         </div>
 
