@@ -122,21 +122,6 @@ main {
     margin-left: 220px; /* Sol menü için boşluk bırak */
 }
 
-/* .chat-container.visible { /* Aktif class showSec.left-sidebar {
-    z-index: 100;
-    display: block !important;
-}.chat-input {
-    flex-wrap: wrap;
-}
-
-.chat-input button {
-    margin: 5px;
-    flex: 1 1 auto;
-}tion ile yönetiliyor */
-/* opacity: 1; */
-/* transform: translateY(0); */
-/* } */
-
 .chat-messages {
     flex-grow: 1;
     overflow-y: auto; /* Sohbet kutusu içinde kaydırma çubuğu */
@@ -147,22 +132,22 @@ main {
     background-color: rgba(250, 250, 250, 0.7); /* Mesaj alanı arka planı şeffaflığı */
 }
 
-.message {
+.chat-message { /* 'message' yerine 'chat-message' kullanıldı */
     margin-bottom: 10px;
     line-height: 1.5;
 }
 
-.message.user {
+.chat-message.user { /* 'message' yerine 'chat-message' kullanıldı */
     text-align: right;
     color: #0056b3;
 }
 
-.message.ai {
+.chat-message.ai { /* 'message' yerine 'chat-message' kullanıldı */
     text-align: left;
     color: #333;
 }
 
-.message span {
+.chat-message p { /* Mesaj balonu için P etiketi içindeki stil */
     background-color: rgba(224, 242, 247, 0.7); /* Mesaj balonu şeffaflığı */
     padding: 8px 12px;
     border-radius: 15px;
@@ -171,8 +156,8 @@ main {
     word-wrap: break-word;
 }
 
-.message.user span {
-    background-color: rgba(209, 231, 253, 0.7); /* Kullanıcı mesaj balonu şeffaflığı */
+.chat-message.user p { /* Kullanıcı mesaj balonu şeffaflığı */
+    background-color: rgba(209, 231, 253, 0.7); 
 }
 
 .chat-input {
@@ -238,6 +223,7 @@ footer {
     align-items: center;
     font-size: 0.9rem;
     color: #555;
+    cursor: pointer;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
 }
@@ -555,10 +541,9 @@ button.send-btn:active {
     transition: background-color 0.3s;
 }
 
-/* .send-btn hover/active aynı feature-section button'a da uygulandı */
 .feature-section button:hover {
     background-color: #004d40;
-    transform: translateY(-1px); /* Bu transform efekti send-btn için belirlenmişti, feature-section button'a da uygulandı */
+    transform: translateY(-1px);
 }
 .feature-section button:active {
     transform: translateY(0);
@@ -581,18 +566,18 @@ button.send-btn:active {
     cursor: pointer;
     margin-right: 10px;
     margin-bottom: 10px;
-    opacity: 0.8; /* Butonların şeffaflığı */
+    opacity: 0.8;
 }
 
 .feature-form .budget-options button.selected {
     background-color: #004d40;
-    border: 2px solid rgba(224, 242, 241, 0.5); /* Daha şeffaf kenarlık */
+    border: 2px solid rgba(224, 242, 241, 0.5);
     opacity: 1;
 }
 
 .plan-output {
-    background-color: rgba(240, 253, 252, 0.3); /* Daha şeffaf */
-    border: 1px dashed rgba(0, 77, 64, 0.5); /* Daha şeffaf kenarlık */
+    background-color: rgba(240, 253, 252, 0.3);
+    border: 1px dashed rgba(0, 77, 64, 0.5);
     padding: 20px;
     border-radius: 10px;
     margin-top: 20px;
@@ -635,11 +620,11 @@ button.send-btn:active {
 
 #payment-section .card-input-group input:nth-child(1) {
     flex-basis: 100%;
-} /* Kart Numarası */
+}
 #payment-section .card-input-group input:nth-child(2),
 #payment-section .card-input-group input:nth-child(3) {
     flex-basis: calc(50% - 5px);
-} /* Son Kullanma Tarihi, CVV */
+}
 
 /* Sağ Reklam/Yönetici Alanı */
 .right-sidebar {
@@ -649,7 +634,7 @@ button.send-btn:active {
     flex-direction: column;
     gap: 20px;
     z-index: 90;
-    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
+    background-color: rgba(255, 255, 255, 0.3);
     box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -659,8 +644,8 @@ button.send-btn:active {
 .ad-area-dynamic {
     width: 90%;
     height: 180px;
-    background-color: rgba(240, 253, 252, 0.2); /* Çok daha şeffaf */
-    border: 1px solid rgba(178, 223, 219, 0.3); /* Çok daha şeffaf kenarlık */
+    background-color: rgba(240, 253, 252, 0.2);
+    border: 1px solid rgba(178, 223, 219, 0.3);
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -694,8 +679,8 @@ button.send-btn:active {
 .admin-ad-message {
     width: 90%;
     padding: 15px;
-    background-color: rgba(224, 242, 241, 0.3); /* Çok daha şeffaf */
-    border: 1px dashed rgba(0, 121, 107, 0.3); /* Çok daha şeffaf kenarlık */
+    background-color: rgba(224, 242, 241, 0.3);
+    border: 1px dashed rgba(0, 121, 107, 0.3);
     border-radius: 8px;
     text-align: center;
     font-size: 1.0em;
@@ -803,226 +788,4 @@ button.send-btn:active {
     .feature-form input[type="file"] {
         width: calc(100% - 20px);
     }
-}
-
-/* KORSAN AİLESİ SAHNESİ CSS KODLARI EKLENDİ BURAYA */
-.korsan-sahne-container {
-    /* Bu container, korsan sahnesini TatilKaptani.com'un feature-section'ına sığdırmak için */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 500px; /* Sahnenin kendi yüksekliği */
-    overflow: hidden; /* Dışarı taşmayı engelle */
-    background: linear-gradient(to bottom, #87ceeb 0%, #f0e68c 100%); /* Korsan sahnesinin kendi arkaplanı */
-    border-radius: 10px; /* Feature section ile uyumlu */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-    position: relative; /* İçindeki scene için konumlandırma */
-}
-
-.korsan-sahne-container .scene { /* Korsan sahnesinin ana div'ini kapsayan container'a göre konumlandır */
-    position: relative; /* Absolute'dan relative'e çevrildi */
-    width: 900px;
-    height: 500px;
-    background: #ffe4b5; /* Açık kum rengi */
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    overflow: hidden; /* İçerik taşmasını gizle */
-    margin-bottom: -50px; /* Sahneyi biraz yukarı çekmek için */
-}
-
-/* Sezlong */
-.korsan-sahne-container .sezlong { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    bottom: 60px; /* Alttan boşluk */
-    left: 350px; /* Soldan konum */
-    width: 200px;
-    height: 90px;
-    background: #8b4513; /* Kahverengi */
-    border-radius: 15px / 50%; /* Oval köşeler */
-    box-shadow: inset 0 5px 10px #cdaa7d; /* İç gölge */
-}
-.korsan-sahne-container .sezlong::before { /* Sınıfı belirterek çakışmayı önle */
-    content: "";
-    position: absolute;
-    top: -40px;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background: #deb887; /* Açık kahverengi */
-    border-radius: 15px 15px 0 0;
-    box-shadow: inset 0 3px 6px #c0a16b;
-}
-/* Valizlar */
-.korsan-sahne-container .valiz { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    width: 50px;
-    height: 40px;
-    background: #333;
-    border-radius: 5px;
-    box-shadow: inset 0 3px 5px #666;
-}
-.korsan-sahne-container .valiz1 { bottom: 80px; left: 310px; background: #6a4f4b;}
-.korsan-sahne-container .valiz2 { bottom: 60px; left: 270px; background: #997950;}
-.korsan-sahne-container .valiz3 { bottom: 70px; left: 560px; background: #4a403a;}
-/* Korsan şapkası (genel stil) */
-.korsan-sahne-container .hat { /* Sınıfı belirterek çakışmayı önle */
-    position: relative;
-    width: 60px;
-    height: 30px;
-    background: black;
-    border-radius: 40% 40% 50% 50% / 100% 100% 0 0;
-    border: 3px solid white;
-    box-shadow: 0 0 5px rgba(255,255,255,0.7);
-}
-.korsan-sahne-container .hat::before, .korsan-sahne-container .hat::after { /* Sınıfı belirterek çakışmayı önle */
-    content: "";
-    position: absolute;
-    top: 7px;
-    width: 12px;
-    height: 15px;
-    background: white;
-    border-radius: 50% 50% 50% 50%;
-}
-.korsan-sahne-container .hat::before {
-    left: 15px;
-    transform: rotate(25deg);
-}
-.korsan-sahne-container .hat::after {
-    right: 15px;
-    transform: rotate(-25deg);
-}
-/* Kafatası */
-.korsan-sahne-container .skull { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    top: 5px;
-    left: 20px;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50% 50% 45% 45%;
-    box-shadow: inset 0 0 5px #ccc;
-}
-.korsan-sahne-container .skull::before, .korsan-sahne-container .skull::after { /* Sınıfı belirterek çakışmayı önle */
-    content: "";
-    position: absolute;
-    top: 7px;
-    width: 6px;
-    height: 6px;
-    background: black;
-    border-radius: 50%;
-}
-.korsan-sahne-container .skull::before {
-    left: 3px;
-}
-.korsan-sahne-container .skull::after {
-    right: 3px;
-}
-/* Kemikler */
-.korsan-sahne-container .bones { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    bottom: -5px;
-    left: 3px;
-    width: 14px;
-    height: 4px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 18px 6px white;
-    transform: rotate(45deg);
-}
-.korsan-sahne-container .bones::after { /* Sınıfı belirterek çakışmayı önle */
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: 0;
-    width: 14px;
-    height: 4px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 18px 6px white;
-    transform: rotate(-90deg);
-}
-/* Kişiler */
-.korsan-sahne-container .person { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    bottom: 150px;
-    width: 120px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.korsan-sahne-container .captain { /* Sınıfı belirterek çakışmayı önle */
-    left: 220px;
-}
-.korsan-sahne-container .spouse { /* Sınıfı belirterek çakışmayı önle */
-    left: 520px;
-}
-.korsan-sahne-container .child { /* Sınıfı belirterek çakışmayı önle */
-    left: 380px;
-    bottom: 140px;
-    width: 90px;
-    height: 160px;
-}
-/* Kafa */
-.korsan-sahne-container .head { /* Sınıfı belirterek çakışmayı önle */
-    width: 80px;
-    height: 80px;
-    background: #fcd7b3;
-    border-radius: 50%;
-    position: relative;
-}
-/* Şapka yerleştirme */
-.korsan-sahne-container .head .hat { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    top: -25px;
-}
-/* Vücut */
-.korsan-sahne-container .body { /* Sınıfı belirterek çakışmayı önle */
-    margin-top: 10px;
-    width: 70px;
-    height: 120px;
-    background: #222;
-    border-radius: 20px;
-    position: relative;
-    box-shadow: inset 0 5px 15px #444;
-}
-/* Eşya - valiz */
-.korsan-sahne-container .person .valiz { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    bottom: 0;
-    width: 50px;
-    height: 40px;
-    background: #654321;
-    border-radius: 5px;
-    box-shadow: inset 0 3px 6px #432f12;
-}
-.korsan-sahne-container .captain .valiz { left: -60px; bottom: 0;}
-.korsan-sahne-container .spouse .valiz { left: 70px; bottom: 0;}
-.korsan-sahne-container .child .valiz { left: 50px; bottom: 0; width: 35px; height: 30px; background: #8b4513;}
-/* Oyuncak kılıç */
-.korsan-sahne-container .toy-sword { /* Sınıfı belirterek çakışmayı önle */
-    position: absolute;
-    bottom: 40px;
-    left: 10px;
-    width: 10px;
-    height: 60px;
-    background: silver;
-    border-radius: 3px;
-    box-shadow: inset 0 0 5px #ccc;
-    transform: rotate(-15deg);
-}
-.korsan-sahne-container .toy-sword::before { /* Sınıfı belirterek çakışmayı önle */
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -4px;
-    width: 18px;
-    height: 8px;
-    background: brown;
-    border-radius: 3px 3px 0 0;
-}
-/* Korsan sahnesindeki body elementini override etmemesi için düzeltme */
-.korsan-sahne-container .scene-body-bg { /* Yeni sınıf, korsan sahnesinin body arkaplanını korumak için */
-    background: linear-gradient(to bottom, #87ceeb 0%, #f0e68c 100%);
 }
