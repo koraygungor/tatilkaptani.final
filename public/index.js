@@ -1,35 +1,18 @@
-// Firebase v9+ (Modüler SDK) kullanımı – v10 uyumlu
-// Eğer app objeniz global olarak HTML'de tanımlanıyorsa, getAuth, getFirestore gibi fonksiyonları kullanarak
-// auth, firestore, functions, storage objelerini JS'te de tanımlamanız gerekir.
+// index.js
 
-
-
-const publicCollection = collection(firestore, 'public');
-const dataDoc = doc(publicCollection, 'data');
-const adminCollection = collection(dataDoc, 'admin');
-const messageDocRef = doc(adminCollection, 'message');
-
-// Eğer Firebase app'inizi HTML'de initialize edip 'app' değişkenini global yapıyorsanız,
-// bu Firebase servislerini de JS içinde bu 'app' objesinden almanız gerekir:
-// Bu satırların, DOMContentLoaded dışındaki global değişken tanımlamalarının hemen altında olması iyi olur.
-
-// const auth = getAuth(app); // Eğer 'app' objesi HTML'den geliyorsa bu şekilde tanımlayın
-// const firestore = getFirestore(app);
-// const functions = getFunctions(app);
-// const storage = getStorage(app);
-
-// Not: Eğer 'auth', 'firestore', 'functions', 'storage' değişkenleri zaten HTML'de global olarak tanımlanmışsa,
-// yukarıdaki 'const auth = getAuth(app);' gibi satırları eklemeye gerek olmayabilir.
-// Ancak import satırları (onAuthStateChanged, FieldValue, vb. için) KESİNLİKLE gereklidir.
-// Örneğin, "firestore.FieldValue.serverTimestamp()" kullanıyorsunuz, FieldValue'yu import etmelisiniz.
-// Aksi halde "FieldValue is not defined" hatası alırsınız.
+// --- Firebase v9 Modüler SDK import'ları ---
+// Bu satırlar dosyanın en üstünde, diğer tüm JavaScript kodlarından önce yer almalıdır.
+// HTML dosyanızda 'type="module"' olarak yüklenen Firebase SDK'larına ve
+// window objesine atanan global servis objelerine (`auth`, `firestore`, `functions`, `storage`) dayanır.
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { collection, doc, setDoc, FieldValue, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { httpsCallable } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
 // Sabitler
 const IMAGE_DOWNLOAD_COST_PER_IMAGE = 50;
 const VIRTUAL_TOUR_COST_PER_MINUTE = 10;
 const VIP_PLAN_CHAT_COST = 10;
-// HTML'den global olarak tanımlandığı varsayıldığı için 'firebase.firestore()' yerine direkt 'firestore' kullanılır
-// const firestore = firebase.firestore(); 
 
 const virtualOutputStory = document.getElementById("virtual-output-story");
 
@@ -106,7 +89,7 @@ const submitGameAnswerBtn = document.getElementById("submit-game-answer-btn");
 
 // Sanal Tatil Planı
 const virtualCityInput = document.getElementById("virtual-city");
-const virtualDaysInput = document.getElementById("virtual-days"); // Düzeltildi: document = document.getElementById kaldırıldı
+const virtualDaysInput = document.getElementById("virtual-days");
 const virtualDurationMinutesInput = document.getElementById("virtual-duration-minutes");
 const virtualActivitiesInput = document.getElementById("virtual-activities");
 const virtualImagePromptInput = document.getElementById("virtual-image-prompt");
@@ -178,7 +161,6 @@ const adminDisplayMessageEl = document.getElementById("admin-display-message");
 // Zamanda Yolculuk
 const timeTravelAccessCheck = document.getElementById("time-travel-access-check");
 const goToTimeTravelPaymentBtn = document.getElementById("go-to-time-travel-payment-btn");
-// HTML'de bu ID ile bir element olduğundan emin olun: <div id="time-travel-form-area">...</div>
 const timeTravelFormArea = document.getElementById("time-travel-form-area");
 const timeTravelEraInput = document.getElementById("time-travel-era");
 const timeTravelDurationInput = document.getElementById("time-travel-duration");
@@ -206,7 +188,7 @@ const companionLoading = document.getElementById("companion-loading");
 
 // Ödeme
 const cardNumberInput = document.getElementById("card-number");
-const expiryDateInput = document.getElementById("expiry-date"); // Corrected
+const expiryDateInput = document.getElementById("expiry-date");
 const cvvInput = document.getElementById("cvv");
 const cardHolderNameInput = document.getElementById("card-holder-name");
 const completePaymentBtn = document.getElementById("complete-payment-btn");
@@ -216,8 +198,12 @@ const contactSubjectInput = document.getElementById('contact-subject');
 const contactEmailInput = document.getElementById('contact-email');
 const contactMessageInput = document.getElementById('contact-message');
 const contactFileInput = document.getElementById('contact-file');
-const sendContactFormBtn = document.getElementById('send-contact-form-btn'); // Düzeltildi: Yazım hatası giderildi
+const sendContactFormBtn = document.getElementById('send-contact-form-btn');
 const contactLoading = document.getElementById('contact-loading');
+
+// Sidebar ve Content Section'lar (querySelectorAll ile alınır)
+const sidebarButtons = document.querySelectorAll(".sidebar-nav button");
+const contentSections = document.querySelectorAll(".content-section");
 
 
 // --- Genel UI ve Yardımcı Fonksiyonlar (DOMContentLoaded dışında tanımlanmalı) ---
@@ -339,11 +325,72 @@ window.updatePalmCoinHistoryDisplay = function() {
  */
 window.showSection = function(sectionId) {
     contentSections.forEach(section => {
-        section.classList.remove("active");
-        if (section.id === sectionId) {
-            section.classList.add("active");
-        }
+        section.style.display = "none"; // Tüm bölümleri gizle
+        section.classList.remove("active"); // Tüm aktif sınıfları kaldır
     });
+
+    const activeSection = document.getElementById(sectionId);
+    if (activeSection) {
+        activeSection.style.display = "flex"; // Gösterilecek bölümü flex olarak ayarla
+        activeSection.classList.add("active"); // Aktif sınıfını ekle
+    }
+
+    sidebarButtons.forEach(button => button.classList.remove("active")); // Tüm sidebar butonlarından aktif sınıfını kaldır
+    const activeButton = document.querySelector(`.sidebar-nav button[data-section='${sectionId}']`);
+    if (activeButton) {
+        activeButton.classList.add("active"); // Sadece ilgili butona aktif sınıfını ekle
+    }
+
+    // Bölüme özel ek ayarlar
+    if (sectionId === "vip-planner-section") {
+        if (document.getElementById("vip-access-check") && document.getElementById("vip-planner-form-area")) {
+            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("vip-planner-form-area"), "Altın");
+        }
+        if (document.getElementById("vip-access-check") && document.getElementById("niche-vip-request-area")) {
+            window.checkVipAccess(document.getElementById("vip-access-check"), document.getElementById("niche-vip-request-area"), "Altın");
+        }
+        if (vipPlanChatArea) vipPlanChatArea.style.display = 'none';
+        if (vipPlanOutput) vipPlanOutput.style.display = 'none';
+        currentVipPlan = "";
+    } else if (sectionId === "time-travel-section") {
+        if (document.getElementById("time-travel-access-check") && timeTravelFormArea) {
+            window.checkVipAccess(document.getElementById("time-travel-access-check"), timeTravelFormArea, "Altın");
+        }
+    } else if (sectionId === "ai-photo-studio-section") {
+        if (document.getElementById("ai-photo-access-check") && document.getElementById("ai-photo-form-area")) {
+            window.checkVipAccess(document.getElementById("ai-photo-access-check"), document.getElementById("ai-photo-form-area"), "Altın");
+        }
+        if (generatedImagesContainer) generatedImagesContainer.innerHTML = '';
+        if (downloadAllImagesBtn) downloadAllImagesBtn.style.display = 'none';
+        if (aiPhotoOutput) aiPhotoOutput.style.display = 'none';
+        currentGeneratedImages = [];
+    } else if (sectionId === "user-info-section") {
+        window.displayMembershipInfo();
+        window.loadAdminMessage();
+        window.updatePalmCoinHistoryDisplay();
+    } else if (sectionId === "payment-section") {
+        if (cardNumberInput) cardNumberInput.value = '';
+        if (expiryDateInput) expiryDateInput.value = '';
+        if (cvvInput) cvvInput.value = '';
+        if (cardHolderNameInput) cardHolderNameInput.value = '';
+    } else if (sectionId === "virtual-holiday-section") {
+        if (virtualDurationMinutesInput && virtualTourCostEl) {
+            virtualTourCostEl.textContent = (parseInt(virtualDurationMinutesInput.value) * VIRTUAL_TOUR_COST_PER_MINUTE);
+        }
+        if (virtualHolidayOutput) virtualHolidayOutput.style.display = "none";
+        if (virtualImagesContainer) virtualImagesContainer.innerHTML = '';
+        if (sendVirtualImageEmailBtn) sendVirtualImageEmailBtn.style.display = 'none';
+        generatedVirtualImageUrl = '';
+    } else if (sectionId === "destiny-route-section") {
+        if (destinyRouteOutput) destinyRouteOutput.style.display = "none";
+        if (realizeDestinyBtn) realizeDestinyBtn.style.display = "none";
+    }
+    if (sectionId === "contact-us-section") {
+        if (contactSubjectInput) contactSubjectInput.value = '';
+        if (contactEmailInput) contactEmailInput.value = userEmail !== "Ayarlanmadı" ? userEmail : '';
+        if (contactMessageInput) contactMessageInput.value = '';
+        if (contactFileInput) contactFileInput.value = '';
+    }
 };
 
 /**
@@ -382,7 +429,7 @@ window.callOpenRouterAI = async function(prompt, model = "openai/gpt-3.5-turbo",
         if (typeof functions === 'undefined' || !functions.httpsCallable) {
             throw new Error("Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
         }
-        const callAI = functions.httpsCallable('callOpenRouterAI'); // Doğrudan 'functions' kullanıldı
+        const callAI = functions.httpsCallable('callOpenRouterAI');
         const result = await callAI({ prompt: prompt, model: model, chatHistory: currentChatHistory });
         return result.data.reply;
     } catch (error) {
@@ -414,7 +461,7 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
         if (typeof functions === 'undefined' || !functions.httpsCallable) {
             throw new Error("Firebase Functions SDK yüklenmemiş veya başlatılmamış.");
         }
-        const callImageAI = functions.httpsCallable('callImageGenerationAI'); // Doğrudan 'functions' kullanıldı
+        const callImageAI = functions.httpsCallable('callImageGenerationAI');
         const result = await callImageAI({ promptText: promptText });
         return result.data.imageUrl;
     } catch (error) {
@@ -435,7 +482,7 @@ window.callImageGenerationAI = async function(promptText, loadingIndicator = nul
 
 /**
  * Mevcut kullanıcının Firestore profil referansını döndürür.
- * @returns {firebase.firestore.DocumentReference|null} Kullanıcı profil belgesine referans veya null.
+ * @returns {import("firebase/firestore").DocumentReference|null} Kullanıcı profil belgesine referans veya null.
  */
 window.getUserProfileRef = function() {
     // firestore değişkeni HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
@@ -443,7 +490,8 @@ window.getUserProfileRef = function() {
         console.warn("Firestore veya Kullanıcı ID'si hazır değil. Profil referansı alınamıyor.");
         return null;
     }
-    return firestore.collection('users').doc(currentUserId);
+    // Modüler doc() kullanımı
+    return doc(firestore, 'users', currentUserId);
 };
 
 /**
@@ -459,7 +507,7 @@ window.loadUserProfile = async function() {
         return;
     }
 
-    profileRef.onSnapshot((docSnap) => {
+    onSnapshot(profileRef, (docSnap) => { // onSnapshot import edildiği için doğrudan kullanıldı
         if (docSnap.exists) {
             const data = docSnap.data();
             // auth.currentUser henüz tanımlı olmayabilir veya anonim kullanıcı için displayName/email boş olabilir.
@@ -473,9 +521,6 @@ window.loadUserProfile = async function() {
             console.log("Kullanıcı profili Firestore'dan yüklendi:", data);
         } else {
             console.log("Kullanıcı profili bulunamadı, varsayılan oluşturuluyor.");
-            // Anonim kullanıcılar için bu kısım initializeApp içinde yönetildi.
-            // Ancak, normal kayıtlı kullanıcılar için de burada bir varsayılan oluşturulabilir.
-            // auth.currentUser'ın bu noktada tanımlı olduğundan emin olun.
             if (auth.currentUser) {
                 window.updateUserProfile({
                     username: auth.currentUser.displayName || auth.currentUser.email,
@@ -515,7 +560,7 @@ window.updateUserProfile = async function(dataToUpdate) {
         return;
     }
     try {
-        await profileRef.set(dataToUpdate, { merge: true });
+        await setDoc(profileRef, dataToUpdate, { merge: true }); // setDoc import edildiği için doğrudan kullanıldı
         console.log("Kullanıcı profili güncellendi:", dataToUpdate);
     } catch (error) {
         console.error("Kullanıcı profili güncellenirken hata:", error);
@@ -529,36 +574,29 @@ window.updateUserProfile = async function(dataToUpdate) {
 
 /**
  * Reklam koleksiyonuna referans döndürür.
- * @returns {firebase.firestore.CollectionReference|null} Reklam koleksiyonuna referans veya null.
+ * @returns {import("firebase/firestore").CollectionReference|null} Reklam koleksiyonuna referans veya null.
  */
 window.getAdsCollectionRef = function() {
     if (typeof firestore === 'undefined') {
         console.error("Firestore hazır değil.");
         return null;
     }
-    return firestore.collection('public').doc('data').collection('ads');
+    // Modüler collection ve doc kullanımı
+    return collection(doc(collection(firestore, 'public'), 'data'), 'ads');
 };
 
 /**
  * Yönetici mesajı belgesine referans döndürür.
- * @returns {DocumentReference|null} Yönetici mesajı belgesine referans veya null.
+ * @returns {import("firebase/firestore").DocumentReference|null} Yönetici mesajı belgesine referans veya null.
  */
 window.getAdminMessageRef = function() {
     if (typeof firestore === 'undefined') {
         console.error("Firestore hazır değil.");
         return null;
     }
-
-  return doc(
-  collection(
-    doc(
-      collection(firestore, 'public'),
-      'data'
-    ),
-    'admin'
-  ),
-  'message'
-);
+    // Modüler collection ve doc kullanımı
+    return doc(collection(doc(collection(firestore, 'public'), 'data'), 'admin'), 'message');
+};
 
 /**
  * Dinamik reklamları Firestore'dan yükler.
@@ -569,9 +607,10 @@ window.loadAds = async function() {
         console.log("Reklam koleksiyonu referansı mevcut değil.");
         return;
     }
-    /*
+    /* Reklam yükleme kısmı şu an yorum satırı yapılmış durumda.
+       Eğer aktif ederseniz, 'getDocs' fonksiyonunu da Firestore importlarına eklemeniz gerekir.
     try {
-        const snapshot = await adsCollectionRef.get();
+        const snapshot = await getDocs(adsCollectionRef);
         const ads = snapshot.docs.map(doc => doc.data());
         const dynamicAdsContainer = document.getElementById('dynamic-ads-container');
         if (dynamicAdsContainer) {
@@ -604,7 +643,7 @@ window.loadAdminMessage = async function() {
         return;
     }
 
-    adminMessageRef.onSnapshot((docSnap) => {
+    onSnapshot(adminMessageRef, (docSnap) => { // onSnapshot import edildiği için doğrudan kullanıldı
         if (adminDisplayMessageEl) {
             const adminDisplayMessageP = adminDisplayMessageEl.querySelector('p');
             if (adminDisplayMessageP) {
@@ -670,64 +709,12 @@ window.initializeAppFeatures = function() {
 document.addEventListener('DOMContentLoaded', async () => {
     // Firebase.initializeApp() artık HTML içinde yapıldığı için bu satıra gerek kalmadı.
 
-    const sidebarButtons = document.querySelectorAll(".sidebar-nav button");
-    const contentSections = document.querySelectorAll(".content-section");
-
-    const sendCompanionMessageBtn = document.getElementById("send-companion-message-btn");
-    const companionInput = document.getElementById("companion-input");
-    const companionChatBox = document.getElementById("companion-chat-box");
-    const companionChatArea = document.getElementById("companion-chat-area");
-    const activeCompanionName = document.getElementById("active-companion-name");
-        // Chat Gönderme - TUŞ ÇALIŞTIRICI
-    const userInput = document.getElementById('user-input-chat');
-    const sendButton = document.getElementById('send-button-chat');
-// chatBox is already declared above, so we'll remove this redundant declaration
-    const loadingIndicator = document.getElementById('chat-loading');
-
-    function appendMessage(text, sender = "user") {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = `chat-message ${sender}`;
-        msgDiv.innerHTML = `<p>${text}</p>`;
-        chatBox.appendChild(msgDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    async function sendMessage() {
-        const message = userInput.value.trim();
-        if (!message) return;
-
-        appendMessage(message, "user");
-        userInput.value = "";
-        loadingIndicator.style.display = "block";
-
-        try {
-            // Buraya API çağrısı yazabilirsin. Şimdilik sahte cevap veriyoruz.
-            await new Promise(resolve => setTimeout(resolve, 800));
-            appendMessage("Palmiye Kaptan: Sorunuz kaydedildi, birazdan cevap gelecek...", "admin");
-        } catch (e) {
-            appendMessage("Hata oluştu: " + e.message, "admin");
-        } finally {
-            loadingIndicator.style.display = "none";
-        }
-    }
-
-    sendButton.addEventListener('click', sendMessage);
-    userInput.addEventListener('keydown', (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-
     // Firebase Auth durum değişikliklerini dinle
     // auth objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
-    // firebase.auth().onAuthStateChanged yerine direkt onAuthStateChanged(auth, ...) kullanılır.
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, async (user) => { // onAuthStateChanged import edildiği için doğrudan kullanıldı
         if (user) {
             // Kullanıcı giriş yapmış
             currentUserId = user.uid;
-            // userName ve userEmail Firestore'dan yüklenecek, başlangıçta boş olabilir.
-            // Bu yüzden usernameDisplay.textContent'u doğrudan user.displayName ile doldurmak daha iyi.
             userName = user.displayName || "Misafir"; // Varsayılan değer
             userEmail = user.email || "Ayarlanmadı"; // Varsayılan değer
 
@@ -767,7 +754,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-
     sidebarButtons.forEach(button => {
         button.addEventListener("click", () => {
             const sectionId = button.dataset.section;
@@ -777,30 +763,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.initializeAppFeatures();
 
-    const sendChatBtn = document.getElementById('send-button-chat');
-    const chatInput = document.getElementById('user-input-chat');
-    const chatBox = document.getElementById('chat-box');
-    const languageSelect = document.getElementById('language-select');
+    // Sohbet Gönderme Fonksiyonu
+    async function handleSendMessage() {
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
 
-    if (!chatBox) {
-        console.error("Sohbet kutusu elementi bulunamadı.");
-        return;
-    }
+        window.displayMessage("user", userMessage, chatBox);
+        chatInput.value = "";
 
-    if (sendChatBtn) {
-        sendChatBtn.onclick = async () => {
-            const userMessage = chatInput.value.trim();
-            if (!userMessage) return;
+        chatHistory.push({ role: "user", content: userMessage });
 
-            window.displayMessage("user", userMessage, chatBox);
-            chatInput.value = "";
+        const selectedLanguage = languageSelect ? languageSelect.value : 'tr';
+        const languagePrompt = selectedLanguage === 'tr' ? '(Türkçe)' : '(English)';
 
-            chatHistory.push({ role: "user", content: userMessage });
-
-            const selectedLanguage = languageSelect ? languageSelect.value : 'tr';
-            const languagePrompt = selectedLanguage === 'tr' ? '(Türkçe)' : '(English)';
-
-            const promptForAI = `You are a helpful travel assistant called "Palmiye Kaptan". User's message: "${userMessage}".
+        const promptForAI = `You are a helpful travel assistant called "Palmiye Kaptan". User's message: "${userMessage}".
 Detect the language of the message ${languagePrompt} and respond in that language.
 Provide creative, informative, and personalized assistance on topics like travel, destinations, accommodation, activities, budget planning, virtual tours, historical sites, and cultural experiences.
 Avoid repetitive or generic answers. Understand the context by considering previous messages in the chat history.
@@ -809,79 +785,91 @@ add a hidden tag at the end of your response in the format "[YÖNLENDİR: [secti
 Example: "Elbette, size özel bir tatil planı oluşturabilirim! [YÖNLENDİR: vip-planner-section]".
 Section names: game-section, virtual-holiday-section, ai-photo-studio-section, vip-planner-section, user-info-section, time-travel-section, destiny-route-section, ai-companion-section, payment-section, contact-us-section.`;
 
-            async function sendAIRequest() {
-                const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10));
+        try {
+            const chatHistoryForAI = chatHistory.slice(Math.max(0, chatHistory.length - 10));
 
-                const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
-                const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
-                let cleanReply = reply.replace(/\[YÖNLENDİR:\s*([^\]]+)\]/, '').trim();
+            const reply = await window.callOpenRouterAI(promptForAI, "openai/gpt-3.5-turbo", chatLoading, chatHistoryForAI);
+            const redirectMatch = reply.match(/\[YÖNLENDİR:\s*([^\]]+)\]/);
+            let cleanReply = reply.replace(/\[YÖNLENDİR:\s*([^\]]+)\]/, '').trim();
 
-                window.displayMessage("ai", cleanReply, chatBox);
-                chatHistory.push({ role: "assistant", content: cleanReply });
-                window.speak(cleanReply);
-                window.updateTatilPuan(5, "Sohbet");
+            window.displayMessage("ai", cleanReply, chatBox);
+            chatHistory.push({ role: "assistant", content: cleanReply });
+            window.speak(cleanReply);
+            window.updateTatilPuan(5, "Sohbet");
 
-                if (currentUserId) {
-                    try {
-                        // firestore.FieldValue.serverTimestamp() doğrudan kullanılabilir.
-                        await firestore.collection('users').doc(currentUserId).collection('chatHistory').add({
-                            userMessage: userMessage,
-                            aiReply: cleanReply,
-                            timestamp: firestore.FieldValue.serverTimestamp()
-                        });
-                    } catch (e) {
-                        console.error("Sohbet geçmişi Firestore'a kaydedilirken hata:", e);
-                    }
-                }
-
-                if (redirectMatch && redirectMatch[1]) {
-                    const targetSectionId = redirectMatch[1].trim();
-                    const sectionNameMap = {
-                        "game-section": "Tatil Avı (Oyun)",
-                        "virtual-holiday-section": "Sanal Tatil Planı",
-                        "ai-photo-studio-section": "AI Fotoğraf Stüdyosu",
-                        "vip-planner-section": "VIP A'dan Z'ye Tur Planlayıcı",
-                        "user-info-section": "Üyelik Bilgileri",
-                        "time-travel-section": "Zamanda Yolculuk Tatili",
-                        "destiny-route-section": "Kader Rotası",
-                        "ai-companion-section": "AI Yoldaşım",
-                        "payment-section": "VIP Üyelik Al",
-                        "contact-us-section": "Bize Ulaşın"
-                    };
-                    const friendlySectionName = sectionNameMap[targetSectionId] || targetSectionId;
-
-                    window.showModal(
-                        "Yönlendirme Önerisi",
-                        `Palmiye Kaptan, sanırım **${friendlySectionName}** bölümüyle ilgileniyorsunuz. Oraya gitmek ister misiniz?` +
-                        `<br><br><button id="confirmRedirectBtn" style="background-color:#00796b; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Evet, Git!</button>` +
-                        `<button id="cancelRedirectBtn" style="background-color:#ccc; color:#333; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; margin-left: 10px;">Hayır, Burada Kal</button>`
-                    );
-
-                    const confirmRedirectBtn = document.getElementById("confirmRedirectBtn");
-                    const cancelRedirectBtn = document.getElementById("cancelRedirectBtn");
-
-                    if (confirmRedirectBtn) {
-                        confirmRedirectBtn.onclick = () => {
-                            window.showSection(targetSectionId);
-                            hideModal(appModal);
-                        };
-                    }
-                    if (cancelRedirectBtn) {
-                        cancelRedirectBtn.onclick = () => {
-                            hideModal(appModal);
-                        };
-                    }
+            if (currentUserId) {
+                try {
+                    await addDoc(collection(firestore, 'users', currentUserId, 'chatHistory'), { // addDoc ve collection modüler kullanımı
+                        userMessage: userMessage,
+                        aiReply: cleanReply,
+                        timestamp: window.serverTimestamp() // HTML'den global olarak tanımlandı
+                    });
+                } catch (e) {
+                    console.error("Sohbet geçmişi Firestore'a kaydedilirken hata:", e);
                 }
             }
-            await sendAIRequest();
-        };
+
+            if (redirectMatch && redirectMatch[1]) {
+                const targetSectionId = redirectMatch[1].trim();
+                const sectionNameMap = {
+                    "game-section": "Tatil Avı (Oyun)",
+                    "virtual-holiday-section": "Sanal Tatil Planı",
+                    "ai-photo-studio-section": "AI Fotoğraf Stüdyosu",
+                    "vip-planner-section": "VIP A'dan Z'ye Tur Planlayıcı",
+                    "user-info-section": "Üyelik Bilgileri",
+                    "time-travel-section": "Zamanda Yolculuk Tatili",
+                    "destiny-route-section": "Kader Rotası",
+                    "ai-companion-section": "AI Yoldaşım",
+                    "payment-section": "VIP Üyelik Al",
+                    "contact-us-section": "Bize Ulaşın"
+                };
+                const friendlySectionName = sectionNameMap[targetSectionId] || targetSectionId;
+
+                window.showModal(
+                    "Yönlendirme Önerisi",
+                    `Palmiye Kaptan, sanırım **${friendlySectionName}** bölümüyle ilgileniyorsunuz. Oraya gitmek ister misiniz?` +
+                    `<br><br><button id="confirmRedirectBtn" style="background-color:#00796b; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Evet, Git!</button>` +
+                    `<button id="cancelRedirectBtn" style="background-color:#ccc; color:#333; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; margin-left: 10px;">Hayır, Burada Kal</button>`
+                );
+
+                const confirmRedirectBtn = document.getElementById("confirmRedirectBtn");
+                const cancelRedirectBtn = document.getElementById("cancelRedirectBtn");
+
+                if (confirmRedirectBtn) {
+                    confirmRedirectBtn.onclick = () => {
+                        window.showSection(targetSectionId);
+                        hideModal(appModal);
+                    };
+                }
+                if (cancelRedirectBtn) {
+                    cancelRedirectBtn.onclick = () => {
+                        hideModal(appModal);
+                    };
+                }
+            }
+        } catch (error) {
+            console.error("AI isteği gönderilirken hata:", error);
+            window.displayMessage("ai", `Üzgünüm, bir sorun oluştu: ${error.message}`, chatBox);
+        } finally {
+            chatLoading.style.display = "none";
+        }
+    }
+
+    // Chat Gönderme Event Listenerları
+    if (sendChatBtn) {
+        sendChatBtn.addEventListener('click', handleSendMessage);
     } else {
         console.error('send-button-chat elementi bulunamadı');
     }
 
-    chatInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") sendChatBtn.click();
-    });
+    if (chatInput) {
+        chatInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault(); // Varsayılan formu gönderme davranışını engelle
+                handleSendMessage();
+            }
+        });
+    }
 
     voiceToggleTop.onclick = () => {
         const newState = !voiceEnabled;
@@ -960,20 +948,20 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 await userCredential.user.updateProfile({ displayName: username });
 
-                await firestore.collection('users').doc(userCredential.user.uid).set({
+                await setDoc(doc(firestore, 'users', userCredential.user.uid), { // setDoc ve doc modüler kullanımı
                     username: username,
                     email: email,
-                    createdAt: firestore.FieldValue.serverTimestamp(), // Doğrudan firestore.FieldValue.serverTimestamp() kullanıldı
+                    createdAt: window.serverTimestamp(), // HTML'den global olarak tanımlandı
                     tatilPuanlari: 0,
                     membershipLevel: 'Bronz',
                     gameScore: 0,
                     palmCoinHistory: [{ timestamp: new Date().toISOString(), type: "Başlangıç", amount: 0, current: 0 }]
-                });
+                }, { merge: true }); // merge ekleyerek mevcut doküman varsa üzerine yazmasını sağla
 
                 registerMessage.textContent = 'Kayıt başarılı! Hoş geldiniz. Şimdi giriş yapabilirsiniz.';
                 registerMessage.style.color = 'green';
                 try {
-                    const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail'); // Doğrudan 'functions' kullanıldı
+                    const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail');
                     await sendWelcomeEmailCallable({ email: email, username: username });
                     console.log("Hoş geldin e-postası Cloud Function tarafından çağrıldı.");
                 } catch (e) {
@@ -1336,7 +1324,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
                 }
             }
             try {
-                const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail'); // Doğrudan 'functions' kullanıldı
+                const sendWelcomeEmailCallable = functions.httpsCallable('sendWelcomeEmail');
                 await sendWelcomeEmailCallable({ email: emailToSendTo, username: userName || "Değerli Kullanıcımız", imageUrl: generatedVirtualImageUrl, subject: "Sanal Tatil Hediye Resminiz!" });
                 window.showModal("E-posta Gönderiliyor", `Hediye resminiz ${emailToSendTo} adresine gönderildi.`);
                 window.speak("Hediye resminiz e-postanıza gönderildi.");
@@ -1836,19 +1824,18 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
             contactLoading.style.display = 'block';
 
             try {
-                // storage ve functions objeleri HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
                 if (typeof functions === 'undefined' || !functions.httpsCallable || typeof storage === 'undefined' || !storage.ref) {
                     throw new Error("Firebase SDK'ları (Functions veya Storage) yüklenmemiş veya başlatılmamış.");
                 }
-                const sendContactEmailCallable = functions.httpsCallable('sendContactEmail'); // Doğrudan 'functions' kullanıldı
+                const sendContactEmailCallable = functions.httpsCallable('sendContactEmail');
 
                 let fileDownloadUrl = null;
-if (file) {
-    const filePath = `contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`;
-    const fileRef = ref(storage, filePath); // Doğrudan ref(storage, path) şeklinde
-    const snapshot = await uploadBytes(fileRef, file); // put yerine uploadBytes
-    fileDownloadUrl = await getDownloadURL(fileRef); // snapshot.ref.getDownloadURL() yerine
-    console.log("Dosya yüklendi:", fileDownloadUrl)
+                if (file) {
+                    const filePath = `contact_uploads/${currentUserId || 'anonymous'}/${Date.now()}_${file.name}`;
+                    const fileRef = ref(storage, filePath);
+                    const snapshot = await uploadBytes(fileRef, file);
+                    fileDownloadUrl = await getDownloadURL(fileRef);
+                    console.log("Dosya yüklendi:", fileDownloadUrl);
                 }
 
                 await sendContactEmailCallable({
@@ -1877,4 +1864,4 @@ if (file) {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
-})}
+});

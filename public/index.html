@@ -6,13 +6,12 @@
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
 
     <script type="module">
-  // Firebase modülleri importları
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"; // Buraya onAuthStateChanged eklendi
-import { getFirestore, serverTimestamp, collection, doc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-
+        // Firebase modülleri importları (HTML içinde)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+        import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
+        import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
         // Web uygulamanızın Firebase konfigürasyonu
         const firebaseConfig = {
@@ -25,30 +24,24 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-s
             measurementId: "G-0BQJQ25XX1"
         };
 
-        // Firebase uygulamasını başlat
+        // Firebase uygulamasını başlat ve servisleri global window objesine ata
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const firestore = getFirestore(app);
-        const functions = getFunctions(app);
-        const storage = getStorage(app);
-
-// Global yapmak için
-window.auth = auth;
-window.firestore = firestore;
-window.functions = functions;
-window.storage = storage;
-
+        window.auth = getAuth(app);
+        window.firestore = getFirestore(app);
+        window.functions = getFunctions(app); 
+        window.storage = getStorage(app);    
 
         // Cloud Functions bölgenizi ayarlayın. Bu, fonksiyonlarınızın dağıtıldığı bölge olmalıdır.
         // Emulator kullanıyorsanız aşağıdaki satırı aktif edin. Canlı dağıtımda yorum satırı kalsın.
         // window.functions.useEmulator('http://localhost:5001');
         // Fonksiyonlarınızın dağıtıldığı gerçek bölgeyi buraya yazın (örneğin 'europe-west1', 'us-central1' vb.)
         window.functions.region = 'europe-west1';
-         // serverTimestamp fonksiyonunu da global yap
-         window.serverTimestamp = serverTimestamp;
+        
+        // serverTimestamp fonksiyonunu da global yap (Firestore'da doğrudan kullanılabilir)
+        window.serverTimestamp = serverTimestamp;
 
         // index.js dosyasında kullanılan global yardımcı fonksiyonları burada tanımlıyoruz.
-        // Bu sayede index.js yüklenmeden önce bile bu fonksiyonlar tanımlı olacak ve hatalar önlenecek.
+        // Bu sayede index.js yüklendikten sonra bu fonksiyonlara erişilebilir olacak.
 
         /**
          * Sohbet kutusuna mesaj ekler.
@@ -541,6 +534,3 @@ window.storage = storage;
     <script type="module" src="index.js"></script>
 </body>
 </html>
-<button data-section="chat-section">Sohbet</button>
-<button data-section="game-section">Oyun</button>
-<!-- Diğer butonlar -->
