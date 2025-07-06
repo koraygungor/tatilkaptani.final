@@ -117,26 +117,22 @@ main {
 
 /* Sohbet Kapsayıcı Stilleri */
 .chat-container {
-const sendChatBtn = document.getElementById("send-button-chat");
-if (sendChatBtn) {
-    sendChatBtn.addEventListener("click", handleChatSubmit);
-}<button id="send-button-chat">Gönder</button><button id="send-button-chat">Gönder</button>    background-color: rgba(255, 255, 255, 0.3); /* Daha şeffaf */
-    padding: 15px; /* Daha az padding */
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    width: 60%; /* Daha küçük bir genişlik */
+    width: 60%;
     max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    height: 60vh; /* Ekran yüksekliğinin %60'ı */
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    /* opacity: 0; */ /* Başlangıçta gizli tutmaya gerek yok, aktif class ile yönetilecek */
-    /* transform: translateY(20px); */
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    margin-left: 220px; /* Sol menü için boşluk bırak */
 }
 
-/* .chat-container.visible { /* Aktif class showSection ile yönetiliyor */
+/* .chat-container.visible { /* Aktif class showSec.left-sidebar {
+    z-index: 100;
+    display: block !important;
+}.chat-input {
+    flex-wrap: wrap;
+}
+
+.chat-input button {
+    margin: 5px;
+    flex: 1 1 auto;
+}tion ile yönetiliyor */
 /* opacity: 1; */
 /* transform: translateY(0); */
 /* } */
