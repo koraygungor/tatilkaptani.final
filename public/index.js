@@ -2,13 +2,7 @@
 // Eğer app objeniz global olarak HTML'de tanımlanıyorsa, getAuth, getFirestore gibi fonksiyonları kullanarak
 // auth, firestore, functions, storage objelerini JS'te de tanımlamanız gerekir.
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-import { doc, collection } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 
 const publicCollection = collection(firestore, 'public');
 const dataDoc = doc(publicCollection, 'data');
@@ -684,6 +678,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     const companionChatBox = document.getElementById("companion-chat-box");
     const companionChatArea = document.getElementById("companion-chat-area");
     const activeCompanionName = document.getElementById("active-companion-name");
+        // Chat Gönderme - TUŞ ÇALIŞTIRICI
+    const userInput = document.getElementById('user-input-chat');
+    const sendButton = document.getElementById('send-button-chat');
+// chatBox is already declared above, so we'll remove this redundant declaration
+    const loadingIndicator = document.getElementById('chat-loading');
+
+    function appendMessage(text, sender = "user") {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `chat-message ${sender}`;
+        msgDiv.innerHTML = `<p>${text}</p>`;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        appendMessage(message, "user");
+        userInput.value = "";
+        loadingIndicator.style.display = "block";
+
+        try {
+            // Buraya API çağrısı yazabilirsin. Şimdilik sahte cevap veriyoruz.
+            await new Promise(resolve => setTimeout(resolve, 800));
+            appendMessage("Palmiye Kaptan: Sorunuz kaydedildi, birazdan cevap gelecek...", "admin");
+        } catch (e) {
+            appendMessage("Hata oluştu: " + e.message, "admin");
+        } finally {
+            loadingIndicator.style.display = "none";
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    userInput.addEventListener('keydown', (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
 
     // Firebase Auth durum değişikliklerini dinle
     // auth objesi HTML'de global olarak tanımlandığı için doğrudan kullanılabilir.
@@ -1001,7 +1035,7 @@ Section names: game-section, virtual-holiday-section, ai-photo-studio-section, v
             }
         });
     }
-
+    
     if (performResetBtn) {
         performResetBtn.addEventListener('click', async (e) => {
             e.preventDefault();
