@@ -5,92 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TatilKaptani.com - Kaptanınız Yanınızda</title>
 
-    <script type="module">
-        // Firebase modülleri importları (HTML içinde)
-        // Bu importlar, window objesine atanacak Firebase servislerini sağlamak içindir.
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-        import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-        import { getFunctions } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-functions.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-
-        // Web uygulamanızın Firebase konfigürasyonu (Kendi anahtarlarınızla değiştirin)
-        const firebaseConfig = {
-            apiKey: "AIzaSyBpxneBV1JQQdyvhPqtt6OG_jl0WbyAMUU",
-            authDomain: "tatilkaptanifinal.firebaseapp.com",
-            projectId: "tatilkaptanifinal",
-            storageBucket: "tatilkaptanifinal.appspot.com",
-            messagingSenderId: "748801975441",
-            appId: "1:748801975441:web:cc26b7b825fafe44658b30",
-            measurementId: "G-0BQJQ25XX1"
-        };
-
-        // Firebase uygulamasını başlat ve servis referanslarını al
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const firestore = getFirestore(app);
-        const functions = getFunctions(app); 
-        const storage = getStorage(app);    
-
-        // Firebase servis objelerini global window objesine ata
-        // Bu, index.js dosyasının bu objelere doğrudan erişmesini sağlar.
-        window.auth = auth;
-        window.firestore = firestore;
-        window.functions = functions;
-        window.storage = storage;
-
-        // Cloud Functions bölgenizi ayarlayın. Bu, fonksiyonlarınızın dağıtıldığı bölge olmalıdır.
-        // Konsol çıktınıza göre 'us-central1' doğru bölgedir.
-        window.functions.region = 'us-central1'; 
-        
-        // Firestore'daki FieldValue.serverTimestamp() fonksiyonuna kolay erişim için
-        window.serverTimestamp = serverTimestamp;
-
-        // index.js dosyasında da kullanılan global yardımcı UI fonksiyonları
-        // Bu fonksiyonlar, index.js yüklenmeden önce bile çağrılabilir olmalıdır.
-
-        /**
-         * Sohbet kutusuna mesaj ekler.
-         * @param {string} sender - Mesajı gönderen ('user' veya 'ai').
-         * @param {string} message - Gösterilecek mesaj metni.
-         * @param {HTMLElement} targetElement - Mesajın ekleneceği DOM elementi (örn: chat-box).
-         */
-        window.displayMessage = function(sender, message, targetElement) {
-            const messageElement = document.createElement("div");
-            messageElement.classList.add("chat-message", sender);
-            messageElement.innerHTML = `<p><strong>${sender === 'user' ? 'Sen' : 'Palmiye Kaptan'}:</strong> ${message}</p>`;
-            targetElement.appendChild(messageElement);
-            targetElement.scrollTop = targetElement.scrollHeight; // En alta kaydır
-        };
-
-        /**
-         * Genel uygulama modalını gösterir.
-         * @param {string} title - Modal başlığı.
-         * @param {string} message - Modal içeriği (HTML içerebilir).
-         */
-        window.showModal = function(title, message) {
-            const appModal = document.getElementById("appModal");
-            const modalTitle = document.getElementById("modalTitle");
-            const modalMessage = document.getElementById("modalMessage");
-
-            if (appModal && modalTitle && modalMessage) {
-              modalTitle.textContent = title;
-              modalMessage.innerHTML = message; // HTML içeriği için innerHTML kullanıldı
-              appModal.style.display = "flex";
-            }
-        };
-
-        /**
-         * Belirtilen modal elementini gizler.
-         * @param {HTMLElement} modalElement - Gizlenecek modal element.
-         */
-        window.hideModal = function(modalElement) {
-            if (modalElement) {
-              modalElement.style.display = "none";
-            }
-        };
-    </script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -221,7 +135,7 @@
                 <div class="feature-section">
                     <h3>Palmiye Kaptan'ın Bilgi Yarışması!</h3>
                     <p>Sana 3 soru soracağım. Doğru cevaplarsan PalmCoin kazanacaksın!</p>
-                    <button id="start-game-btn">Oyuna Başla</button>
+                    <button id="startQuizBtn">Oyuna Başla</button>
                     <div id="game-output" style="margin-top: 20px;"></div>
                     <input type="text" id="game-answer-input" placeholder="Cevabınızı buraya yazın (A, B, C)..." style="display: none; width: calc(100% - 20px); padding: 10px; margin-top: 15px; border-radius: 5px;">
                     <button id="submit-game-answer-btn" style="display: none; margin-top: 10px;">Cevapla</button>
@@ -292,7 +206,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="vip-planner-section" class="content-section">
                 <h2><i class="fas fa-plane-departure"></i> VIP A'dan Z'ye Tur Planlayıcı</h2>
                 <div class="feature-section" id="vip-access-check">
@@ -324,16 +237,12 @@
                             <option value="kültür">Kültür</option>
                             <option value="romantik">Romantik</option>
                             <option value="aile">Aile</option>
-                            <option value="alisveris">Alışveriş</option>
                         </select>
                         <button id="generate-vip-plan-btn">VIP Planı Oluştur</button>
                     </div>
                     <div class="loading-indicator" id="vip-planner-loading"><i class="fas fa-spinner fa-spin"></i> VIP planınız hazırlanıyor...</div>
                     <div id="vip-plan-output" class="plan-output" style="display: none;"></div>
-                    <div id="vip-plan-chat-area" style="margin-top: 20px; display: none;">
-                        <h3>Plan Hakkında Soru Sor (<small>10 PalmCoin/Soru</small>)</h3>
-                        <div id="vip-plan-chat-box" class="chat-messages" style="max-height: 200px;"></div>
-                        <div class="input-group">
+                    <div class="input-group">
                             <input type="text" id="vip-plan-input" placeholder="Plan hakkında bir şeyler sorun..." />
                             <button id="send-vip-plan-message-btn" class="send-btn">Soru Sor</button>
                         </div>
@@ -427,7 +336,7 @@
             <h2><i class="fas fa-crystal-ball"></i> Kader Rotası</h2>
             <div class="feature-section">
                 <h3>Palmiye Kaptan'ın Kehaneti!</h3>
-                <p>AI, gelecekteki rüya tatilinizi tahmin ediyor. Sadece birkaç bilgiye ihtiyacım var.</p>
+                <p>AI, gelecekteki rüya tatilinizin tahmin ediyor. Sadece birkaç bilgiye ihtiyacım var.</p>
                 <div class="feature-form">
                     <label for="destiny-age">Yaşınız:</label>
                     <input type="number" id="destiny-age" placeholder="Örn: 30" />
@@ -503,7 +412,7 @@
                         <input type="text" id="cvv" placeholder="XXX" maxlength="4" />
                     </div>
                     <label for="card-holder-name">Kart Sahibinin Adı:</label>
-                    <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
+                        <input type="text" id="card-holder-name" placeholder="Ad Soyad" />
                     <button id="complete-payment-btn">Ödemeyi Tamamla (Demo)</button>
                 </div>
             </div>
